@@ -1,3 +1,5 @@
+import 'package:courtly/presentation/widgets/primary_button.dart';
+import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +31,7 @@ class LoginPage extends StatelessWidget {
                 style: TextStyle(fontSize: 14),
               ),
               const SizedBox(
-                height: 20,
+                height: 40,
               ),
               Form(
                   key: formKey,
@@ -79,38 +81,24 @@ class LoginPage extends StatelessWidget {
                       )
                     ],
                   )),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
               Column(
                 children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(0),
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        backgroundColor: Colors.red),
+                  PrimaryButton(
                     onPressed: () {
-                      // Redirect to back to prev page.
+                      // Return to previous page
                       Navigator.pop(context);
                     },
                     child: const Text("Login",
                         style: TextStyle(fontSize: 14, color: Colors.white)),
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        side: const BorderSide(width: 1, color: Colors.red),
-                        minimumSize: const Size.fromHeight(0),
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        backgroundColor: Colors.white),
-                    onPressed: () {
-                      // Redirect to login page.
-                      Navigator.pushNamed(context, Routes.register);
-                    },
-                    child: const Text("Register",
-                        style: TextStyle(fontSize: 14, color: Colors.red)),
-                  )
+                  SecondaryButton(
+                      onPressed: () {
+                        // Navigate to register page
+                        Navigator.pushNamed(context, Routes.register);
+                      },
+                      child: const Text("Register",
+                          style: TextStyle(fontSize: 14))),
                 ],
               )
             ],

@@ -1,3 +1,4 @@
+import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -39,20 +40,13 @@ class NoLoggedIn extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(0),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  backgroundColor: Colors.red),
-              onPressed: () {
-                // Redirect to login page.
-                Navigator.pushNamed(context, Routes.login);
-              },
-              child: const Text("Let's Go!",
-                  style: TextStyle(fontSize: 14, color: Colors.white)),
-            )
+            PrimaryButton(
+                onPressed: () {
+                  // Navigate to login page.
+                  Navigator.pushNamed(context, Routes.login);
+                },
+                child: const Text("Let's Go!",
+                    style: TextStyle(fontSize: 14, color: Colors.white)))
           ],
         ),
       ),
