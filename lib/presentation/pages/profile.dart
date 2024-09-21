@@ -8,7 +8,8 @@ class NoLoggedIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+        body: SafeArea(
+      child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +56,7 @@ class NoLoggedIn extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }
 
@@ -66,9 +67,10 @@ class LoggedIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
+      body: SafeArea(
+          child: Center(
         child: Text("You are signed in."),
-      ),
+      )),
     );
   }
 }
