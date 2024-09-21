@@ -6,12 +6,22 @@ import 'package:flutter/material.dart';
 /// LoginPage is page for /login route.
 /// This page is used to login into existing account.
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  /// _formKey is the key for the form.
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  /// _textInputKeys is the map of text input keys.
+  final Map<String, TextEditingController> _textInputKeys = {
+    "username": TextEditingController(),
+    "password": TextEditingController(),
+  };
+
+  /// _obsecureTextNotifier is the notifier for obsecure text.
+  final ValueNotifier<bool> _obsecureTextNotifier = ValueNotifier(true);
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -34,10 +44,11 @@ class LoginPage extends StatelessWidget {
                 height: 40,
               ),
               Form(
-                  key: formKey,
+                  key: _formKey,
                   child: Column(
                     children: [
                       TextFormField(
+                          controller: _textInputKeys["username"],
                           style: const TextStyle(
                             fontSize: 14,
                           ),
@@ -46,8 +57,13 @@ class LoginPage extends StatelessWidget {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
                             label: Text("Username"),
-                            labelStyle: TextStyle(
-                              fontSize: 14,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            labelStyle: TextStyle(fontSize: 14),
+                            floatingLabelStyle: TextStyle(
+                              color: Colors.red,
                             ),
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 14),
@@ -55,30 +71,44 @@ class LoginPage extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      TextFormField(
-                        obscureText: true,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          labelStyle: const TextStyle(
-                            fontSize: 14,
-                          ),
-                          label: const Text("Password"),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 14),
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.visibility_off),
-                            iconSize: 16,
-                            onPressed: () {},
-                          ),
-                        ),
-                      )
+                      ValueListenableBuilder(
+                          valueListenable: _obsecureTextNotifier,
+                          builder: (context, bool obsecureText, _) {
+                            return TextFormField(
+                              controller: _textInputKeys["password"],
+                              obscureText: obsecureText,
+                              enableSuggestions: false,
+                              autocorrect: false,
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                labelStyle: const TextStyle(fontSize: 14),
+                                floatingLabelStyle: const TextStyle(
+                                  color: Colors.red,
+                                ),
+                                label: const Text("Password"),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 14),
+                                suffixIcon: IconButton(
+                                  icon: Icon((obsecureText)
+                                      ? Icons.visibility_off
+                                      : Icons.visibility),
+                                  iconSize: 16,
+                                  onPressed: () {
+                                    _obsecureTextNotifier.value = !obsecureText;
+                                  },
+                                ),
+                              ),
+                            );
+                          }),
                     ],
                   )),
               const SizedBox(height: 40),

@@ -69,7 +69,7 @@ class _MyApp extends State<MyApp> {
         title: "Courtly",
         debugShowCheckedModeBanner: false,
         routes: {
-          Routes.login: (context) => const LoginPage(),
+          Routes.login: (context) => LoginPage(),
           Routes.register: (context) => const RegisterPage()
         },
         home: Scaffold(
