@@ -108,14 +108,24 @@ class _MyApp extends State<MyApp> {
               return Scaffold(
                 appBar: _pages[_selectedIndex].appBar,
                 body: _pages[_selectedIndex].body,
-                bottomNavigationBar: SizedBox(
-                  height: 42,
+                bottomNavigationBar: Container(
+                  height: 52,
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(20)),
+                    border: Border(
+                      top: BorderSide(
+                        color: Colors.grey.shade300,
+                        width: 1,
+                      ),
+                    ),
+                  ),
                   child: ClipRRect(
                     borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(10)),
+                        const BorderRadius.vertical(top: Radius.circular(20)),
                     child: BottomNavigationBar(
                       type: BottomNavigationBarType.fixed,
-                      backgroundColor: Colors.grey.shade500,
+                      backgroundColor: Colors.white,
                       currentIndex: _selectedIndex,
                       items: [
                         for (int i = 0; i < _pages.length; i++) ...[
