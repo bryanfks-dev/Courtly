@@ -1,3 +1,4 @@
+import 'package:courtly/domain/entities/forms.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:courtly/routes/routes.dart';
@@ -10,6 +11,14 @@ class LoginPage extends StatelessWidget {
 
   /// _formKey is the key for the form.
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+
+  /// _data is the login form data.
+  /// This data is used to store the login form contents.
+  final LoginFormData _data = LoginFormData(
+    username: "",
+    password: "",
+  );
 
   /// _textInputKeys is the map of text input keys.
   final Map<String, TextEditingController> _textInputKeys = {
@@ -38,6 +47,7 @@ class LoginPage extends StatelessWidget {
               ),
               const Text(
                 "Login into your existing account.",
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
               ),
               const SizedBox(
@@ -127,7 +137,7 @@ class LoginPage extends StatelessWidget {
                         // Navigate to register page
                         Navigator.pushNamed(context, Routes.register);
                       },
-                      child: const Text("Register",
+                      child: const Text("I'm new here",
                           style: TextStyle(fontSize: 14))),
                 ],
               )
