@@ -10,49 +10,47 @@ class NoLoggedIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SvgPicture(AssetBytesLoader("assets/images/wait_up.svg.vec"),
-                height: 200),
-            const Text(
-              "Wait Upp!",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+    return SafeArea(
+        child: Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SvgPicture(AssetBytesLoader("assets/images/wait_up.svg.vec"),
+              height: 200),
+          const Text(
+            "Wait Upp!",
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Column(
+            children: [
+              Text(
+                "Hold on! You are not logged in yet.",
+                style: TextStyle(fontSize: 14),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Column(
-              children: [
-                Text(
-                  "Hold on! You are not logged in yet.",
-                  style: TextStyle(fontSize: 14),
-                ),
-                Text(
-                  "Login here.",
-                  style: TextStyle(fontSize: 14),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            PrimaryButton(
-                onPressed: () {
-                  // Navigate to login page.
-                  Navigator.pushNamed(context, Routes.login);
-                },
-                child: const Text("Let's Login!",
-                    style: TextStyle(fontSize: 14, color: Colors.white)))
-          ],
-        ),
+              Text(
+                "Login here.",
+                style: TextStyle(fontSize: 14),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          PrimaryButton(
+              onPressed: () {
+                // Navigate to login page.
+                Navigator.pushNamed(context, Routes.login);
+              },
+              child: const Text("Let's Login!",
+                  style: TextStyle(fontSize: 14, color: Colors.white)))
+        ],
       ),
     ));
   }
@@ -64,12 +62,10 @@ class LoggedIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-          child: Center(
-        child: Text("You are signed in."),
-      )),
-    );
+    return const SafeArea(
+        child: Center(
+      child: Text("You are signed in."),
+    ));
   }
 }
 
