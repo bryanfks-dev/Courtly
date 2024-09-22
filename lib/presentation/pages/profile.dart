@@ -1,6 +1,8 @@
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 /// NoLoggedIn is profile page content when user is not logged in.
 class NoLoggedIn extends StatelessWidget {
@@ -15,8 +17,10 @@ class NoLoggedIn extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SvgPicture(AssetBytesLoader("assets/images/wait_up.svg.vec"),
+                height: 200),
             const Text(
-              "Wait Uppp!",
+              "Wait Upp!",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -45,7 +49,7 @@ class NoLoggedIn extends StatelessWidget {
                   // Navigate to login page.
                   Navigator.pushNamed(context, Routes.login);
                 },
-                child: const Text("Let's Go!",
+                child: const Text("Let's Login!",
                     style: TextStyle(fontSize: 14, color: Colors.white)))
           ],
         ),
