@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-/// DefaultAppBar is a custom AppBar widget that is used as the default AppBar
+/// [DefaultAppBar] is a custom AppBar widget that is used as the default AppBar
 /// for the application.
-/// DefaultAppBar is mainly used in home page.
+/// [DefaultAppBar] is mainly used in home page.
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   const DefaultAppBar({super.key}) : preferredSize = const Size.fromHeight(56);
 
   @override
+  /// [preferredSize] is the preferred size of the AppBar.
   final Size preferredSize;
 
   @override

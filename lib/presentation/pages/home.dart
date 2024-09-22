@@ -1,18 +1,19 @@
 import 'package:courtly/core/enums/sports.dart';
+import 'package:courtly/core/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
-/// HomePage is the first screen that the user sees.
-/// HomePage contains list of available courts.
+/// [HomePage] is the first screen that the user sees.
+/// [HomePage] contains list of available courts.
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  /// _chipLabelList is the list of sports that the user can choose from.
+  /// [_chipLabelList] is the list of sports that the user can choose from.
   /// The list is used to create a filter chip.
   final List<String> _chipLabelList =
       ["All"] + Sports.values.map((e) => e.label).toList();
 
-  /// _selectedChipIndex is the index of the selected chip.
+  /// [_selectedChipIndexNotifier] is the index of the selected chip.
   /// The index is used to determine which sport is selected.
   final ValueNotifier<int> _selectedChipIndexNotifier = ValueNotifier(0);
 
@@ -75,16 +76,27 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            MaterialButton(
-                                onPressed: () {},
-                                textColor: Colors.white,
-                                padding: const EdgeInsets.all(0),
-                                child: const Text("Rent Again",
-                                    style: TextStyle(fontSize: 14)))
-                          ],
+                        SizedBox(
+                          width: double.maxFinite,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Rp. ${moneyFormatter(amount: 100000)}",
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              MaterialButton(
+                                  onPressed: () {},
+                                  color: Colors.white,
+                                  textColor: Colors.red,
+                                  padding: const EdgeInsets.all(0),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(7)),
+                                  child: const Text("Rent again",
+                                      style: TextStyle(fontSize: 13)))
+                            ],
+                          ),
                         )
                       ],
                     ),

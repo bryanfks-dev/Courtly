@@ -4,29 +4,29 @@ import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 
-/// LoginPage is page for /login route.
+/// [LoginPage] is page for /login route.
 /// This page is used to login into existing account.
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  /// _formKey is the key for the form.
+  /// [_formKey] is the key for the form.
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-
-  /// _data is the login form data.
+  /// [_data] is the login form data.
   /// This data is used to store the login form contents.
   final LoginFormData _data = LoginFormData(
     username: "",
     password: "",
   );
 
-  /// _textInputKeys is the map of text input keys.
+  /// [_textInputKeys] is the map of text input keys.
   final Map<String, TextEditingController> _textInputKeys = {
     "username": TextEditingController(),
     "password": TextEditingController(),
   };
 
-  /// _obsecureTextNotifier is the notifier for obsecure text.
+  /// [_obsecureTextNotifier] is the notifier for obsecure text.
+  /// This notifier is used to toggle the password visibility.
   final ValueNotifier<bool> _obsecureTextNotifier = ValueNotifier(true);
 
   @override
@@ -83,7 +83,8 @@ class LoginPage extends StatelessWidget {
                       ),
                       ValueListenableBuilder(
                           valueListenable: _obsecureTextNotifier,
-                          builder: (BuildContext context, bool obsecureText, _) {
+                          builder:
+                              (BuildContext context, bool obsecureText, _) {
                             return TextFormField(
                               controller: _textInputKeys["password"],
                               obscureText: obsecureText,

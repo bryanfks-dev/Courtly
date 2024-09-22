@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
-/// NoLoggedIn is profile page content when user is not logged in.
+/// [NoLoggedIn] is profile page content when user is not logged in.
 class NoLoggedIn extends StatelessWidget {
   const NoLoggedIn({super.key});
 
@@ -56,7 +56,7 @@ class NoLoggedIn extends StatelessWidget {
   }
 }
 
-/// LoggedIn is profile page content when user is logged in.
+/// [LoggedIn] is profile page content when user is logged in.
 class LoggedIn extends StatelessWidget {
   const LoggedIn({super.key});
 
@@ -69,17 +69,18 @@ class LoggedIn extends StatelessWidget {
   }
 }
 
-/// isLoggedIn is a flag to check if user is signed in.
+/// [isLoggedIn] is a flag to check if user is signed in.
 /// It is set to false by default.
 bool isLoggedIn = false;
 
-/// ProfilePage is a page to show user profile.
+/// [ProfilePage] is a page to show user profile.
 /// It will show different content based on user login status.
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Render content based on user login status.
     if (!isLoggedIn) {
       return const NoLoggedIn();
     }

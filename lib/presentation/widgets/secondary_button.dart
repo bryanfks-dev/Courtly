@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// SecondaryButton is a secondary button used in the app.
+/// [SecondaryButton] is a secondary button used in the app.
 /// It is a custom button with white background color and red border.
 ///
-/// [onPressed] parameter specifies the function to be called when button is pressed.
-/// [child] parameter specifies the child of the button.
+/// [SecondaryButton] takes [child] to display and [onPressed] function to be
+/// called when button is pressed.
 class SecondaryButton extends StatelessWidget {
   const SecondaryButton({
     super.key,
@@ -12,10 +12,10 @@ class SecondaryButton extends StatelessWidget {
     required this.child,
   });
 
-  /// onPressed is the function to be called when button is pressed.
+  /// [onPressed] is the function to be called when button is pressed.
   final VoidCallback onPressed;
 
-  /// child is the widget to be displayed inside the button.
+  /// [child] is the widget to be displayed inside the button.
   final Widget child;
 
   @override

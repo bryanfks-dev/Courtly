@@ -1,12 +1,12 @@
-/// LoginFormData is a class that holds the data that is needed to login a user.
+/// [LoginFormData] is a class that holds the data that is needed to login a user.
 ///
-/// [username] is the username of the user.
-/// [password] is the password of the user.
+/// [LoginFormData] takes [username] and [password] as required data, [username]
+/// is the username of the user and [password] is the password of the user.
 class LoginFormData {
-  /// The username of the user.
+  /// [username] is the username of the user.
   final String username;
 
-  /// The password of the user.
+  /// [password] is the password of the user.
   final String password;
 
   LoginFormData({

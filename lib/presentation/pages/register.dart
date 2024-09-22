@@ -4,7 +4,7 @@ import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 
-/// RegisterPage is page for /register route.
+/// [RegisterPage] is page for /register route.
 /// This page is used to register a new account.
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,10 +14,10 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPage extends State<RegisterPage> {
-  /// _currentStep is the current register step.
+  /// [_currentStep] is the current register step.
   int _currentStep = 0;
 
-  /// _data is the register form data.
+  /// [_data] is the register form data.
   /// This data is used to store the register form contents.
   final RegisterFormData _data = RegisterFormData(
     username: "",
@@ -26,14 +26,18 @@ class _RegisterPage extends State<RegisterPage> {
     phoneNumber: "",
   );
 
-  /// _nextStep is a function to go to the next step.
+  /// [_nextStep] is a function to go to the next step.
+  /// 
+  /// - Returns: void
   void _nextStep() {
     setState(() {
       _currentStep++;
     });
   }
 
-  /// _previousStep is a function to go to the previous step.
+  /// [_previousStep] is a function to go to the previous step.
+  /// 
+  /// - Returns: void
   void _previousStep() {
     setState(() {
       _currentStep--;
@@ -42,7 +46,7 @@ class _RegisterPage extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    /// registerSteps is the list of register steps.
+    /// [registerSteps] is the list of register steps.
     /// This list is used to store the register form contents.
     final List<Widget> registerSteps = [
       Form(

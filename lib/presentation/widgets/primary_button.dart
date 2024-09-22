@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// PrimaryButton is a primary button used in the app.
+/// [PrimaryButton] is a primary button used in the app.
 /// It is a custom button with red background color.
 ///
-/// [onPressed] parameter specifies the function to be called when button is pressed.
-/// [child] parameter specifies the child of the button.
+/// [PrimaryButton] takes [child] to display and [onPressed] function to be
+/// called when button is pressed.
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     super.key,
@@ -12,10 +12,10 @@ class PrimaryButton extends StatelessWidget {
     required this.child,
   });
 
-  /// onPressed is the function to be called when button is pressed.
+  /// [onPressed] is the function to be called when button is pressed.
   final VoidCallback onPressed;
 
-  /// child is the widget to be displayed inside the button.
+  /// [child] is the widget to be displayed inside the button.
   final Widget child;
 
   @override

@@ -9,10 +9,16 @@ import 'package:courtly/presentation/widgets/centered_app_bar.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 
+/// [main] is the entry point of the application.
+/// This function runs the application.
+/// 
+/// - Returns: void
 void main() {
   runApp(const MyApp());
 }
 
+/// [MyApp] is the main application widget.
+/// This widget is the root of the application.
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -21,8 +27,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> {
-  /// _pages is the list of pages that can be selected
-  /// from bottom navigation bar.
+  /// [_pages] is the list of pages that can be selected from 
+  /// bottom navigation bar.
   final List<PageProps> _pages = [
     PageProps(
         appBar: const DefaultAppBar(),
@@ -44,12 +50,17 @@ class _MyApp extends State<MyApp> {
         label: "Profile")
   ];
 
-  /// _selectedIndex is the index of the selected page
+  /// [_selectedIndex] is the index of the selected page
   /// from bottom navigation bar.
   int _selectedIndex = 0;
 
-  /// _changePage is a function to change page
-  /// using bottom navigation bar.
+  /// [_changePage] is a function to change page using bottom navigation bar.
+  /// It takes [newIndex] as the index of the new page.
+  /// 
+  /// - Parameters:
+  ///    - [newIndex]: The index of the new page.
+  /// 
+  /// - Returns: void
   void _changePage(int newIndex) {
     setState(() {
       _selectedIndex = newIndex;
@@ -96,7 +107,8 @@ class _MyApp extends State<MyApp> {
                   if (_selectedIndex == newIndex) {
                     return;
                   }
-
+                  
+                  // Change the page.
                   _changePage(newIndex);
                 },
               ),
