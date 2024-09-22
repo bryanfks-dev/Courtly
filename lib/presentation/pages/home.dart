@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 ),
                 Text(
-                  "Which court you would like to rent?",
+                  "Which court would you like to rent?",
                   style: TextStyle(fontSize: 16),
                 ),
               ],
