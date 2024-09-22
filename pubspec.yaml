@@ -39,6 +39,7 @@ dependencies:
   vector_graphics: ^1.1.11+1
   sticky_headers: ^0.3.0+2
   intl: ^0.19.0
+  firebase_core: ^3.4.0
 
 dev_dependencies:
   flutter_test:
