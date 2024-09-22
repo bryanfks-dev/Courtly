@@ -226,7 +226,7 @@ class _RegisterPage extends State<RegisterPage> {
                   ),
                 ),
                 const Text(
-                  "Register your new account to start using the app.",
+                  "Create a new account to start using the app.",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 14),
                 ),

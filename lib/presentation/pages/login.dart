@@ -46,7 +46,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               const Text(
-                "Login into your existing account.",
+                "Signing into your existing account.",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
               ),
