@@ -26,7 +26,7 @@ class _MyApp extends State<MyApp> {
   final List<PageProps> _pages = [
     PageProps(
         appBar: const DefaultAppBar(),
-        body: const HomePage(),
+        body: HomePage(),
         icon: const Icon(Icons.home_outlined),
         selectedIcon: const Icon(Icons.home),
         label: "Home"),

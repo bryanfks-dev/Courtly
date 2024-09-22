@@ -83,7 +83,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       ValueListenableBuilder(
                           valueListenable: _obsecureTextNotifier,
-                          builder: (context, bool obsecureText, _) {
+                          builder: (BuildContext context, bool obsecureText, _) {
                             return TextFormField(
                               controller: _textInputKeys["password"],
                               obscureText: obsecureText,
