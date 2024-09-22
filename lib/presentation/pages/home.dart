@@ -117,7 +117,7 @@ class HomePage extends StatelessWidget {
                                       i < _chipLabelList.length;
                                       i++) ...[
                                     Container(
-                                      margin: const EdgeInsets.only(right: 10),
+                                      margin: const EdgeInsets.only(right: 5),
                                       child: ChoiceChip(
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
