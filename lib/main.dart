@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 /// [main] is the entry point of the application.
 /// This function runs the application.
-/// 
+///
 /// - Returns: void
 void main() {
   runApp(const MyApp());
@@ -27,7 +27,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> {
-  /// [_pages] is the list of pages that can be selected from 
+  /// [_pages] is the list of pages that can be selected from
   /// bottom navigation bar.
   final List<PageProps> _pages = [
     PageProps(
@@ -38,7 +38,7 @@ class _MyApp extends State<MyApp> {
         label: "Home"),
     PageProps(
         appBar: const CenteredAppBar(title: "Order History"),
-        body: const OrderHistoryPage(),
+        body: OrderHistoryPage(),
         icon: const Icon(Icons.history_outlined),
         selectedIcon: const Icon(Icons.history),
         label: "Order History"),
@@ -56,10 +56,10 @@ class _MyApp extends State<MyApp> {
 
   /// [_changePage] is a function to change page using bottom navigation bar.
   /// It takes [newIndex] as the index of the new page.
-  /// 
+  ///
   /// - Parameters:
   ///    - [newIndex]: The index of the new page.
-  /// 
+  ///
   /// - Returns: void
   void _changePage(int newIndex) {
     setState(() {
@@ -107,7 +107,7 @@ class _MyApp extends State<MyApp> {
                   if (_selectedIndex == newIndex) {
                     return;
                   }
-                  
+
                   // Change the page.
                   _changePage(newIndex);
                 },
