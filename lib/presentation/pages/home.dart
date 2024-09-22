@@ -98,12 +98,13 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             StickyHeader(
                 header: Container(
                   color: Colors.white,
                   child: Column(
                     children: [
+                      const SizedBox(height: 10),
                       ValueListenableBuilder(
                           valueListenable: _selectedChipIndexNotifier,
                           builder:
