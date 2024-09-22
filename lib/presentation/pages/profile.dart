@@ -77,6 +77,8 @@ class LoggedIn extends StatelessWidget {
 /// It is set to false by default.
 bool isLoggedIn = false;
 
+/// ProfilePage is a page to show user profile.
+/// It will show different content based on user login status.
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 

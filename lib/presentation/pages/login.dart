@@ -1,4 +1,4 @@
-import 'package:courtly/domain/entities/forms.dart';
+import 'package:courtly/domain/entities/login_form_data.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:courtly/routes/routes.dart';

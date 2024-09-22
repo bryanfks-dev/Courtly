@@ -1,5 +1,7 @@
+import 'package:courtly/domain/entities/page_props.dart';
 import 'package:courtly/presentation/pages/home.dart';
 import 'package:courtly/presentation/pages/login.dart';
+import 'package:courtly/presentation/pages/order_history.dart';
 import 'package:courtly/presentation/pages/profile.dart';
 import 'package:courtly/presentation/pages/register.dart';
 import 'package:courtly/presentation/widgets/default_app_bar.dart';
@@ -9,21 +11,6 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
-}
-
-class PageProps {
-  final dynamic appBar;
-  final Widget body;
-  final Icon icon;
-  final Icon? selectedIcon;
-  final String label;
-
-  PageProps(
-      {required this.appBar,
-      required this.body,
-      required this.icon,
-      this.selectedIcon,
-      required this.label});
 }
 
 class MyApp extends StatefulWidget {
@@ -43,6 +30,12 @@ class _MyApp extends State<MyApp> {
         icon: const Icon(Icons.home_outlined),
         selectedIcon: const Icon(Icons.home),
         label: "Home"),
+    PageProps(
+        appBar: const CenteredAppBar(title: "Order History"),
+        body: const OrderHistoryPage(),
+        icon: const Icon(Icons.history_outlined),
+        selectedIcon: const Icon(Icons.history),
+        label: "Order History"),
     PageProps(
         appBar: const CenteredAppBar(title: "Profile"),
         body: const ProfilePage(),
