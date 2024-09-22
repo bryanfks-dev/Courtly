@@ -1,3 +1,4 @@
+import 'package:courtly/data/providers/firebase_options.dart';
 import 'package:courtly/domain/entities/page_props.dart';
 import 'package:courtly/presentation/pages/home.dart';
 import 'package:courtly/presentation/pages/login.dart';
@@ -32,7 +33,9 @@ class MyApp extends StatefulWidget {
 class _MyApp extends State<MyApp> {
   /// [_firebaseApp] is the future of Firebase app initialization.
   /// This is used to initialize Firebase app before running the application.
-  final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
+  final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   /// [_pages] is the list of pages that can be selected from
   /// bottom navigation bar.
