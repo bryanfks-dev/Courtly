@@ -1,3 +1,4 @@
+import 'package:courtly/core/enums/ranks.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,7 @@ class NoLoggedIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Padding(
-      padding: const EdgeInsets.all(15),
+      minimum: const EdgeInsets.only(left: 15, right: 15),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -52,26 +52,113 @@ class NoLoggedIn extends StatelessWidget {
                   style: TextStyle(fontSize: 14, color: Colors.white)))
         ],
       ),
-    ));
+    );
   }
 }
+
+/// [ranks] is a list of ranks available for user.
+List<Ranks> ranks = Ranks.values.map((e) => e).toList();
 
 /// [LoggedIn] is profile page content when user is logged in.
 class LoggedIn extends StatelessWidget {
   const LoggedIn({super.key});
 
+  final Ranks _rank = Ranks.veteran;
+
+  /// [_nextRank] is the next rank of the user.
+  Ranks get _nextRank {
+    // Get the index of the current rank.
+    final int index = ranks.indexOf(_rank);
+
+    // If the current rank is the last rank, return the current rank.
+    if (index == ranks.length - 1) {
+      return _rank;
+    }
+
+    return ranks[index + 1];
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-        child: Center(
-      child: Text("You are signed in."),
-    ));
+    return SafeArea(
+        minimum: const EdgeInsets.only(left: 15, right: 15),
+        child: ListView(
+          children: [
+            Container(
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("John Doe", style: TextStyle(fontSize: 20)),
+                      Text(_rank.label,
+                          style: TextStyle(
+                              color: _rank.color,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        child: Text("1", style: TextStyle(color: Colors.white)),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: _rank.color, shape: BoxShape.circle),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          LinearProgressIndicator(
+                            value: 0.7,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(_rank.color),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                          ),
+                          Positioned(
+                              left: 0,
+                              top: 7,
+                              child: Text(
+                                "EXP 700/1000",
+                                style: TextStyle(fontSize: 10),
+                              ))
+                        ],
+                      )),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        child: Text(
+                          "2",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: _nextRank.color, shape: BoxShape.circle),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
+        ));
   }
 }
 
 /// [isLoggedIn] is a flag to check if user is signed in.
 /// It is set to false by default.
-bool isLoggedIn = false;
+bool isLoggedIn = true;
 
 /// [ProfilePage] is a page to show user profile.
 /// It will show different content based on user login status.
