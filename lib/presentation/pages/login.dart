@@ -19,8 +19,8 @@ class LoginPage extends StatelessWidget {
     password: "",
   );
 
-  /// [_textInputKeys] is the map of text input keys.
-  final Map<String, TextEditingController> _textInputKeys = {
+  /// [_textInputControllers] is the map of text input keys.
+  final Map<String, TextEditingController> _textInputControllers = {
     "username": TextEditingController(),
     "password": TextEditingController(),
   };
@@ -58,7 +58,7 @@ class LoginPage extends StatelessWidget {
                   child: Column(
                     children: [
                       TextFormField(
-                          controller: _textInputKeys["username"],
+                          controller: _textInputControllers["username"],
                           style: const TextStyle(
                             fontSize: 14,
                           ),
@@ -86,7 +86,7 @@ class LoginPage extends StatelessWidget {
                           builder:
                               (BuildContext context, bool obsecureText, _) {
                             return TextFormField(
-                              controller: _textInputKeys["password"],
+                              controller: _textInputControllers["password"],
                               obscureText: obsecureText,
                               enableSuggestions: false,
                               autocorrect: false,

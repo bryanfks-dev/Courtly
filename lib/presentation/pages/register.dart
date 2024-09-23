@@ -26,8 +26,25 @@ class _RegisterPage extends State<RegisterPage> {
     phoneNumber: "",
   );
 
+  /// [_formKeys] is the map of form keys.
+  /// This keys is used to store the register form keys.
+  final Map<String, GlobalKey<FormState>> _formKeys = {
+    "username": GlobalKey<FormState>(),
+    "phoneNumber": GlobalKey<FormState>(),
+    "password": GlobalKey<FormState>(),
+  };
+
+  /// [_textInputControllers] is the register form controllers.
+  /// This controllers is used to store the register form controllers.
+  final Map<String, TextEditingController> _textInputControllers = {
+    "username": TextEditingController(),
+    "phoneNumber": TextEditingController(),
+    "password": TextEditingController(),
+    "confirmPassword": TextEditingController(),
+  };
+
   /// [_nextStep] is a function to go to the next step.
-  /// 
+  ///
   /// - Returns: void
   void _nextStep() {
     setState(() {
@@ -36,7 +53,7 @@ class _RegisterPage extends State<RegisterPage> {
   }
 
   /// [_previousStep] is a function to go to the previous step.
-  /// 
+  ///
   /// - Returns: void
   void _previousStep() {
     setState(() {
@@ -50,9 +67,11 @@ class _RegisterPage extends State<RegisterPage> {
     /// This list is used to store the register form contents.
     final List<Widget> registerSteps = [
       Form(
+        key: _formKeys["username"],
         child: Column(
           children: [
             TextFormField(
+                controller: _textInputControllers["username"],
                 style: const TextStyle(
                   fontSize: 14,
                 ),
@@ -96,9 +115,11 @@ class _RegisterPage extends State<RegisterPage> {
         ),
       ),
       Form(
+        key: _formKeys["phoneNumber"],
         child: Column(
           children: [
             TextFormField(
+                controller: _textInputControllers["phoneNumber"],
                 style: const TextStyle(
                   fontSize: 14,
                 ),
@@ -141,11 +162,13 @@ class _RegisterPage extends State<RegisterPage> {
         ),
       ),
       Form(
+        key: _formKeys["password"],
         child: Column(
           children: [
             Column(
               children: [
                 TextFormField(
+                    controller: _textInputControllers["password"],
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
@@ -170,6 +193,7 @@ class _RegisterPage extends State<RegisterPage> {
                   height: 10,
                 ),
                 TextFormField(
+                    controller: _textInputControllers["confirmPassword"],
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
