@@ -1,4 +1,3 @@
-import 'package:courtly/core/constants/color_schemes.dart';
 import 'package:courtly/core/enums/sports.dart';
 import 'package:courtly/core/utils/utils.dart';
 import 'package:flutter/material.dart';

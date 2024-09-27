@@ -1,4 +1,3 @@
-import 'package:courtly/core/constants/color_schemes.dart';
 import 'package:flutter/material.dart';
 
 /// [DefaultAppBar] is a custom AppBar widget that is used as the default AppBar
