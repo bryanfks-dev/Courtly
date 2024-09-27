@@ -1,3 +1,4 @@
+import 'package:courtly/core/constants/color_schemes.dart';
 import 'package:flutter/material.dart';
 
 /// [DefaultAppBar] is a custom AppBar widget that is used as the default AppBar
@@ -7,16 +8,19 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   const DefaultAppBar({super.key}) : preferredSize = const Size.fromHeight(56);
 
   @override
+
   /// [preferredSize] is the preferred size of the AppBar.
   final Size preferredSize;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        title: const Text("Courtly",
-            style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Colors.black)));
+        title: Text(
+      "Courtly",
+      style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).colorScheme.primary),
+    ));
   }
 }

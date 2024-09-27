@@ -1,3 +1,4 @@
+import 'package:courtly/core/constants/color_schemes.dart';
 import 'package:courtly/core/enums/sports.dart';
 import 'package:courtly/core/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -135,7 +136,9 @@ class HomePage extends StatelessWidget {
                                             return Colors.transparent;
                                           }
 
-                                          return Colors.red;
+                                          return Theme.of(context)
+                                              .colorScheme
+                                              .primary;
                                         }),
                                         showCheckmark: false,
                                         selected: selectedChipIndex == i,

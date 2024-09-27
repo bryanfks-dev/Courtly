@@ -1,3 +1,4 @@
+import 'package:courtly/core/config/app_themes.dart';
 import 'package:courtly/data/providers/firebase_options.dart';
 import 'package:courtly/domain/entities/page_props.dart';
 import 'package:courtly/presentation/pages/home.dart';
@@ -82,6 +83,7 @@ class _MyApp extends State<MyApp> {
     return MaterialApp(
         title: "Courtly",
         debugShowCheckedModeBanner: false,
+        theme: AppThemes.light,
         routes: {
           Routes.login: (context) => LoginPage(),
           Routes.register: (context) => const RegisterPage()
@@ -144,7 +146,7 @@ class _MyApp extends State<MyApp> {
                       unselectedFontSize: 0,
                       showSelectedLabels: false,
                       showUnselectedLabels: false,
-                      selectedItemColor: Colors.red,
+                      selectedItemColor: Theme.of(context).colorScheme.primary,
                       onTap: (int newIndex) {
                         if (_selectedIndex == newIndex) {
                           return;
