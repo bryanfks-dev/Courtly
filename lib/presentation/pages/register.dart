@@ -1,3 +1,5 @@
+import 'package:courtly/core/config/app_color_extension.dart';
+import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/domain/entities/register_form_data.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
@@ -63,6 +65,9 @@ class _RegisterPage extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    /// [colorExt] is the color extension of the application.
+    final AppColorsExtension colorExt = Theme.of(context).extension()!;
+
     /// [registerSteps] is the list of register steps.
     /// This list is used to store the register form contents.
     final List<Widget> registerSteps = [
@@ -72,22 +77,10 @@ class _RegisterPage extends State<RegisterPage> {
           children: [
             TextFormField(
                 controller: _textInputControllers["username"],
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
                   label: Text("Username"),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  labelStyle: TextStyle(fontSize: 14),
-                  floatingLabelStyle: TextStyle(
-                    color: Colors.red,
-                  ),
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 0, horizontal: 14),
+                      EdgeInsets.symmetric(vertical: 0, horizontal: 15),
                 )),
             const SizedBox(
               height: 40,
@@ -99,16 +92,24 @@ class _RegisterPage extends State<RegisterPage> {
                     // Move to next step
                     _nextStep();
                   },
+                  style: ButtonStyle(
+                    minimumSize:
+                        MaterialStateProperty.all(const Size.fromHeight(0)),
+                  ),
                   child: const Text("Next",
-                      style: TextStyle(fontSize: 14, color: Colors.white)),
+                      style: TextStyle(fontSize: 16, color: Colors.white)),
                 ),
                 SecondaryButton(
                     onPressed: () {
                       // Navigate to login page
                       Navigator.pushNamed(context, Routes.login);
                     },
+                    style: ButtonStyle(
+                      minimumSize:
+                          MaterialStateProperty.all(const Size.fromHeight(0)),
+                    ),
                     child: const Text("I already have an account",
-                        style: TextStyle(fontSize: 14))),
+                        style: TextStyle(fontSize: 16))),
               ],
             )
           ],
@@ -120,22 +121,10 @@ class _RegisterPage extends State<RegisterPage> {
           children: [
             TextFormField(
                 controller: _textInputControllers["phoneNumber"],
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
                   label: Text("Phone Number"),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  labelStyle: TextStyle(fontSize: 14),
-                  floatingLabelStyle: TextStyle(
-                    color: Colors.red,
-                  ),
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 0, horizontal: 14),
+                      EdgeInsets.symmetric(vertical: 0, horizontal: 15),
                 )),
             const SizedBox(
               height: 40,
@@ -147,15 +136,23 @@ class _RegisterPage extends State<RegisterPage> {
                     // Move to next step
                     _nextStep();
                   },
+                  style: ButtonStyle(
+                    minimumSize:
+                        MaterialStateProperty.all(const Size.fromHeight(0)),
+                  ),
                   child: const Text("Next",
-                      style: TextStyle(fontSize: 14, color: Colors.white)),
+                      style: TextStyle(fontSize: 16, color: Colors.white)),
                 ),
                 SecondaryButton(
                     onPressed: () {
                       // Move to previous step
                       _previousStep();
                     },
-                    child: const Text("Back", style: TextStyle(fontSize: 14))),
+                    style: ButtonStyle(
+                      minimumSize:
+                          MaterialStateProperty.all(const Size.fromHeight(0)),
+                    ),
+                    child: const Text("Back", style: TextStyle(fontSize: 16))),
               ],
             )
           ],
@@ -176,18 +173,9 @@ class _RegisterPage extends State<RegisterPage> {
                       fontSize: 14,
                     ),
                     decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       label: Text("Password"),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      labelStyle: TextStyle(fontSize: 14),
-                      floatingLabelStyle: TextStyle(
-                        color: Colors.red,
-                      ),
                       contentPadding:
-                          EdgeInsets.symmetric(vertical: 0, horizontal: 14),
+                          EdgeInsets.symmetric(vertical: 0, horizontal: 15),
                     )),
                 const SizedBox(
                   height: 10,
@@ -201,18 +189,9 @@ class _RegisterPage extends State<RegisterPage> {
                       fontSize: 14,
                     ),
                     decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       label: Text("Confirm Password"),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      labelStyle: TextStyle(fontSize: 14),
-                      floatingLabelStyle: TextStyle(
-                        color: Colors.red,
-                      ),
                       contentPadding:
-                          EdgeInsets.symmetric(vertical: 0, horizontal: 14),
+                          EdgeInsets.symmetric(vertical: 0, horizontal: 15),
                     ))
               ],
             ),
@@ -223,15 +202,23 @@ class _RegisterPage extends State<RegisterPage> {
               children: [
                 PrimaryButton(
                   onPressed: () {},
+                  style: ButtonStyle(
+                    minimumSize:
+                        MaterialStateProperty.all(const Size.fromHeight(0)),
+                  ),
                   child: const Text("Create Account",
-                      style: TextStyle(fontSize: 14, color: Colors.white)),
+                      style: TextStyle(fontSize: 16, color: Colors.white)),
                 ),
                 SecondaryButton(
                     onPressed: () {
                       // Move to previous step
                       _previousStep();
                     },
-                    child: const Text("Back", style: TextStyle(fontSize: 14))),
+                    style: ButtonStyle(
+                      minimumSize:
+                          MaterialStateProperty.all(const Size.fromHeight(0)),
+                    ),
+                    child: const Text("Back", style: TextStyle(fontSize: 16))),
               ],
             )
           ],
@@ -241,30 +228,31 @@ class _RegisterPage extends State<RegisterPage> {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Register",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Text(
-                  "Create a new account to start using the app.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                registerSteps[_currentStep],
-              ],
-            )),
-      ),
+          minimum: const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Register",
+                style: TextStyle(
+                    fontSize: 28,
+                    color: colorExt.primary,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              const Text(
+                "Create a new account to start using the app",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              registerSteps[_currentStep],
+            ],
+          )),
     );
   }
 }

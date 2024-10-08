@@ -1,5 +1,7 @@
+import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/enums/sports.dart';
-import 'package:courtly/core/utils/utils.dart';
+import 'package:courtly/presentation/widgets/filter_chips.dart';
+import 'package:courtly/presentation/widgets/home/cart_card.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
@@ -13,14 +15,13 @@ class HomePage extends StatelessWidget {
   final List<String> _chipLabelList =
       ["All"] + Sports.values.map((e) => e.label).toList();
 
-  /// [_selectedChipIndexNotifier] is the index of the selected chip.
-  /// The index is used to determine which sport is selected.
-  final ValueNotifier<int> _selectedChipIndexNotifier = ValueNotifier(0);
+  /// [_selectedChipNotifier] is the selected chip via filter chips.
+  final ValueNotifier<String> _selectedChipNotifier = ValueNotifier("All");
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      minimum: const EdgeInsets.only(left: 15, right: 15),
+      minimum: const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,153 +32,38 @@ class HomePage extends StatelessWidget {
               children: [
                 Text(
                   "Hello, John Doe!",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                  style: TextStyle(fontSize: 14),
                 ),
                 Text(
                   "Which court would you like to rent?",
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            Container(
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.red,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, top: 15, bottom: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Previous Rent",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Soccer Field 1",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 12)),
-                        Text("Unggul Sport Centre",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 12)),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: double.maxFinite,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "Rp. ${moneyFormatter(amount: 100000)}",
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          MaterialButton(
-                              onPressed: () {},
-                              color: Colors.white,
-                              textColor: Colors.red,
-                              padding: const EdgeInsets.all(0),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7)),
-                              child: const Text("Rent again",
-                                  style: TextStyle(fontSize: 13)))
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
             StickyHeader(
                 header: Container(
-                  color: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  color: Theme.of(context).colorScheme.background,
                   child: Column(
                     children: [
-                      const SizedBox(height: 10),
-                      ValueListenableBuilder(
-                          valueListenable: _selectedChipIndexNotifier,
-                          builder:
-                              (BuildContext context, int selectedChipIndex, _) {
-                            return SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  for (int i = 0;
-                                      i < _chipLabelList.length;
-                                      i++) ...[
-                                    Container(
-                                      margin: const EdgeInsets.only(right: 5),
-                                      child: ChoiceChip(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        label: Text(_chipLabelList[i],
-                                            style:
-                                                const TextStyle(fontSize: 12)),
-                                        labelStyle: TextStyle(
-                                            color: selectedChipIndex == i
-                                                ? Colors.white
-                                                : Colors.black87),
-                                        color: MaterialStateColor.resolveWith(
-                                            (states) {
-                                          if (selectedChipIndex != i) {
-                                            return Colors.transparent;
-                                          }
-
-                                          return Theme.of(context)
-                                              .colorScheme
-                                              .primary;
-                                        }),
-                                        showCheckmark: false,
-                                        selected: selectedChipIndex == i,
-                                        onSelected: (bool selected) {
-                                          if (!selected) {
-                                            return;
-                                          }
-
-                                          // Set the selected chip index.
-                                          _selectedChipIndexNotifier.value = i;
-                                        },
-                                      ),
-                                    )
-                                  ]
-                                ],
-                              ),
-                            );
-                          }),
+                      FilterChips(
+                          items: _chipLabelList,
+                          selectedItem: _selectedChipNotifier),
                       const SizedBox(height: 10),
                       const SizedBox(
                         height: 42,
                         child: TextField(
                           style: TextStyle(fontSize: 14),
                           decoration: InputDecoration(
-                            hintText: "Search court..",
-                            suffixIcon: Icon(
+                            hintText: "Search vendor..",
+                            prefixIcon: Icon(
                               Icons.search,
-                              size: 18,
+                              size: 22,
                             ),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 14),
+                            contentPadding: EdgeInsets.zero,
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      )
                     ],
                   ),
                 ),
@@ -185,14 +71,17 @@ class HomePage extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        title: Text("Court ${index + 1}"),
-                        subtitle: Text("Unggul Sport Centre"),
-                        trailing: Text("Rp 100.000"),
-                      );
+                      return const CartCard(
+                          imgUrl: "",
+                          rating: 5.0,
+                          sportType: Sports.badminton,
+                          vendorName: "Unggul Sports Centre",
+                          openTime: "09:00 AM",
+                          closeTime: "09:00 PM",
+                          address: "Jl. Blimbing Indah 03 No. 07");
                     },
                     separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(),
+                        const SizedBox(height: 10),
                     itemCount: 10))
           ],
         ),

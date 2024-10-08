@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// [CenteredAppBar] is a custom AppBar widget that is used as the AppBar
-/// for the application that contains a centered title.
-class CenteredAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CenteredAppBar({super.key, required this.title})
+/// [BackableCenteredAppBar] is a custom AppBar widget that is used as the AppBar
+/// for the application that contains a centered title and back icon.
+class BackableCenteredAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
+  const BackableCenteredAppBar({super.key, required this.title})
       : preferredSize = const Size.fromHeight(56);
 
   @override
@@ -17,6 +18,12 @@ class CenteredAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.chevron_left),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         titleTextStyle: const TextStyle(
             fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
         centerTitle: true,

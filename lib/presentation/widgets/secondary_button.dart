@@ -1,3 +1,4 @@
+import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:flutter/material.dart';
 
 /// [SecondaryButton] is a secondary button used in the app.
@@ -8,9 +9,13 @@ import 'package:flutter/material.dart';
 class SecondaryButton extends StatelessWidget {
   const SecondaryButton({
     super.key,
+    this.style,
     required this.onPressed,
     required this.child,
   });
+
+  /// [style] is the style of the button.
+  final ButtonStyle? style;
 
   /// [onPressed] is the function to be called when button is pressed.
   final VoidCallback onPressed;
@@ -20,15 +25,21 @@ class SecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// [colorExt] is the extension of the color scheme of the app.
+    final AppColorsExtension colorExt = Theme.of(context).extension()!;
+
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          side: const BorderSide(width: 1, color: Colors.red),
-          minimumSize: const Size.fromHeight(0),
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          foregroundColor: Colors.red,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          backgroundColor: Colors.white),
+              side: BorderSide(width: 1, color: colorExt.primary!),
+              padding: style?.padding?.resolve({}) ??
+                  const EdgeInsets.symmetric(vertical: 10),
+              foregroundColor: colorExt.primary,
+              shape: style?.shape?.resolve({}) ??
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+              backgroundColor:
+                  style?.backgroundColor?.resolve({}) ?? colorExt.background)
+          .merge(style),
       onPressed: onPressed,
       child: child,
     );

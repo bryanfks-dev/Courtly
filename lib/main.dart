@@ -1,9 +1,10 @@
+import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/config/app_themes.dart';
 import 'package:courtly/data/providers/firebase_options.dart';
 import 'package:courtly/domain/entities/page_props.dart';
 import 'package:courtly/presentation/pages/home.dart';
 import 'package:courtly/presentation/pages/login.dart';
-import 'package:courtly/presentation/pages/order_history.dart';
+import 'package:courtly/presentation/pages/booking_list.dart';
 import 'package:courtly/presentation/pages/profile.dart';
 import 'package:courtly/presentation/pages/register.dart';
 import 'package:courtly/presentation/widgets/default_app_bar.dart';
@@ -48,11 +49,11 @@ class _MyApp extends State<MyApp> {
         selectedIcon: const Icon(Icons.home),
         label: "Home"),
     PageProps(
-        appBar: const CenteredAppBar(title: "Order History"),
-        body: OrderHistoryPage(),
-        icon: const Icon(Icons.history_outlined),
-        selectedIcon: const Icon(Icons.history),
-        label: "Order History"),
+        appBar: const CenteredAppBar(title: "Booking List"),
+        body: BookingList(),
+        icon: const Icon(Icons.calendar_month_outlined),
+        selectedIcon: const Icon(Icons.calendar_month),
+        label: "Booking List"),
     PageProps(
         appBar: const CenteredAppBar(title: "Profile"),
         body: const ProfilePage(),
@@ -84,6 +85,9 @@ class _MyApp extends State<MyApp> {
         title: "Courtly",
         debugShowCheckedModeBanner: false,
         theme: AppThemes.light,
+        darkTheme: AppThemes.dark,
+        themeMode: ThemeMode
+            .light, // TODO: Change this after installing local storage dependency
         routes: {
           Routes.login: (context) => LoginPage(),
           Routes.register: (context) => const RegisterPage()
@@ -110,7 +114,12 @@ class _MyApp extends State<MyApp> {
                 );
               }
 
+              /// [colorExt] is the extension of the current color scheme.
+              final AppColorsExtension colorExt =
+                  Theme.of(context).extension<AppColorsExtension>()!;
+
               return Scaffold(
+                resizeToAvoidBottomInset: true,
                 appBar: _pages[_selectedIndex].appBar,
                 body: _pages[_selectedIndex].body,
                 bottomNavigationBar: Container(
@@ -120,7 +129,7 @@ class _MyApp extends State<MyApp> {
                         const BorderRadius.vertical(top: Radius.circular(20)),
                     border: Border(
                       top: BorderSide(
-                        color: Colors.grey.shade300,
+                        color: colorExt.outline!,
                         width: 1,
                       ),
                     ),
@@ -130,7 +139,7 @@ class _MyApp extends State<MyApp> {
                         const BorderRadius.vertical(top: Radius.circular(20)),
                     child: BottomNavigationBar(
                       type: BottomNavigationBarType.fixed,
-                      backgroundColor: Colors.white,
+                      backgroundColor: colorExt.background!,
                       currentIndex: _selectedIndex,
                       items: [
                         for (int i = 0; i < _pages.length; i++) ...[

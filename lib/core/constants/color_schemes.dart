@@ -13,13 +13,13 @@ import 'package:flutter/material.dart';
 /// - [Highlight] the bright and attention grabbing color
 /// - [Success] the color to indicate success
 /// - [Warning] the color to indicate warning
-/// - [Error] the color to indicate error
+/// - [Danger] the color to indicate danger
 /// - [Star] the color to indicate star
 /// - [PrimaryBackground] the primary background color
 /// - [SecondaryBackground] the secondary background color
 ///
 /// [ColorSchemes] class is also used to assign the color schemes to the
-/// [ThemeData] in the [AppTheme] class.
+/// [ThemeData] in the [AppThemes] class.
 class ColorSchemes {
   // Light color schemes
   static Color primaryLight = const Color(0xFF00BFB2);

@@ -16,12 +16,15 @@ class NoLoggedIn extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SvgPicture(AssetBytesLoader("assets/images/wait_up.svg.vec"),
-              height: 200),
+          SvgPicture(const AssetBytesLoader("assets/images/wait_up.svg.vec"),
+              width: MediaQuery.of(context).size.width),
+          const SizedBox(
+            height: 5,
+          ),
           const Text(
             "Wait Upp!",
             style: TextStyle(
-              fontSize: 22,
+              fontSize: 28,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -32,24 +35,28 @@ class NoLoggedIn extends StatelessWidget {
             children: [
               Text(
                 "Hold on! You are not logged in yet.",
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 16),
               ),
               Text(
                 "Login here.",
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 16),
               ),
             ],
           ),
           const SizedBox(
-            height: 10,
+            height: 20,
           ),
           PrimaryButton(
               onPressed: () {
                 // Navigate to login page.
                 Navigator.pushNamed(context, Routes.login);
               },
+              style: ButtonStyle(
+                minimumSize:
+                    MaterialStateProperty.all(const Size.fromHeight(0)),
+              ),
               child: const Text("Let's Login!",
-                  style: TextStyle(fontSize: 14, color: Colors.white)))
+                  style: TextStyle(fontSize: 16, color: Colors.white)))
         ],
       ),
     );
