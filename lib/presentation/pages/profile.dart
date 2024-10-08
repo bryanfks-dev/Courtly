@@ -1,3 +1,4 @@
+import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/enums/ranks.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/routes/routes.dart';
@@ -87,6 +88,9 @@ class LoggedIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// [colorExt] is the extension of the color scheme of the application.
+    final AppColorsExtension colorExt = Theme.of(context).extension()!;
+
     return SafeArea(
         child: ListView(
       children: [
@@ -96,16 +100,50 @@ class LoggedIn extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("John Doe", style: TextStyle(fontSize: 20)),
-                  Text(_rank.label,
-                      style: TextStyle(
-                          color: _rank.color,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold)),
-                ],
+              SizedBox(
+                child: Row(
+                  children: [
+                    Container(
+                      width: 64,
+                      height: 64,
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(999)),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Text("John Doe",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                            GestureDetector(
+                              onTap: () {},
+                              child: Text(
+                                "Change Pic",
+                                style: TextStyle(
+                                    color: colorExt.primary,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: colorExt.primary,
+                                    fontSize: 12),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(_rank.label,
+                            style: TextStyle(
+                                color: _rank.color,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500)),
+                      ],
+                    )
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -205,7 +243,7 @@ class LoggedIn extends StatelessWidget {
 
 /// [isLoggedIn] is a flag to check if user is signed in.
 /// It is set to false by default.
-bool isLoggedIn = false;
+bool isLoggedIn = true;
 
 /// [ProfilePage] is a page to show user profile.
 /// It will show different content based on user login status.
