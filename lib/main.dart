@@ -120,57 +120,57 @@ class _MyApp extends State<MyApp> {
               final AppColorsExtension colorExt =
                   Theme.of(context).extension<AppColorsExtension>()!;
 
-              // return Scaffold(
-              //   resizeToAvoidBottomInset: true,
-              //   appBar: _pages[_selectedIndex].appBar,
-              //   body: _pages[_selectedIndex].body,
-              //   bottomNavigationBar: Container(
-              //     height: 52,
-              //     decoration: BoxDecoration(
-              //       borderRadius:
-              //           const BorderRadius.vertical(top: Radius.circular(20)),
-              //       border: Border(
-              //         top: BorderSide(
-              //           color: colorExt.outline!,
-              //           width: 1,
-              //         ),
-              //       ),
-              //     ),
-              //     child: ClipRRect(
-              //       borderRadius:
-              //           const BorderRadius.vertical(top: Radius.circular(20)),
-              //       child: BottomNavigationBar(
-              //         type: BottomNavigationBarType.fixed,
-              //         backgroundColor: colorExt.background!,
-              //         currentIndex: _selectedIndex,
-              //         items: [
-              //           for (int i = 0; i < _pages.length; i++) ...[
-              //             BottomNavigationBarItem(
-              //                 icon: (_selectedIndex == i)
-              //                     ? (_pages[i].selectedIcon ?? _pages[i].icon)
-              //                     : _pages[i].icon,
-              //                 label: _pages[i].label),
-              //           ]
-              //         ],
-              //         iconSize: 24,
-              //         selectedFontSize: 0,
-              //         unselectedFontSize: 0,
-              //         showSelectedLabels: false,
-              //         showUnselectedLabels: false,
-              //         selectedItemColor: Theme.of(context).colorScheme.primary,
-              //         onTap: (int newIndex) {
-              //           if (_selectedIndex == newIndex) {
-              //             return;
-              //           }
+              return Scaffold(
+                resizeToAvoidBottomInset: true,
+                appBar: _pages[_selectedIndex].appBar,
+                body: _pages[_selectedIndex].body,
+                bottomNavigationBar: Container(
+                  height: 52,
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(20)),
+                    border: Border(
+                      top: BorderSide(
+                        color: colorExt.outline!,
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(20)),
+                    child: BottomNavigationBar(
+                      type: BottomNavigationBarType.fixed,
+                      backgroundColor: colorExt.background!,
+                      currentIndex: _selectedIndex,
+                      items: [
+                        for (int i = 0; i < _pages.length; i++) ...[
+                          BottomNavigationBarItem(
+                              icon: (_selectedIndex == i)
+                                  ? (_pages[i].selectedIcon ?? _pages[i].icon)
+                                  : _pages[i].icon,
+                              label: _pages[i].label),
+                        ]
+                      ],
+                      iconSize: 24,
+                      selectedFontSize: 0,
+                      unselectedFontSize: 0,
+                      showSelectedLabels: false,
+                      showUnselectedLabels: false,
+                      selectedItemColor: Theme.of(context).colorScheme.primary,
+                      onTap: (int newIndex) {
+                        if (_selectedIndex == newIndex) {
+                          return;
+                        }
 
-              //           // Change the page.
-              //           _changePage(newIndex);
-              //         },
-              //       ),
-              //     ),
-              //   ),
-              // );
-              return const WriteReviewPage();
+                        // Change the page.
+                        _changePage(newIndex);
+                      },
+                    ),
+                  ),
+                ),
+              );
+              // return const WriteReviewPage();
             }));
   }
 }
