@@ -49,7 +49,7 @@ class BookingList extends StatelessWidget {
                 ),
               ),
               content: SizedBox(
-                height: double.maxFinite,
+                
                 child: ValueListenableBuilder(
                     valueListenable: _orderHistoryNotifier,
                     builder:

@@ -7,6 +7,7 @@ import 'package:courtly/presentation/pages/login.dart';
 import 'package:courtly/presentation/pages/booking_list.dart';
 import 'package:courtly/presentation/pages/profile.dart';
 import 'package:courtly/presentation/pages/register.dart';
+import 'package:courtly/presentation/pages/write_review.dart';
 import 'package:courtly/presentation/widgets/default_app_bar.dart';
 import 'package:courtly/presentation/widgets/centered_app_bar.dart';
 import 'package:courtly/routes/routes.dart';
@@ -90,7 +91,8 @@ class _MyApp extends State<MyApp> {
             .light, // TODO: Change this after installing local storage dependency
         routes: {
           Routes.login: (context) => LoginPage(),
-          Routes.register: (context) => const RegisterPage()
+          Routes.register: (context) => const RegisterPage(),
+          Routes.writeReview: (context) => const WriteReviewPage()
         },
         home: FutureBuilder(
             future: _firebaseApp,
@@ -168,6 +170,7 @@ class _MyApp extends State<MyApp> {
                   ),
                 ),
               );
+              // return const WriteReviewPage();
             }));
   }
 }
