@@ -16,12 +16,12 @@ class WriteReviewPage extends StatelessWidget {
         backgroundColor: colorExt.background,
         appBar: const BackableCenteredAppBar(title: 'Write a Review'),
         body: SafeArea(
-            minimum: EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
+            minimum: const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
             child: SingleChildScrollView(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Lunggu Sport Centre",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -29,22 +29,22 @@ class WriteReviewPage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
+                const Text(
                   "Lunggu Sport Centre",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
-                Text(
+                const Text(
                   "How do you rate the place?",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
@@ -55,32 +55,32 @@ class WriteReviewPage extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
-                Text(
+                const Text(
                   "INI ADALAH BINTANG",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
-                TextField(
+                const TextField(
                   maxLines: 10,
                   decoration:
                       InputDecoration(hintText: "Write your thoughts here..."),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 PrimaryButton(
                     onPressed: () {},
-                    style: ButtonStyle(
+                    style: const ButtonStyle(
                         minimumSize: WidgetStatePropertyAll(Size.fromHeight(0)),
                         padding: WidgetStatePropertyAll(
                             EdgeInsets.symmetric(vertical: 14))),
-                    child: Text(
+                    child: const Text(
                       "Submit Review",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w600),

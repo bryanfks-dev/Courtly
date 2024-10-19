@@ -1,6 +1,6 @@
 /// RegisterFormData is a class that holds the data that is needed to register a user.
 ///
-/// RegisterFormData holds the [username], [phoneNumber], [password], 
+/// RegisterFormData holds the [username], [phoneNumber], [password],
 /// and [confirmPassword] of the user to register the user.
 class RegisterFormData {
   /// [username] is the username of the user.

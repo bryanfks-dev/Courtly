@@ -8,22 +8,21 @@ class AppThemes {
   static ThemeData light = ThemeData.light().copyWith(
       primaryColor: ColorSchemes.primaryLight,
       chipTheme: ChipThemeData(
-        backgroundColor: Colors.transparent,
         labelStyle: TextStyle(
             color: ColorSchemes.highlightLight, fontWeight: FontWeight.w500),
         secondaryLabelStyle: TextStyle(
             color: ColorSchemes.primaryBackgroundLight,
             fontWeight: FontWeight.w500),
-        side: MaterialStateBorderSide.resolveWith((states) {
-          if (!states.contains(MaterialState.selected)) {
+        side: WidgetStateBorderSide.resolveWith((states) {
+          if (!states.contains(WidgetState.selected)) {
             return BorderSide(color: ColorSchemes.subtleLight);
           }
 
           return BorderSide(color: ColorSchemes.primaryLight);
         }),
-        color: MaterialStateColor.resolveWith((states) {
-          if (!states.contains(MaterialState.selected)) {
-            return Colors.transparent;
+        color: WidgetStateColor.resolveWith((states) {
+          if (!states.contains(WidgetState.selected)) {
+            return ColorSchemes.primaryBackgroundLight;
           }
 
           return ColorSchemes.primaryLight;
@@ -34,7 +33,8 @@ class AppThemes {
           prefixIconColor: ColorSchemes.highlightLight,
           suffixIconColor: ColorSchemes.highlightLight,
           floatingLabelStyle: TextStyle(color: ColorSchemes.primaryLight),
-          labelStyle: TextStyle(color: ColorSchemes.highlightLight),
+          labelStyle:
+              TextStyle(color: ColorSchemes.highlightLight, fontSize: 14),
           hintStyle: TextStyle(
               color: ColorSchemes.highlightLight,
               fontWeight: FontWeight.normal),
@@ -52,12 +52,12 @@ class AppThemes {
           )),
       iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
-        iconColor: MaterialStatePropertyAll(ColorSchemes.highlightLight),
+        iconColor: WidgetStatePropertyAll(ColorSchemes.highlightLight),
       )),
       elevatedButtonTheme: const ElevatedButtonThemeData(
         style: ButtonStyle(
-            elevation: MaterialStatePropertyAll(0),
-            shadowColor: MaterialStatePropertyAll(Colors.transparent)),
+            elevation: WidgetStatePropertyAll(0),
+            shadowColor: WidgetStatePropertyAll(Colors.transparent)),
       ),
       appBarTheme: AppBarTheme(
           backgroundColor: ColorSchemes.primaryBackgroundLight,

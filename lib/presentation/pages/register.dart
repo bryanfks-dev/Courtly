@@ -77,6 +77,7 @@ class _RegisterPage extends State<RegisterPage> {
           children: [
             TextFormField(
                 controller: _textInputControllers["username"],
+                style: const TextStyle(fontSize: 14),
                 decoration: const InputDecoration(
                   label: Text("Username"),
                   contentPadding:
@@ -94,10 +95,16 @@ class _RegisterPage extends State<RegisterPage> {
                   },
                   style: ButtonStyle(
                     minimumSize:
-                        MaterialStateProperty.all(const Size.fromHeight(0)),
+                        WidgetStateProperty.all(const Size.fromHeight(0)),
                   ),
                   child: const Text("Next",
-                      style: TextStyle(fontSize: 16, color: Colors.white)),
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white)),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 SecondaryButton(
                     onPressed: () {
@@ -106,10 +113,11 @@ class _RegisterPage extends State<RegisterPage> {
                     },
                     style: ButtonStyle(
                       minimumSize:
-                          MaterialStateProperty.all(const Size.fromHeight(0)),
+                          WidgetStateProperty.all(const Size.fromHeight(0)),
                     ),
                     child: const Text("I already have an account",
-                        style: TextStyle(fontSize: 16))),
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500))),
               ],
             )
           ],
@@ -121,6 +129,7 @@ class _RegisterPage extends State<RegisterPage> {
           children: [
             TextFormField(
                 controller: _textInputControllers["phoneNumber"],
+                style: const TextStyle(fontSize: 14),
                 decoration: const InputDecoration(
                   label: Text("Phone Number"),
                   contentPadding:
@@ -138,10 +147,16 @@ class _RegisterPage extends State<RegisterPage> {
                   },
                   style: ButtonStyle(
                     minimumSize:
-                        MaterialStateProperty.all(const Size.fromHeight(0)),
+                        WidgetStateProperty.all(const Size.fromHeight(0)),
                   ),
                   child: const Text("Next",
-                      style: TextStyle(fontSize: 16, color: Colors.white)),
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white)),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 SecondaryButton(
                     onPressed: () {
@@ -150,9 +165,11 @@ class _RegisterPage extends State<RegisterPage> {
                     },
                     style: ButtonStyle(
                       minimumSize:
-                          MaterialStateProperty.all(const Size.fromHeight(0)),
+                          WidgetStateProperty.all(const Size.fromHeight(0)),
                     ),
-                    child: const Text("Back", style: TextStyle(fontSize: 16))),
+                    child: const Text("Back",
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500))),
               ],
             )
           ],
@@ -166,12 +183,10 @@ class _RegisterPage extends State<RegisterPage> {
               children: [
                 TextFormField(
                     controller: _textInputControllers["password"],
+                    style: const TextStyle(fontSize: 14),
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
                     decoration: const InputDecoration(
                       label: Text("Password"),
                       contentPadding:
@@ -182,12 +197,10 @@ class _RegisterPage extends State<RegisterPage> {
                 ),
                 TextFormField(
                     controller: _textInputControllers["confirmPassword"],
+                    style: const TextStyle(fontSize: 14),
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
                     decoration: const InputDecoration(
                       label: Text("Confirm Password"),
                       contentPadding:
@@ -204,10 +217,16 @@ class _RegisterPage extends State<RegisterPage> {
                   onPressed: () {},
                   style: ButtonStyle(
                     minimumSize:
-                        MaterialStateProperty.all(const Size.fromHeight(0)),
+                        WidgetStateProperty.all(const Size.fromHeight(0)),
                   ),
                   child: const Text("Create Account",
-                      style: TextStyle(fontSize: 16, color: Colors.white)),
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white)),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 SecondaryButton(
                     onPressed: () {
@@ -216,9 +235,11 @@ class _RegisterPage extends State<RegisterPage> {
                     },
                     style: ButtonStyle(
                       minimumSize:
-                          MaterialStateProperty.all(const Size.fromHeight(0)),
+                          WidgetStateProperty.all(const Size.fromHeight(0)),
                     ),
-                    child: const Text("Back", style: TextStyle(fontSize: 16))),
+                    child: const Text("Back",
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500))),
               ],
             )
           ],

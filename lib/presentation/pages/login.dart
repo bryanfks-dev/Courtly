@@ -5,6 +5,7 @@ import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:heroicons/heroicons.dart';
 
 /// [LoginPage] is page for /login route.
 /// This page is used to login into existing account.
@@ -67,21 +68,21 @@ class LoginPage extends StatelessWidget {
                   children: [
                     TextFormField(
                         controller: _textInputControllers["username"],
-                        style: const TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 14),
                         decoration: const InputDecoration(
                           label: Text("Username"),
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 0, horizontal: 15),
                         )),
                     const SizedBox(
-                      height: 5,
+                      height: 10,
                     ),
                     ValueListenableBuilder(
                         valueListenable: _obsecureTextNotifier,
                         builder: (BuildContext context, bool obsecureText, _) {
                           return TextFormField(
                             controller: _textInputControllers["password"],
-                            style: const TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 14),
                             obscureText: obsecureText,
                             enableSuggestions: false,
                             autocorrect: false,
@@ -90,9 +91,9 @@ class LoginPage extends StatelessWidget {
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 0, horizontal: 15),
                               suffixIcon: IconButton(
-                                icon: Icon((obsecureText)
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined),
+                                icon: HeroIcon((obsecureText)
+                                    ? HeroIcons.eyeSlash
+                                    : HeroIcons.eye),
                                 iconSize: 16,
                                 onPressed: () {
                                   _obsecureTextNotifier.value = !obsecureText;
@@ -113,15 +114,15 @@ class LoginPage extends StatelessWidget {
                   },
                   style: ButtonStyle(
                     minimumSize:
-                        MaterialStateProperty.all(const Size.fromHeight(0)),
+                        WidgetStateProperty.all(const Size.fromHeight(0)),
                   ),
                   child: const Text("Login",
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Colors.white,
-                          fontWeight: FontWeight.w600)),
+                          fontWeight: FontWeight.w500)),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 10),
                 SecondaryButton(
                   onPressed: () {
                     // Navigate to register page
@@ -129,11 +130,11 @@ class LoginPage extends StatelessWidget {
                   },
                   style: ButtonStyle(
                     minimumSize:
-                        MaterialStateProperty.all(const Size.fromHeight(0)),
+                        WidgetStateProperty.all(const Size.fromHeight(0)),
                   ),
                   child: const Text("I'm new here",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                 ),
               ],
             )

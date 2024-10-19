@@ -8,11 +8,13 @@ import 'package:courtly/presentation/pages/booking_list.dart';
 import 'package:courtly/presentation/pages/profile.dart';
 import 'package:courtly/presentation/pages/register.dart';
 import 'package:courtly/presentation/pages/write_review.dart';
+import 'package:courtly/presentation/widgets/bottom_navbar.dart';
 import 'package:courtly/presentation/widgets/default_app_bar.dart';
 import 'package:courtly/presentation/widgets/centered_app_bar.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:heroicons/heroicons.dart';
 
 /// [main] is the entry point of the application.
 /// This function runs the application.
@@ -39,29 +41,6 @@ class _MyApp extends State<MyApp> {
   final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  /// [_pages] is the list of pages that can be selected from
-  /// bottom navigation bar.
-  final List<PageProps> _pages = [
-    PageProps(
-        appBar: const DefaultAppBar(),
-        body: HomePage(),
-        icon: const Icon(Icons.home_outlined),
-        selectedIcon: const Icon(Icons.home),
-        label: "Home"),
-    PageProps(
-        appBar: const CenteredAppBar(title: "Booking List"),
-        body: BookingList(),
-        icon: const Icon(Icons.calendar_month_outlined),
-        selectedIcon: const Icon(Icons.calendar_month),
-        label: "Booking List"),
-    PageProps(
-        appBar: const CenteredAppBar(title: "Profile"),
-        body: const ProfilePage(),
-        icon: const Icon(Icons.person_outline),
-        selectedIcon: const Icon(Icons.person),
-        label: "Profile")
-  ];
 
   /// [_selectedIndex] is the index of the selected page
   /// from bottom navigation bar.
@@ -116,59 +95,49 @@ class _MyApp extends State<MyApp> {
                 );
               }
 
-              /// [colorExt] is the extension of the current color scheme.
+              /// [colorExt] is the extension of the color scheme of the application.
               final AppColorsExtension colorExt =
-                  Theme.of(context).extension<AppColorsExtension>()!;
+                  Theme.of(context).extension()!;
+
+              /// [_pages] is the list of pages that can be selected from
+              /// bottom navigation bar.
+              final List<PageProps> pages = [
+                PageProps(
+                    appBar: const DefaultAppBar(),
+                    body: HomePage(),
+                    icon: const HeroIcon(HeroIcons.home),
+                    selectedIcon: const HeroIcon(HeroIcons.home,
+                        style: HeroIconStyle.solid),
+                    label: "Home",
+                    backgroundColor: colorExt.background),
+                PageProps(
+                    appBar: const CenteredAppBar(title: "Booking List"),
+                    body: BookingList(),
+                    icon: const HeroIcon(HeroIcons.calendarDays),
+                    selectedIcon: const HeroIcon(HeroIcons.calendarDays,
+                        style: HeroIconStyle.solid),
+                    label: "Booking List",
+                    backgroundColor: colorExt.backgroundSecondary),
+                PageProps(
+                    appBar: const CenteredAppBar(title: "Profile"),
+                    body: const ProfilePage(),
+                    icon: const HeroIcon(HeroIcons.user),
+                    selectedIcon: const HeroIcon(HeroIcons.user,
+                        style: HeroIconStyle.solid),
+                    label: "Profile",
+                    backgroundColor: colorExt.backgroundSecondary)
+              ];
 
               return Scaffold(
                 resizeToAvoidBottomInset: true,
-                appBar: _pages[_selectedIndex].appBar,
-                body: _pages[_selectedIndex].body,
-                bottomNavigationBar: Container(
-                  height: 52,
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(20)),
-                    border: Border(
-                      top: BorderSide(
-                        color: colorExt.outline!,
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(20)),
-                    child: BottomNavigationBar(
-                      type: BottomNavigationBarType.fixed,
-                      backgroundColor: colorExt.background!,
-                      currentIndex: _selectedIndex,
-                      items: [
-                        for (int i = 0; i < _pages.length; i++) ...[
-                          BottomNavigationBarItem(
-                              icon: (_selectedIndex == i)
-                                  ? (_pages[i].selectedIcon ?? _pages[i].icon)
-                                  : _pages[i].icon,
-                              label: _pages[i].label),
-                        ]
-                      ],
-                      iconSize: 24,
-                      selectedFontSize: 0,
-                      unselectedFontSize: 0,
-                      showSelectedLabels: false,
-                      showUnselectedLabels: false,
-                      selectedItemColor: Theme.of(context).colorScheme.primary,
-                      onTap: (int newIndex) {
-                        if (_selectedIndex == newIndex) {
-                          return;
-                        }
-
-                        // Change the page.
-                        _changePage(newIndex);
-                      },
-                    ),
-                  ),
-                ),
+                appBar: pages[_selectedIndex].appBar,
+                body: pages[_selectedIndex].body,
+                backgroundColor: pages[_selectedIndex].backgroundColor ??
+                    colorExt.background,
+                bottomNavigationBar: BottomNavbar(
+                    pages: pages,
+                    selectedIndex: _selectedIndex,
+                    changePage: _changePage),
               );
               // return const WriteReviewPage();
             }));

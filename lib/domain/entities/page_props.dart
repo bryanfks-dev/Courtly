@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heroicons/heroicons.dart';
 
 /// [PageProps] is a class to store properties of a page.
 ///
@@ -12,19 +13,24 @@ class PageProps {
   final Widget body;
 
   /// [icon] is the icon of the page in the bottom navigation bar.
-  final Icon icon;
+  final HeroIcon icon;
 
   /// [selectedIcon] is the selected icon of the page (optional) in the bottom
   /// navigation bar.
-  final Icon? selectedIcon;
+  final HeroIcon? selectedIcon;
 
   /// [label] is the label of the page in the bottom navigation bar.
   final String label;
 
-  PageProps(
-      {required this.appBar,
-      required this.body,
-      required this.icon,
-      this.selectedIcon,
-      required this.label});
+  /// [backgroundColor] is the background color of the page.
+  final Color? backgroundColor;
+
+  PageProps({
+    required this.appBar,
+    required this.body,
+    required this.icon,
+    this.selectedIcon,
+    required this.label,
+    this.backgroundColor,
+  });
 }
