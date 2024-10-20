@@ -102,7 +102,8 @@ class PurchaseCard extends StatelessWidget {
                         ),
                         child: const Text(
                           "Rate",
-                          style: TextStyle(fontSize: 14),
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
                         )),
                     const SizedBox(
                       width: 10,
@@ -111,11 +112,12 @@ class PurchaseCard extends StatelessWidget {
                         onPressed: () {},
                         style: const ButtonStyle(
                             visualDensity: VisualDensity.compact,
-                            padding: MaterialStatePropertyAll(
+                            padding: WidgetStatePropertyAll(
                                 EdgeInsets.symmetric(horizontal: 10))),
                         child: const Text(
                           "Rebook",
-                          style: TextStyle(fontSize: 14),
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
                         ))
                   ],
                 )
