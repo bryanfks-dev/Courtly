@@ -87,7 +87,9 @@ class _LoggedInProfile extends State<LoggedInProfile> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SecondaryButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       style: ButtonStyle(
                           side: WidgetStatePropertyAll(
                               BorderSide(width: 1, color: colorExt.highlight!)),
