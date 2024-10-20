@@ -28,7 +28,7 @@ class ProfileMenu extends StatelessWidget {
     return Container(
       color: colorExt.background,
       padding: const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           onTap();
         },

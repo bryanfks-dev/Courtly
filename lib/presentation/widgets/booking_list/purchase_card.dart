@@ -2,7 +2,7 @@ import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/enums/payment_status.dart';
 import 'package:courtly/core/enums/sports.dart';
-import 'package:courtly/core/utils/utils.dart';
+import 'package:courtly/core/utils/money_formatter.dart';
 import 'package:courtly/presentation/widgets/booking_list/payment_status_badge.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';

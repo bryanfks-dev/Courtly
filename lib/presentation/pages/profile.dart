@@ -14,7 +14,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePage extends State<ProfilePage> {
   /// [isLoggedIn] is a flag to check if user is signed in.
   /// It is set to false by default.
-  bool _isLoggedIn = false;
+  bool _isLoggedIn = true;
 
   @override
   Widget build(BuildContext context) {

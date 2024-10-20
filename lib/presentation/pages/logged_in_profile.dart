@@ -1,9 +1,12 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/enums/ranks.dart';
+import 'package:courtly/presentation/widgets/bottom_modal_sheet.dart';
+import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/profile/profile_menu.dart';
 import 'package:courtly/presentation/widgets/profile/profile_menu_card.dart';
 import 'package:courtly/presentation/widgets/profile/profile_menu_toggle.dart';
+import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 
@@ -37,6 +40,12 @@ class _LoggedInProfile extends State<LoggedInProfile> {
   /// [_isDarkMode] is the state of the dark mode toggle.
   bool _isDarkMode = false;
 
+  /// [_toggleDarkMode] is the function to toggle the dark mode.
+  ///
+  /// - Parameters:
+  ///   - [value] is the value of the toggle.
+  ///
+  /// - Returns: void.
   void _toggleDarkMode(bool value) {
     setState(() {
       _isDarkMode = !_isDarkMode;
@@ -47,6 +56,70 @@ class _LoggedInProfile extends State<LoggedInProfile> {
   Widget build(BuildContext context) {
     /// [colorExt] is the extension of the color scheme of the application.
     final AppColorsExtension colorExt = Theme.of(context).extension()!;
+
+    /// [openLogoutModal] is the function to open the logout modal.
+    /// This function will open the modal to confirm the logout action.
+    ///
+    /// - Returns: void.
+    void openLogoutModal() {
+      // Open the logout modal.
+      showBottomModalSheet(
+          context,
+          Column(
+            children: [
+              RichText(
+                  text: TextSpan(
+                      text: "You are about to ",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: colorExt.textPrimary),
+                      children: [
+                    TextSpan(
+                        text: "log out",
+                        style: TextStyle(color: colorExt.danger)),
+                    const TextSpan(text: ", confirm to proceed.")
+                  ])),
+              const SizedBox(
+                height: 20,
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SecondaryButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                          side: WidgetStatePropertyAll(
+                              BorderSide(width: 1, color: colorExt.highlight!)),
+                          minimumSize:
+                              const WidgetStatePropertyAll(Size.fromHeight(0))),
+                      child: Text(
+                        "I changed my mind",
+                        style: TextStyle(
+                            color: colorExt.highlight,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      )),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  PrimaryButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                          backgroundColor:
+                              WidgetStateProperty.all(colorExt.danger),
+                          minimumSize: WidgetStateProperty.all(
+                              const Size.fromHeight(0))),
+                      child: const Text("Log me out",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500)))
+                ],
+              )
+            ],
+          ));
+    }
 
     return SafeArea(
         child: ListView(
@@ -60,50 +133,35 @@ class _LoggedInProfile extends State<LoggedInProfile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                child: Row(
-                  children: [
-                    Container(
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
                       width: 64,
                       height: 64,
                       decoration: BoxDecoration(
                           color: Colors.grey.shade300,
                           borderRadius: BorderRadius.circular(999)),
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            const Text("John Doe",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold)),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Text(
-                                "Change Pic",
-                                style: TextStyle(
-                                    color: colorExt.primary,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: colorExt.primary,
-                                    fontSize: 12),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(_rank.label,
-                            style: TextStyle(
-                                color: _rank.color,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500)),
-                      ],
-                    )
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("John Doe",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(_rank.label,
+                          style: TextStyle(
+                              color: _rank.color,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500)),
+                    ],
+                  )
+                ],
               ),
               const SizedBox(
                 height: 10,
@@ -126,14 +184,22 @@ class _LoggedInProfile extends State<LoggedInProfile> {
                       LinearProgressIndicator(
                         value: 0.7,
                         valueColor: AlwaysStoppedAnimation<Color>(_rank.color),
+                        minHeight: 7,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                       ),
                       const Positioned(
                           left: 0,
-                          top: 7,
+                          top: 10,
                           child: Text(
                             "EXP 700/1000",
+                            style: TextStyle(fontSize: 10),
+                          )),
+                      const Positioned(
+                          right: 0,
+                          top: 10,
+                          child: Text(
+                            "Elite Rank",
                             style: TextStyle(fontSize: 10),
                           ))
                     ],
@@ -184,7 +250,7 @@ class _LoggedInProfile extends State<LoggedInProfile> {
         ProfileMenu(
             iconData: HeroIcons.arrowRightStartOnRectangle,
             title: "Log Out",
-            onTap: () {})
+            onTap: openLogoutModal)
       ],
     ));
   }
