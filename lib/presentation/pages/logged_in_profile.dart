@@ -81,7 +81,7 @@ class _LoggedInProfile extends State<LoggedInProfile> {
                     const TextSpan(text: ", confirm to proceed.")
                   ])),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,
