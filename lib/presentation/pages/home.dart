@@ -2,7 +2,7 @@ import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/enums/sports.dart';
 import 'package:courtly/presentation/widgets/filter_chips.dart';
-import 'package:courtly/presentation/widgets/home/cart_card.dart';
+import 'package:courtly/presentation/widgets/home/court_card.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -90,7 +90,7 @@ class HomePage extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
-                        return const CartCard(
+                        return const CourtCard(
                             imgUrl: "",
                             rating: 5.0,
                             sportType: Sports.badminton,
