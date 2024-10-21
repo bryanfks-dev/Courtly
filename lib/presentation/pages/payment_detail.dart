@@ -23,7 +23,7 @@ class PaymentDetail extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: PAGE_PADDING_MOBILE * 1.5),
             child: Column(
               children: [
-                Text("Unggul Sport Centre Tennis Court",
+                Text("Unggul Sport Centre",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,
@@ -32,9 +32,12 @@ class PaymentDetail extends StatelessWidget {
                     )),
                 const SizedBox(height: 20),
                 Text.rich(
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: colorExt.textPrimary,
+                  ),
                   TextSpan(
                       text: "Booking ID: ",
-                      style: TextStyle(color: colorExt.textPrimary),
                       children: [
                         TextSpan(
                             text: "PD12345678JCTP1",
