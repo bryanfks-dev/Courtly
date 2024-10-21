@@ -20,7 +20,8 @@ class BookingList extends StatelessWidget {
 
   /// [_orderHistoryNotifier] is the list of order history.
   /// The list is used to show the order history.
-  final ValueNotifier<List<dynamic>> _orderHistoryNotifier = ValueNotifier([1]);
+  final ValueNotifier<List<dynamic>> _orderHistoryNotifier =
+      ValueNotifier([1, 2]);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,7 @@ class BookingList extends StatelessWidget {
                                 paymentStatus: PaymentStatus.success);
                           },
                           separatorBuilder: (BuildContext context, int index) =>
-                              const SizedBox(height: 5),
+                              const SizedBox(height: 10),
                           itemCount: orderHistory.length);
                     }),
               )),
