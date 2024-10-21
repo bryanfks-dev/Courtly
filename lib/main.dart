@@ -39,8 +39,9 @@ class _MyApp extends State<MyApp> {
         routes: {
           Routes.login: (context) => LoginPage(),
           Routes.register: (context) => const RegisterPage(),
-          Routes.writeReview: (context) => WriteReviewPage()
+          Routes.writeReview: (context) => WriteReviewPage(),
+          Routes.reviews: (context) => ReviewsPage(),
         },
-        home: const ReviewsPage());
+        home: ReviewsPage());
   }
 }

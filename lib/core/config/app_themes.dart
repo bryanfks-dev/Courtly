@@ -36,7 +36,8 @@ class AppThemes {
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
-          linearTrackColor: ColorSchemes.subtleLight),
+          linearTrackColor: ColorSchemes.subtleLight,
+          color: ColorSchemes.primaryLight),
       bottomSheetTheme: BottomSheetThemeData(
           backgroundColor: ColorSchemes.primaryBackgroundLight),
       inputDecorationTheme: InputDecorationTheme(

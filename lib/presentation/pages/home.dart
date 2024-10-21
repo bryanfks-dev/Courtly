@@ -12,13 +12,12 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  /// [_chipLabelList] is the list of sports that the user can choose from.
-  /// The list is used to create a filter chip.
-  final List<String> _chipLabelList =
-      ["All"] + Sports.values.map((e) => e.label).toList();
+  /// [_chipLabelItems] is the items of filter chip.
+  final List<Widget> _chipLabelItems =
+      [const Text("All")] + Sports.values.map((e) => Text(e.label)).toList();
 
   /// [_selectedChipNotifier] is the selected chip via filter chips.
-  final ValueNotifier<String> _selectedChipNotifier = ValueNotifier("All");
+  final ValueNotifier<int> _selectedChipNotifier = ValueNotifier(0);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,7 @@ class HomePage extends StatelessWidget {
                         padding:
                             const EdgeInsets.only(left: PAGE_PADDING_MOBILE),
                         child: FilterChips(
-                            items: _chipLabelList,
+                            items: _chipLabelItems,
                             selectedItem: _selectedChipNotifier),
                       ),
                       const SizedBox(height: 10),

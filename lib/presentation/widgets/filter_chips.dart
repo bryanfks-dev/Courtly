@@ -7,10 +7,10 @@ class FilterChips extends StatelessWidget {
       {super.key, required this.items, required this.selectedItem});
 
   /// [items] is the list of items that the user can choose from.
-  final List<dynamic> items;
+  final List<Widget> items;
 
   /// [selectedItem] is the selected item.
-  final ValueNotifier<dynamic> selectedItem;
+  final ValueNotifier<int> selectedItem;
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +29,16 @@ class FilterChips extends StatelessWidget {
                           const VisualDensity(horizontal: 0, vertical: -1),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
-                      label: Text(items[i]),
+                      label: items[i],
                       showCheckmark: false,
-                      selected: selectedChipIndex == items[i],
+                      selected: selectedChipIndex == i,
                       onSelected: (bool selected) {
                         if (!selected) {
                           return;
                         }
 
                         // Set the selected chip
-                        selectedItem.value = items[i];
+                        selectedItem.value = i;
                       },
                     ),
                   )

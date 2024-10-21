@@ -11,13 +11,12 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 class BookingList extends StatelessWidget {
   BookingList({super.key});
 
-  /// [_chipLabelList] is the list of sports that the user can choose from.
-  /// The list is used to create a filter chip.
-  final List<String> _chipLabelList =
-      ["All"] + Sports.values.map((e) => e.label).toList();
+  /// [_chipLabelItems] is the items of filter chip.
+  final List<Widget> _chipLabelItems =
+      [const Text("All")] + Sports.values.map((e) => Text(e.label)).toList();
 
   /// [_selectedChipNotifier] is the selected chip via filter chips.
-  final ValueNotifier<String> _selectedChipNotifier = ValueNotifier("All");
+  final ValueNotifier<int> _selectedChipNotifier = ValueNotifier(0);
 
   /// [_orderHistoryNotifier] is the list of order history.
   /// The list is used to show the order history.
@@ -44,7 +43,7 @@ class BookingList extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.only(left: PAGE_PADDING_MOBILE),
                   child: FilterChips(
-                      items: _chipLabelList,
+                      items: _chipLabelItems,
                       selectedItem: _selectedChipNotifier),
                 ),
               ),

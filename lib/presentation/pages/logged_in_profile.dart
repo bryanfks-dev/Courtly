@@ -185,7 +185,6 @@ class _LoggedInProfile extends State<LoggedInProfile> {
                     children: [
                       LinearProgressIndicator(
                         value: 0.7,
-                        valueColor: AlwaysStoppedAnimation<Color>(_rank.color),
                         minHeight: 6,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
