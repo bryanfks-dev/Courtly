@@ -68,14 +68,12 @@ class ReviewsPage extends StatelessWidget {
                           const SizedBox(
                             width: 5,
                           ),
-                          RichText(
-                              text: TextSpan(
-                                  text: "4.9",
-                                  style: TextStyle(
-                                      color: colorExt.textPrimary,
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.bold),
-                                  children: [
+                          Text.rich(
+                              style: TextStyle(
+                                  color: colorExt.textPrimary,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold),
+                              TextSpan(text: "4.9", children: [
                                 TextSpan(
                                     text: " / 5.0",
                                     style: TextStyle(
@@ -85,22 +83,20 @@ class ReviewsPage extends StatelessWidget {
                               ]))
                         ],
                       ),
-                      RichText(
+                      Text.rich(
                           textAlign: TextAlign.right,
-                          text: TextSpan(
-                              text: "Based on\n",
-                              style: TextStyle(
-                                  color: colorExt.textPrimary,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                    text: "14 reviews",
-                                    style: TextStyle(
-                                        color: colorExt.highlight,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 12))
-                              ]))
+                          style: TextStyle(
+                              color: colorExt.textPrimary,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14),
+                          TextSpan(text: "Based on\n", children: [
+                            TextSpan(
+                                text: "14 reviews",
+                                style: TextStyle(
+                                    color: colorExt.highlight,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 12))
+                          ]))
                     ],
                   ),
                   const SizedBox(

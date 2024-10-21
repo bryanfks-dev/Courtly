@@ -67,14 +67,12 @@ class _LoggedInProfile extends State<LoggedInProfile> {
           context,
           Column(
             children: [
-              RichText(
-                  text: TextSpan(
-                      text: "You are about to ",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: colorExt.textPrimary),
-                      children: [
+              Text.rich(
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: colorExt.textPrimary),
+                  TextSpan(text: "You are about to ", children: [
                     TextSpan(
                         text: "log out",
                         style: TextStyle(color: colorExt.danger)),
