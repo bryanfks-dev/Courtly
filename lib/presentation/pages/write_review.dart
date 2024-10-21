@@ -3,9 +3,7 @@ import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/write_review/star_button.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:heroicons/heroicons.dart';
 
 /// [WriteReviewPage] is a widget that is used to display the write review
 /// page of the application.
