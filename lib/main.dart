@@ -42,8 +42,8 @@ class _MyApp extends State<MyApp> {
           Routes.register: (context) => const RegisterPage(),
           Routes.writeReview: (context) => WriteReviewPage(),
           Routes.reviews: (context) => ReviewsPage(),
-          Routes.paymentDetail: (context) => const AppScaffold(),
+          Routes.paymentDetail: (context) => const PaymentDetail(),
         },
-        home: PaymentDetail());
+        home: AppScaffold());
   }
 }
