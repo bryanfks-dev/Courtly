@@ -100,11 +100,7 @@ class PurchaseCard extends StatelessWidget {
                         style: const ButtonStyle(
                           visualDensity: VisualDensity.compact,
                         ),
-                        child: const Text(
-                          "Rate",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500),
-                        )),
+                        child: const Text("Rate")),
                     const SizedBox(
                       width: 10,
                     ),
@@ -114,11 +110,7 @@ class PurchaseCard extends StatelessWidget {
                             visualDensity: VisualDensity.compact,
                             padding: WidgetStatePropertyAll(
                                 EdgeInsets.symmetric(horizontal: 10))),
-                        child: const Text(
-                          "Rebook",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500),
-                        ))
+                        child: const Text("Rebook"))
                   ],
                 )
               ],

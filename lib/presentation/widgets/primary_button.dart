@@ -37,7 +37,7 @@ class PrimaryButton extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
               backgroundColor:
                   style?.backgroundColor?.resolve({}) ?? colorExt.primary,
-              foregroundColor: colorExt.background)
+              foregroundColor: Colors.white)
           .merge(style),
       onPressed: onPressed,
       child: child,

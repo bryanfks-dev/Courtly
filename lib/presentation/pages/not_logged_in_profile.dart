@@ -61,11 +61,7 @@ class NotLoggedInProfile extends StatelessWidget {
                   minimumSize:
                       WidgetStateProperty.all(const Size.fromHeight(0)),
                 ),
-                child: const Text("Let's Login!",
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500)))
+                child: const Text("Let's Login!"))
           ],
         ),
       ),

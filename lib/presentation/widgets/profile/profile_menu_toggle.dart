@@ -28,13 +28,14 @@ class ProfileMenuToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// [colorExt] is the extension of the color scheme of the application.
-    final AppColorsExtension colorExt = Theme.of(context).extension()!;
+    final AppColorsExtension colorExt =
+        Theme.of(context).extension<AppColorsExtension>()!;
 
     return Container(
       color: colorExt.background,
       padding: const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -45,7 +46,8 @@ class ProfileMenuToggle extends StatelessWidget {
                   width: 15,
                 ),
                 Text(title,
-                    style: TextStyle(fontSize: 14, color: colorExt.textPrimary))
+                    style:
+                        TextStyle(fontSize: 14, color: colorExt.textPrimary)),
               ],
             ),
             Transform.scale(

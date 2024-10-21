@@ -116,11 +116,7 @@ class LoginPage extends StatelessWidget {
                     minimumSize:
                         WidgetStateProperty.all(const Size.fromHeight(0)),
                   ),
-                  child: const Text("Login",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500)),
+                  child: const Text("Login"),
                 ),
                 const SizedBox(height: 10),
                 SecondaryButton(
@@ -132,9 +128,7 @@ class LoginPage extends StatelessWidget {
                     minimumSize:
                         WidgetStateProperty.all(const Size.fromHeight(0)),
                   ),
-                  child: const Text("I'm new here",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                  child: const Text("I'm new here"),
                 ),
               ],
             )

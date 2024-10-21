@@ -97,11 +97,7 @@ class _RegisterPage extends State<RegisterPage> {
                     minimumSize:
                         WidgetStateProperty.all(const Size.fromHeight(0)),
                   ),
-                  child: const Text("Next",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white)),
+                  child: const Text("Next"),
                 ),
                 const SizedBox(
                   height: 10,
@@ -115,9 +111,7 @@ class _RegisterPage extends State<RegisterPage> {
                       minimumSize:
                           WidgetStateProperty.all(const Size.fromHeight(0)),
                     ),
-                    child: const Text("I already have an account",
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500))),
+                    child: const Text("I already have an account")),
               ],
             )
           ],
@@ -149,11 +143,7 @@ class _RegisterPage extends State<RegisterPage> {
                     minimumSize:
                         WidgetStateProperty.all(const Size.fromHeight(0)),
                   ),
-                  child: const Text("Next",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white)),
+                  child: const Text("Next"),
                 ),
                 const SizedBox(
                   height: 10,
@@ -167,9 +157,7 @@ class _RegisterPage extends State<RegisterPage> {
                       minimumSize:
                           WidgetStateProperty.all(const Size.fromHeight(0)),
                     ),
-                    child: const Text("Back",
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500))),
+                    child: const Text("Back")),
               ],
             )
           ],
@@ -219,11 +207,7 @@ class _RegisterPage extends State<RegisterPage> {
                     minimumSize:
                         WidgetStateProperty.all(const Size.fromHeight(0)),
                   ),
-                  child: const Text("Create Account",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white)),
+                  child: const Text("Create Account"),
                 ),
                 const SizedBox(
                   height: 10,
@@ -237,9 +221,7 @@ class _RegisterPage extends State<RegisterPage> {
                       minimumSize:
                           WidgetStateProperty.all(const Size.fromHeight(0)),
                     ),
-                    child: const Text("Back",
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500))),
+                    child: const Text("Back")),
               ],
             )
           ],

@@ -29,8 +29,7 @@ class FilterChips extends StatelessWidget {
                           const VisualDensity(horizontal: 0, vertical: -1),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
-                      label:
-                          Text(items[i], style: const TextStyle(fontSize: 14)),
+                      label: Text(items[i]),
                       showCheckmark: false,
                       selected: selectedChipIndex == items[i],
                       onSelected: (bool selected) {

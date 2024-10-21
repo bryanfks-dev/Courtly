@@ -1,3 +1,4 @@
+import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:flutter/material.dart';
 
 /// [CenteredAppBar] is a custom AppBar widget that is used as the AppBar
@@ -16,9 +17,16 @@ class CenteredAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// [colorExt] is the extension of the current color scheme.
+    final AppColorsExtension colorExt =
+        Theme.of(context).extension<AppColorsExtension>()!;
+
     return AppBar(
-        titleTextStyle: const TextStyle(
-            fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+        titleTextStyle: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: colorExt.textPrimary,
+            fontFamily: "Inter"),
         centerTitle: true,
         title: Text(title));
   }

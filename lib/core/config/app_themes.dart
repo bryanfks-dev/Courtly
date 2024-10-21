@@ -7,9 +7,15 @@ class AppThemes {
   // Light theme
   static ThemeData light = ThemeData.light().copyWith(
       primaryColor: ColorSchemes.primaryLight,
+      textTheme: ThemeData.light().textTheme.apply(fontFamily: "Inter"),
+      primaryTextTheme:
+          ThemeData.light().primaryTextTheme.apply(fontFamily: "Inter"),
       chipTheme: ChipThemeData(
         labelStyle: TextStyle(
-            color: ColorSchemes.highlightLight, fontWeight: FontWeight.w500),
+            color: ColorSchemes.highlightLight,
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            fontFamily: "Inter"),
         secondaryLabelStyle: TextStyle(
             color: ColorSchemes.primaryBackgroundLight,
             fontWeight: FontWeight.w500),
@@ -36,12 +42,14 @@ class AppThemes {
       inputDecorationTheme: InputDecorationTheme(
           prefixIconColor: ColorSchemes.highlightLight,
           suffixIconColor: ColorSchemes.highlightLight,
-          floatingLabelStyle: TextStyle(color: ColorSchemes.primaryLight),
-          labelStyle:
-              TextStyle(color: ColorSchemes.highlightLight, fontSize: 14),
-          hintStyle: TextStyle(
+          floatingLabelStyle:
+              TextStyle(color: ColorSchemes.primaryLight, fontFamily: "Inter"),
+          labelStyle: TextStyle(
               color: ColorSchemes.highlightLight,
-              fontWeight: FontWeight.normal),
+              fontSize: 14,
+              fontFamily: "Inter"),
+          hintStyle: TextStyle(
+              color: ColorSchemes.highlightLight, fontFamily: "Inter"),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: ColorSchemes.subtleLight),
@@ -57,15 +65,22 @@ class AppThemes {
       iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
         iconColor: WidgetStatePropertyAll(ColorSchemes.highlightLight),
+        textStyle: const WidgetStatePropertyAll(TextStyle(
+            fontSize: 14, fontWeight: FontWeight.w500, fontFamily: "Inter")),
       )),
       elevatedButtonTheme: const ElevatedButtonThemeData(
         style: ButtonStyle(
             elevation: WidgetStatePropertyAll(0),
-            shadowColor: WidgetStatePropertyAll(Colors.transparent)),
+            shadowColor: WidgetStatePropertyAll(Colors.transparent),
+            textStyle: WidgetStatePropertyAll(TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                fontFamily: "Inter"))),
       ),
       appBarTheme: AppBarTheme(
-          backgroundColor: ColorSchemes.primaryBackgroundLight,
-          surfaceTintColor: Colors.transparent),
+        backgroundColor: ColorSchemes.primaryBackgroundLight,
+        surfaceTintColor: Colors.transparent,
+      ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: ColorSchemes.primaryBackgroundLight,
           selectedIconTheme: IconThemeData(

@@ -22,7 +22,8 @@ class ProfileMenuCard extends StatelessWidget {
     final menuLength = menus.length;
 
     /// [colorExt] is the extension of the color scheme of the application.
-    final AppColorsExtension colorExt = Theme.of(context).extension()!;
+    final AppColorsExtension colorExt =
+        Theme.of(context).extension<AppColorsExtension>()!;
 
     return Container(
       color: colorExt.background,
@@ -36,9 +37,10 @@ class ProfileMenuCard extends StatelessWidget {
             child: Text(
               title,
               style: TextStyle(
-                  fontSize: 12,
-                  color: colorExt.primary,
-                  fontWeight: FontWeight.w600),
+                fontSize: 12,
+                color: colorExt.primary,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           Column(

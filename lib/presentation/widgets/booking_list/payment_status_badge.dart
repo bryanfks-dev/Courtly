@@ -32,9 +32,10 @@ class PaymentStatusBadge extends StatelessWidget {
       child: Text(
         paymentStatus.label,
         style: TextStyle(
-            color: colorMap[paymentStatus],
-            fontSize: 12,
-            fontWeight: FontWeight.w600),
+          color: colorMap[paymentStatus],
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
