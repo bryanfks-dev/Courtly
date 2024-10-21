@@ -49,7 +49,9 @@ class AppThemes {
               fontSize: 14,
               fontFamily: "Inter"),
           hintStyle: TextStyle(
-              color: ColorSchemes.highlightLight, fontFamily: "Inter"),
+              color: ColorSchemes.highlightLight,
+              fontSize: 14,
+              fontFamily: "Inter"),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: ColorSchemes.subtleLight),
