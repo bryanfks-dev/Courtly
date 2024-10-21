@@ -1,6 +1,5 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
-import 'package:courtly/core/enums/sports.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/filter_chips.dart';
 import 'package:courtly/presentation/widgets/reviews/rating_bar.dart';

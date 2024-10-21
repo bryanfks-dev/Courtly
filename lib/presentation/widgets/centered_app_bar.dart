@@ -23,10 +23,10 @@ class CenteredAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
         titleTextStyle: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: colorExt.textPrimary,
-            fontFamily: "Inter"),
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: colorExt.textPrimary,
+        ),
         centerTitle: true,
         title: Text(title));
   }

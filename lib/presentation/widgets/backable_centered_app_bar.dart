@@ -31,8 +31,10 @@ class BackableCenteredAppBar extends StatelessWidget
             Navigator.of(context).pop();
           },
         ),
-        titleTextStyle: const TextStyle(
-            fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+        titleTextStyle: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: colorExt.textPrimary),
         centerTitle: true,
         title: Text(title));
   }

@@ -1,5 +1,6 @@
 import 'package:courtly/core/config/app_themes.dart';
 import 'package:courtly/presentation/pages/login.dart';
+import 'package:courtly/presentation/pages/payment_detail.dart';
 import 'package:courtly/presentation/pages/register.dart';
 import 'package:courtly/presentation/pages/reviews.dart';
 import 'package:courtly/presentation/pages/write_review.dart';
@@ -41,7 +42,8 @@ class _MyApp extends State<MyApp> {
           Routes.register: (context) => const RegisterPage(),
           Routes.writeReview: (context) => WriteReviewPage(),
           Routes.reviews: (context) => ReviewsPage(),
+          Routes.paymentDetail: (context) => const AppScaffold(),
         },
-        home: ReviewsPage());
+        home: PaymentDetail());
   }
 }
