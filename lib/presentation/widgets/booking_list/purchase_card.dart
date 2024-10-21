@@ -41,11 +41,11 @@ class PurchaseCard extends StatelessWidget {
     /// [colorExt] is the extension of the color scheme of the app.
     final AppColorsExtension colorExt = Theme.of(context).extension()!;
 
-    return GestureDetector(
+    return InkWell(
+      onTap: () {},
       child: Container(
         color: colorExt.background,
-        padding: const EdgeInsets.symmetric(
-            horizontal: PAGE_PADDING_MOBILE, vertical: 10),
+        padding: const EdgeInsets.all(PAGE_PADDING_MOBILE),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
