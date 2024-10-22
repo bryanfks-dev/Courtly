@@ -1,8 +1,8 @@
-/// RegisterFormData is a class that holds the data that is needed to register a user.
+/// RegisterForm is a class that holds the data that is needed to register a user.
 ///
-/// RegisterFormData holds the [username], [phoneNumber], [password],
+/// [RegisterForm] holds the [username], [phoneNumber], [password],
 /// and [confirmPassword] of the user to register the user.
-class RegisterFormData {
+class RegisterForm {
   /// [username] is the username of the user.
   String username;
 
@@ -15,7 +15,7 @@ class RegisterFormData {
   /// [confirmPassword] is the confirmation password of the user.
   String confirmPassword;
 
-  RegisterFormData({
+  RegisterForm({
     required this.username,
     required this.password,
     required this.confirmPassword,

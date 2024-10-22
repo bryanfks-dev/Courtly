@@ -1,6 +1,6 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
-import 'package:courtly/domain/entities/register_form_data.dart';
+import 'package:courtly/domain/entities/register_form.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:courtly/routes/routes.dart';
@@ -21,7 +21,7 @@ class _RegisterPage extends State<RegisterPage> {
 
   /// [_data] is the register form data.
   /// This data is used to store the register form contents.
-  final RegisterFormData _data = RegisterFormData(
+  final RegisterForm _data = RegisterForm(
     username: "",
     password: "",
     confirmPassword: "",

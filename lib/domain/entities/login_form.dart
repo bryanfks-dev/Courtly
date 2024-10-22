@@ -1,15 +1,15 @@
-/// [LoginFormData] is a class that holds the data that is needed to login a user.
+/// [LoginForm] is a class that holds the data that is needed to login a user.
 ///
-/// [LoginFormData] takes [username] and [password] as required data, [username]
+/// [LoginForm] takes [username] and [password] as required data, [username]
 /// is the username of the user and [password] is the password of the user.
-class LoginFormData {
+class LoginForm {
   /// [username] is the username of the user.
   final String username;
 
   /// [password] is the password of the user.
   final String password;
 
-  LoginFormData({
+  LoginForm({
     required this.username,
     required this.password,
   });
