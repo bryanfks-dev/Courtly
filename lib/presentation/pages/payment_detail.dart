@@ -4,9 +4,9 @@ import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 
-/// [PaymentDetail] is a page to show payment details.
-class PaymentDetail extends StatelessWidget {
-  const PaymentDetail({super.key});
+/// [PaymentDetailPage] is a page to show payment details.
+class PaymentDetailPage extends StatelessWidget {
+  const PaymentDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +36,11 @@ class PaymentDetail extends StatelessWidget {
                     fontSize: 12,
                     color: colorExt.textPrimary,
                   ),
-                  TextSpan(
-                      text: "Booking ID: ",
-                      children: [
-                        TextSpan(
-                            text: "PD12345678JCTP1",
-                            style: TextStyle(fontWeight: FontWeight.bold))
-                      ]),
+                  TextSpan(text: "Booking ID: ", children: [
+                    TextSpan(
+                        text: "PD12345678JCTP1",
+                        style: TextStyle(fontWeight: FontWeight.bold))
+                  ]),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
@@ -209,7 +207,7 @@ class PaymentDetail extends StatelessWidget {
                     12,
                   ),
                   decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
                       border: Border.all(
                         width: 1,
                         color: colorExt.outline!,

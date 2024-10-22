@@ -80,6 +80,7 @@ class AppThemes {
                 fontWeight: FontWeight.w500,
                 fontFamily: "Inter"))),
       ),
+      dividerTheme: DividerThemeData(color: ColorSchemes.subtleLight),
       appBarTheme: AppBarTheme(
         backgroundColor: ColorSchemes.primaryBackgroundLight,
         surfaceTintColor: Colors.transparent,
