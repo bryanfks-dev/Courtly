@@ -1,6 +1,8 @@
 import 'package:courtly/core/config/app_color_extension.dart';
+import 'package:courtly/core/config/app_themes.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/enums/ranks.dart';
+import 'package:courtly/presentation/providers/theme_provider.dart';
 import 'package:courtly/presentation/widgets/bottom_modal_sheet.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/profile/profile_menu.dart';
@@ -9,19 +11,15 @@ import 'package:courtly/presentation/widgets/profile/profile_menu_toggle.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:provider/provider.dart';
 
 /// [ranks] is a list of ranks available for user.
 List<Ranks> ranks = Ranks.values.map((e) => e).toList();
 
 /// [LoggedInProfile] is profile page content when user is logged in.
-class LoggedInProfile extends StatefulWidget {
+class LoggedInProfile extends StatelessWidget {
   const LoggedInProfile({super.key});
 
-  @override
-  State<LoggedInProfile> createState() => _LoggedInProfile();
-}
-
-class _LoggedInProfile extends State<LoggedInProfile> {
   final Ranks _rank = Ranks.veteran;
 
   /// [_nextRank] is the next rank of the user.
@@ -37,25 +35,33 @@ class _LoggedInProfile extends State<LoggedInProfile> {
     return ranks[index + 1];
   }
 
-  /// [_isDarkMode] is the state of the dark mode toggle.
-  bool _isDarkMode = false;
-
-  /// [_toggleDarkMode] is the function to toggle the dark mode.
-  ///
-  /// - Parameters:
-  ///   - [value] is the value of the toggle.
-  ///
-  /// - Returns: void.
-  void _toggleDarkMode(bool value) {
-    setState(() {
-      _isDarkMode = !_isDarkMode;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     /// [colorExt] is the extension of the color scheme of the application.
     final AppColorsExtension colorExt = Theme.of(context).extension()!;
+
+    /// [themeProvider] is the provider of the theme of the application.
+    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
+    /// [darkMode] is the notifier for the dark mode.
+    final ValueNotifier<bool> darkMode =
+        ValueNotifier(themeProvider.currentTheme == AppThemes.dark);
+
+    /// [toggleDarkMode] is the function to toggle the dark mode.
+    ///
+    /// - Parameters:
+    ///   - [value] is the value of the toggle.
+    ///
+    /// - Returns: void.
+    void toggleDarkMode(bool value) {
+      if (value) {
+        themeProvider.setDarkTheme();
+      } else {
+        themeProvider.setLightTheme();
+      }
+
+      darkMode.value = value;
+    }
 
     /// [openLogoutModal] is the function to open the logout modal.
     /// This function will open the modal to confirm the logout action.
@@ -240,8 +246,8 @@ class _LoggedInProfile extends State<LoggedInProfile> {
           ProfileMenuToggle(
               iconData: HeroIcons.moon,
               title: "Dark Mode",
-              defaultValue: _isDarkMode,
-              onChanged: _toggleDarkMode),
+              defaultValue: darkMode.value,
+              onChanged: toggleDarkMode),
         ]),
         const SizedBox(
           height: 10,

@@ -38,4 +38,9 @@ class ColorSchemes {
   static Color secondaryBackgroundLight = const Color(0xFFF5F5F5);
 
   // Dark color schemes
+  static Color primaryDark = const Color(0xFF00A297);
+
+  static Color defaultDark = const Color(0xFFFFFFFF);
+  static Color subtleDark = const Color(0xFFA6A6A6);
+  static Color highlightDark = const Color(0xFF5B5B5B);
 }

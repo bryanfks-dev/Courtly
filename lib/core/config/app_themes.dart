@@ -109,5 +109,10 @@ class AppThemes {
       ]);
 
   // Dark theme
-  static ThemeData dark = ThemeData.dark().copyWith();
+  static ThemeData dark = ThemeData.dark().copyWith(
+    primaryColor: ColorSchemes.primaryLight,
+    textTheme: ThemeData.dark().textTheme.apply(fontFamily: "Inter"),
+    primaryTextTheme:
+        ThemeData.dark().primaryTextTheme.apply(fontFamily: "Inter"),
+  );
 }
