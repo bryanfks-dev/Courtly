@@ -38,6 +38,7 @@ class LoginPage extends StatelessWidget {
     final AppColorsExtension colorExt = Theme.of(context).extension()!;
 
     return Scaffold(
+      backgroundColor: colorExt.background,
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
         child: Column(

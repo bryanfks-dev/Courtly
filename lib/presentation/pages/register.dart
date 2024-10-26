@@ -230,6 +230,7 @@ class _RegisterPage extends State<RegisterPage> {
     ];
 
     return Scaffold(
+      backgroundColor: colorExt.background,
       body: SafeArea(
           minimum: const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
           child: Column(
