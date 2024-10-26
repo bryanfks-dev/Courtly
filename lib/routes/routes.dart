@@ -7,4 +7,5 @@ class Routes {
   static const String reviews = "/reviews";
   static const String paymentDetail = "/payment-detail";
   static const String choosePayment = "/choose-payment";
+  static const String changeUsername = "/change-username";
 }
