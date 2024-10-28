@@ -240,7 +240,9 @@ class LoggedInProfile extends StatelessWidget {
           ProfileMenu(
               iconData: HeroIcons.lockClosed,
               title: "Change Password",
-              onTap: () {}),
+              onTap: () {
+                Navigator.pushNamed(context, Routes.changePassword);
+              }),
         ]),
         const SizedBox(
           height: 10,

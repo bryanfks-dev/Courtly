@@ -66,7 +66,8 @@ class _RegisterPage extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     /// [colorExt] is the color extension of the application.
-    final AppColorsExtension colorExt = Theme.of(context).extension()!;
+    final AppColorsExtension colorExt =
+        Theme.of(context).extension<AppColorsExtension>()!;
 
     /// [registerSteps] is the list of register steps.
     /// This list is used to store the register form contents.

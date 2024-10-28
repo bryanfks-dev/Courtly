@@ -1,5 +1,6 @@
 import 'package:courtly/core/config/app_themes.dart';
 import 'package:courtly/data/repository/theme_repository.dart';
+import 'package:courtly/presentation/pages/change_password.dart';
 import 'package:courtly/presentation/pages/change_username.dart';
 import 'package:courtly/presentation/pages/choose_payment.dart';
 import 'package:courtly/presentation/pages/login.dart';
@@ -54,6 +55,7 @@ class _MyApp extends State<MyApp> {
                 Routes.paymentDetail: (context) => const PaymentDetailPage(),
                 Routes.choosePayment: (context) => ChoosePaymentPage(),
                 Routes.changeUsername: (context) => ChangeUsernamePage(),
+                Routes.changePassword: (context) => const ChangePasswordPage(),
               },
               home: const AppScaffold());
         },
