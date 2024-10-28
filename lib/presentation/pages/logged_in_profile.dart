@@ -9,6 +9,7 @@ import 'package:courtly/presentation/widgets/profile/profile_menu.dart';
 import 'package:courtly/presentation/widgets/profile/profile_menu_card.dart';
 import 'package:courtly/presentation/widgets/profile/profile_menu_toggle.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
+import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:provider/provider.dart';
@@ -233,7 +234,9 @@ class LoggedInProfile extends StatelessWidget {
           ProfileMenu(
               iconData: HeroIcons.atSymbol,
               title: "Change Username",
-              onTap: () {}),
+              onTap: () {
+                Navigator.pushNamed(context, Routes.changeUsername);
+              }),
           ProfileMenu(
               iconData: HeroIcons.lockClosed,
               title: "Change Password",
