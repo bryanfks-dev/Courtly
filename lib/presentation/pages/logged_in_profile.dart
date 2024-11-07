@@ -128,8 +128,7 @@ class LoggedInProfile extends StatelessWidget {
           ));
     }
 
-    return SafeArea(
-        child: ListView(
+    return ListView(
       children: [
         Container(
           padding: const EdgeInsets.only(
@@ -262,6 +261,6 @@ class LoggedInProfile extends StatelessWidget {
             title: "Log Out",
             onTap: openLogoutModal)
       ],
-    ));
+    );
   }
 }

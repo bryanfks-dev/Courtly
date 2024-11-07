@@ -1,5 +1,8 @@
 import 'package:courtly/core/config/app_themes.dart';
 import 'package:courtly/data/repository/theme_repository.dart';
+import 'package:courtly/data/repository/token_repository.dart';
+import 'package:courtly/presentation/blocs/auth/auth_bloc.dart';
+import 'package:courtly/presentation/blocs/auth/auth_event.dart';
 import 'package:courtly/presentation/pages/change_password.dart';
 import 'package:courtly/presentation/pages/change_username.dart';
 import 'package:courtly/presentation/pages/choose_payment.dart';
@@ -12,6 +15,7 @@ import 'package:courtly/presentation/providers/theme_provider.dart';
 import 'package:courtly/presentation/widgets/app_scaffold.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 /// [main] is the entry point of the application.
@@ -57,7 +61,11 @@ class _MyApp extends State<MyApp> {
                 Routes.changeUsername: (context) => ChangeUsernamePage(),
                 Routes.changePassword: (context) => const ChangePasswordPage(),
               },
-              home: const AppScaffold());
+              home: BlocProvider(
+                create: (_) => AuthBloc(tokenRepository: TokenRepository())
+                  ..add(AuthLoginEvent()),
+                child: const AppScaffold(),
+              ));
         },
       ),
     );
