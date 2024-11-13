@@ -79,6 +79,9 @@ class ReviewCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 5),
+          Text("Football Court",
+              style: TextStyle(color: colorExt.highlight, fontSize: 12)),
+          const SizedBox(height: 5),
           StarRow(rate: rate),
           const SizedBox(height: 5),
           Text(
