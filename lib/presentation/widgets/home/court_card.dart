@@ -1,6 +1,7 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/enums/sports.dart';
+import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 
@@ -43,7 +44,10 @@ class CourtCard extends StatelessWidget {
     final AppColorsExtension colorExt = Theme.of(context).extension()!;
 
     return InkWell(
-      onTap: () {},
+      overlayColor: WidgetStatePropertyAll(Colors.transparent),
+      onTap: () {
+        Navigator.of(context).pushNamed(Routes.selectBooking);
+      },
       child: Container(
         width: double.maxFinite,
         height: 130,
