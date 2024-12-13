@@ -1,6 +1,6 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
-import 'package:courtly/data/models/login_dto.dart';
+import 'package:courtly/data/dto/login_form_dto.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:courtly/routes/routes.dart';
@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
 
   /// [_data] is the login form data.
   /// This data is used to store the login form contents.
-  final LoginDTO _data = LoginDTO(
+  final LoginFormDTO _data = LoginFormDTO(
     username: "",
     password: "",
   );

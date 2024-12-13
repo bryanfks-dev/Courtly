@@ -1,8 +1,8 @@
-/// [RegisterDTO] is a class that holds the data that is needed to register a user.
+/// [RegisterFormDTO] is a class that holds the data that is needed to register a user.
 ///
-/// [RegisterDTO] holds the [username], [phoneNumber], [password],
+/// [RegisterFormDTO] holds the [username], [phoneNumber], [password],
 /// and [confirmPassword] of the user to register the user.
-class RegisterDTO {
+class RegisterFormDTO {
   /// [username] is the username of the user.
   String username;
 
@@ -15,15 +15,15 @@ class RegisterDTO {
   /// [confirmPassword] is the confirmation password of the user.
   String confirmPassword;
 
-  RegisterDTO({
+  RegisterFormDTO({
     required this.username,
     required this.password,
     required this.confirmPassword,
     required this.phoneNumber,
   });
 
-  /// [toMap] is a method to convert the [RegisterDTO] to a map.
-  /// 
+  /// [toMap] is a method to convert the [RegisterFormDTO] to a map.
+  ///
   /// Returns a map of [String] key and [String] value.
   Map<String, String> toMap() {
     return {

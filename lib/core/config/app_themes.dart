@@ -61,7 +61,12 @@ class AppThemes {
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: ColorSchemes.primaryLight),
           ),
+          errorStyle: TextStyle(color: ColorSchemes.errorLight),
           errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: ColorSchemes.errorLight),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: ColorSchemes.errorLight),
           )),

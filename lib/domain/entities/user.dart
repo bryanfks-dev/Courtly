@@ -1,30 +1,36 @@
+import 'package:courtly/data/dto/user_dto.dart';
+
 /// [User] is an entity class that represents a user in the application
 class User {
   /// [id] is a unique identifier for the user
-  final String id;
+  final int id;
 
-  /// [name] is the name of the user
-  final String name;
+  /// [username] is the username of the user
+  final String username;
 
   /// [phoneNumber] is the phone number of the user
-  final String phoneNumber;
+  final String? phoneNumber;
 
   /// [profilePictureUrl] is the URL of the user's profile picture
-  final String profilePictureUrl;
+  final String? profilePictureUrl;
 
   User(
       {required this.id,
-      required this.name,
+      required this.username,
       required this.phoneNumber,
-      this.profilePictureUrl = ''});
-
-  /// [User.fromJson] method to convert a map to a [User] instance
-  /// This method is a factory method that returns a new instance of [User]
-  factory User.fromJson(Map<String, String> json) {
+      required this.profilePictureUrl});
+  
+  /// [fromDTO] is a factory method that creates a [User] object from a [UserDTO] object
+  /// 
+  /// Parameters:
+  ///   - [dto]: a [UserDTO] object
+  /// 
+  /// Returns a [User] object
+  factory User.fromDTO(UserDTO dto) {
     return User(
-        id: json['id'] ?? '',
-        name: json['name'] ?? '',
-        phoneNumber: json['phone_number'] ?? '',
-        profilePictureUrl: json['profile_picture_url'] ?? '');
+        id: dto.id,
+        username: dto.username,
+        phoneNumber: dto.phoneNumber,
+        profilePictureUrl: dto.profilePictureUrl);
   }
 }

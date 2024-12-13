@@ -15,7 +15,8 @@ class NotLoggedInProfile extends StatelessWidget {
     /// [colorExt] is the color extension.
     final AppColorsExtension colorExt = Theme.of(context).extension()!;
 
-    return Container(
+    return SafeArea(
+        child: Container(
       color: colorExt.background,
       padding: const EdgeInsets.all(PAGE_PADDING_MOBILE),
       child: Column(
@@ -62,6 +63,6 @@ class NotLoggedInProfile extends StatelessWidget {
               child: const Text("Let's Login!"))
         ],
       ),
-    );
+    ));
   }
 }
