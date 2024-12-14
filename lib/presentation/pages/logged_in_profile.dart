@@ -3,10 +3,14 @@ import 'package:courtly/core/config/app_themes.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/presentation/blocs/auth_bloc.dart';
 import 'package:courtly/presentation/blocs/events/auth_event.dart';
+import 'package:courtly/presentation/blocs/events/profile_event.dart';
 import 'package:courtly/presentation/blocs/logout_bloc.dart';
+import 'package:courtly/presentation/blocs/profile_bloc.dart';
 import 'package:courtly/presentation/blocs/states/logout_state.dart';
+import 'package:courtly/presentation/blocs/states/profile_state.dart';
 import 'package:courtly/presentation/providers/theme_provider.dart';
 import 'package:courtly/presentation/widgets/bottom_modal_sheet.dart';
+import 'package:courtly/presentation/widgets/loading_screen.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/profile/profile_menu.dart';
 import 'package:courtly/presentation/widgets/profile/profile_menu_card.dart';
@@ -32,10 +36,10 @@ class _LoggedInProfile extends State<LoggedInProfile> {
     super.initState();
 
     // Check if the vendor data is not loaded
-    /* if (context.read<VendorBloc>().state is! VendorLoadedState) {
+    if (context.read<ProfileBloc>().state is! ProfileLoadedState) {
       // Fetch the vendor data
-      context.read<VendorBloc>().add(FetchVendorEvent());
-    } */
+      context.read<ProfileBloc>().add(FetchProfileEvent());
+    }
   }
 
   @override
@@ -52,10 +56,10 @@ class _LoggedInProfile extends State<LoggedInProfile> {
 
     /// [toggleDarkMode] is the function to toggle the dark mode.
     ///
-    /// - Parameters:
+    /// Parameters:
     ///   - [value] is the value of the toggle.
     ///
-    /// - Returns: void.
+    /// Returns [void]
     void toggleDarkMode(bool value) {
       if (value) {
         themeProvider.setDarkTheme();
@@ -69,7 +73,7 @@ class _LoggedInProfile extends State<LoggedInProfile> {
     /// [openLogoutModal] is the function to open the logout modal.
     /// This function will open the modal to confirm the logout action.
     ///
-    /// - Returns: void.
+    /// Returns [void]
     void openLogoutModal() {
       // Open the logout modal.
       showBottomModalSheet(
@@ -159,78 +163,93 @@ class _LoggedInProfile extends State<LoggedInProfile> {
           }));
     }
 
-    return SafeArea(
-        child: ListView(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(
-              left: PAGE_PADDING_MOBILE,
-              right: PAGE_PADDING_MOBILE,
-              bottom: 20),
-          color: colorExt.background,
-          child: Row(
+    return BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (BuildContext context, ProfileState profileState) {},
+        builder: (BuildContext context, ProfileState state) {
+          // Check the state of the profile.
+          if (state is! ProfileLoadedState) {
+            return const Center(child: LoadingScreen());
+          }
+
+          return SafeArea(
+              child: ListView(
             children: [
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(999)),
+              Container(
+                padding: const EdgeInsets.only(
+                    left: PAGE_PADDING_MOBILE,
+                    right: PAGE_PADDING_MOBILE,
+                    bottom: 20),
+                color: colorExt.background,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: SizedBox(
+                        width: 64,
+                        height: 64,
+                        child: state.user.profilePictureUrl!.isEmpty
+                            ? HeroIcon(
+                                HeroIcons.userCircle,
+                                color: colorExt.highlight,
+                                style: HeroIconStyle.solid,
+                                size: 64,
+                              )
+                            : Image.network(state.user.profilePictureUrl!),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(state.user.username,
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        Text("+${state.user.phoneNumber}",
+                            style: TextStyle(
+                                fontSize: 12, color: colorExt.highlight))
+                      ],
+                    )
+                  ],
                 ),
               ),
               const SizedBox(
-                width: 20,
+                height: 10,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("John Doe",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Text("+62 812 3456 7890",
-                      style: TextStyle(fontSize: 12, color: colorExt.highlight))
-                ],
-              )
+              ProfileMenuCard(title: "Personal Information", menus: [
+                ProfileMenu(
+                    iconData: HeroIcons.atSymbol,
+                    title: "Change Username",
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.changeUsername);
+                    }),
+                ProfileMenu(
+                    iconData: HeroIcons.lockClosed,
+                    title: "Change Password",
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.changePassword);
+                    }),
+              ]),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileMenuCard(title: "Preference", menus: [
+                ProfileMenuToggle(
+                    iconData: HeroIcons.moon,
+                    title: "Dark Mode",
+                    defaultValue: darkMode.value,
+                    onChanged: toggleDarkMode),
+              ]),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileMenu(
+                  iconData: HeroIcons.arrowRightStartOnRectangle,
+                  title: "Log Out",
+                  onTap: openLogoutModal)
             ],
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        ProfileMenuCard(title: "Personal Information", menus: [
-          ProfileMenu(
-              iconData: HeroIcons.atSymbol,
-              title: "Change Username",
-              onTap: () {
-                Navigator.pushNamed(context, Routes.changeUsername);
-              }),
-          ProfileMenu(
-              iconData: HeroIcons.lockClosed,
-              title: "Change Password",
-              onTap: () {
-                Navigator.pushNamed(context, Routes.changePassword);
-              }),
-        ]),
-        const SizedBox(
-          height: 10,
-        ),
-        ProfileMenuCard(title: "Preference", menus: [
-          ProfileMenuToggle(
-              iconData: HeroIcons.moon,
-              title: "Dark Mode",
-              defaultValue: darkMode.value,
-              onChanged: toggleDarkMode),
-        ]),
-        const SizedBox(
-          height: 10,
-        ),
-        ProfileMenu(
-            iconData: HeroIcons.arrowRightStartOnRectangle,
-            title: "Log Out",
-            onTap: openLogoutModal)
-      ],
-    ));
+          ));
+        });
   }
 }
