@@ -16,14 +16,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage> {
   @override
-  void initState() {
-    super.initState();
-
-    // Check the auth status
-    context.read<AuthBloc>().checkStatus();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
         builder: (BuildContext context, AuthState state) {

@@ -166,7 +166,7 @@ class _RegisterPage extends State<RegisterPage> {
                 SecondaryButton(
                     onPressed: () {
                       // Navigate to login page
-                      Navigator.pushNamed(context, Routes.login);
+                      Navigator.pushReplacementNamed(context, Routes.login);
                     },
                     style: ButtonStyle(
                       minimumSize:

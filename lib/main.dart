@@ -7,6 +7,7 @@ import 'package:courtly/domain/usecases/auth_usecase.dart';
 import 'package:courtly/domain/usecases/login_usecase.dart';
 import 'package:courtly/domain/usecases/register_usecase.dart';
 import 'package:courtly/presentation/blocs/auth_bloc.dart';
+import 'package:courtly/presentation/blocs/events/auth_event.dart';
 import 'package:courtly/presentation/blocs/login_bloc.dart';
 import 'package:courtly/presentation/blocs/register_bloc.dart';
 import 'package:courtly/presentation/pages/change_password.dart';
@@ -52,7 +53,7 @@ class _MyApp extends State<MyApp> {
           BlocProvider<AuthBloc>(
             create: (BuildContext context) => AuthBloc(
               authUsecase: AuthUsecase(tokenRepository: TokenRepository()),
-            ),
+            )..add(CheckAuthEvent()),
           ),
           BlocProvider(
               create: (BuildContext context) => RegisterBloc(
