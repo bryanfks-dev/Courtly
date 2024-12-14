@@ -1,26 +1,28 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
-import 'package:courtly/data/dto/login_form_dto.dart';
+import 'package:courtly/presentation/blocs/login_bloc.dart';
+import 'package:courtly/presentation/blocs/states/login_state.dart';
+import 'package:courtly/presentation/validators/login_form_validator.dart';
+import 'package:courtly/presentation/widgets/loading_screen.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 
 /// [LoginPage] is page for /login route.
 /// This page is used to login into existing account.
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
-  /// [_formKey] is the key for the form.
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  @override
+  State<LoginPage> createState() => _LoginPage();
+}
 
-  /// [_data] is the login form data.
-  /// This data is used to store the login form contents.
-  final LoginFormDTO _data = LoginFormDTO(
-    username: "",
-    password: "",
-  );
+class _LoginPage extends State<LoginPage> {
+  /// [_loginFormValidator] is the instance of the login form validator.
+  final LoginFormValidator _loginFormValidator = LoginFormValidator();
 
   /// [_textInputControllers] is the map of text input keys.
   final Map<String, TextEditingController> _textInputControllers = {
@@ -28,50 +30,104 @@ class LoginPage extends StatelessWidget {
     "password": TextEditingController(),
   };
 
+  /// [_errorTexts] is the map of error texts.
+  final Map<String, String?> _errorTexts = {
+    "username": null,
+    "password": null,
+  };
+
   /// [_obsecureTextNotifier] is the notifier for obsecure text.
   /// This notifier is used to toggle the password visibility.
   final ValueNotifier<bool> _obsecureTextNotifier = ValueNotifier(true);
 
+  /// [_validateLoginForm] is the function to validate the login form.
+  ///
+  /// Returns [bool] indicates the form is valid.
+  bool _validateLoginForm() {
+    setState(() {
+      _errorTexts["username"] = _loginFormValidator.validateUsername(
+          username: _textInputControllers["username"]!.text);
+      _errorTexts["password"] = _loginFormValidator.validatePassword(
+          password: _textInputControllers["password"]!.text);
+    });
+
+    return _errorTexts["username"] == null && _errorTexts["password"] == null;
+  }
+
   @override
   Widget build(BuildContext context) {
     /// [colorExt] is the extension of the color scheme of the app.
-    final AppColorsExtension colorExt = Theme.of(context).extension()!;
+    final AppColorsExtension colorExt =
+        Theme.of(context).extension<AppColorsExtension>()!;
 
     return Scaffold(
       backgroundColor: colorExt.background,
       body: SafeArea(
-        minimum: const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Login",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: colorExt.primary,
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            const Text(
-              "Signing into your existing account",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            Form(
-                key: _formKey,
-                child: Column(
+        child: BlocConsumer<LoginBloc, LoginState>(
+            listener: (BuildContext context, LoginState state) {
+          // Check the state
+          if (state is LoginSuccessState) {
+            // Navigate to home page
+            Navigator.popUntil(context, (route) => route.isFirst);
+          }
+
+          if (state is LoginErrorState) {
+            // Check if the error message is a string
+            if (state.errorMessage is String) {
+              // Show the error message
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(state.errorMessage),
+              ));
+            }
+
+            // Check if the error message is a map
+            if (state.errorMessage is Map) {
+              _errorTexts["username"] = state.errorMessage["username"]?.first;
+              _errorTexts["password"] = state.errorMessage["password"]?.first;
+            }
+          }
+        }, builder: (BuildContext context, LoginState state) {
+          // Check if the state is loading
+          if (state is LoginLoadingState) {
+            return const Center(
+              child: LoadingScreen(),
+            );
+          }
+
+          return Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Login",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: colorExt.primary,
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Text(
+                  "Signing into your existing account",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Form(
+                    child: Column(
                   children: [
                     TextFormField(
                         controller: _textInputControllers["username"],
                         style: const TextStyle(fontSize: 14),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           label: Text("Username"),
+                          errorText: _errorTexts["username"],
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 0, horizontal: 15),
                         )),
@@ -89,6 +145,7 @@ class LoginPage extends StatelessWidget {
                             autocorrect: false,
                             decoration: InputDecoration(
                               label: const Text("Password"),
+                              errorText: _errorTexts["password"],
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 0, horizontal: 15),
                               suffixIcon: IconButton(
@@ -105,36 +162,45 @@ class LoginPage extends StatelessWidget {
                         }),
                   ],
                 )),
-            const SizedBox(height: 40),
-            Column(
-              children: [
-                PrimaryButton(
-                  onPressed: () {
-                    // Return to previous page
-                    Navigator.pop(context);
-                  },
-                  style: ButtonStyle(
-                    minimumSize:
-                        WidgetStateProperty.all(const Size.fromHeight(0)),
-                  ),
-                  child: const Text("Login"),
-                ),
-                const SizedBox(height: 10),
-                SecondaryButton(
-                  onPressed: () {
-                    // Navigate to register page
-                    Navigator.pushNamed(context, Routes.register);
-                  },
-                  style: ButtonStyle(
-                    minimumSize:
-                        WidgetStateProperty.all(const Size.fromHeight(0)),
-                  ),
-                  child: const Text("I'm new here"),
-                ),
+                const SizedBox(height: 40),
+                Column(
+                  children: [
+                    PrimaryButton(
+                      onPressed: () {
+                        // Validate the login form
+                        if (!_validateLoginForm()) {
+                          return;
+                        }
+
+                        // Dispatch the login event
+                        context.read<LoginBloc>().login(
+                            username: _textInputControllers["username"]!.text,
+                            password: _textInputControllers["password"]!.text);
+                      },
+                      style: ButtonStyle(
+                        minimumSize:
+                            WidgetStateProperty.all(const Size.fromHeight(0)),
+                      ),
+                      child: const Text("Login"),
+                    ),
+                    const SizedBox(height: 10),
+                    SecondaryButton(
+                      onPressed: () {
+                        // Navigate to register page
+                        Navigator.pushNamed(context, Routes.register);
+                      },
+                      style: ButtonStyle(
+                        minimumSize:
+                            WidgetStateProperty.all(const Size.fromHeight(0)),
+                      ),
+                      child: const Text("I'm new here"),
+                    ),
+                  ],
+                )
               ],
-            )
-          ],
-        ),
+            ),
+          );
+        }),
       ),
     );
   }

@@ -7,20 +7,32 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// [ProfilePage] is a page to show user profile.
 /// It will show different content based on user login status.
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
-        listener: (BuildContext context, AuthState state) {},
-        builder: (BuildContext context, AuthState state) {
-          // Check the state of the auth.
-          if (state is AuthenticatedState) {
-            return LoggedInProfile();
-          }
+  State<ProfilePage> createState() => _ProfilePage();
+}
 
-          return NotLoggedInProfile();
-        });
+class _ProfilePage extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Check the auth status
+    context.read<AuthBloc>().checkStatus();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AuthBloc, AuthState>(
+        builder: (BuildContext context, AuthState state) {
+      // Check the state of the auth.
+      if (state is AuthenticatedState) {
+        return LoggedInProfile();
+      }
+
+      return NotLoggedInProfile();
+    });
   }
 }
