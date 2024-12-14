@@ -1,7 +1,10 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/config/app_themes.dart';
 import 'package:courtly/core/constants/constants.dart';
-import 'package:courtly/core/enums/ranks.dart';
+import 'package:courtly/presentation/blocs/auth_bloc.dart';
+import 'package:courtly/presentation/blocs/events/auth_event.dart';
+import 'package:courtly/presentation/blocs/logout_bloc.dart';
+import 'package:courtly/presentation/blocs/states/logout_state.dart';
 import 'package:courtly/presentation/providers/theme_provider.dart';
 import 'package:courtly/presentation/widgets/bottom_modal_sheet.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
@@ -11,29 +14,28 @@ import 'package:courtly/presentation/widgets/profile/profile_menu_toggle.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:provider/provider.dart';
 
-/// [ranks] is a list of ranks available for user.
-List<Ranks> ranks = Ranks.values.map((e) => e).toList();
-
 /// [LoggedInProfile] is profile page content when user is logged in.
-class LoggedInProfile extends StatelessWidget {
+class LoggedInProfile extends StatefulWidget {
   const LoggedInProfile({super.key});
 
-  final Ranks _rank = Ranks.veteran;
+  @override
+  State<LoggedInProfile> createState() => _LoggedInProfile();
+}
 
-  /// [_nextRank] is the next rank of the user.
-  Ranks get _nextRank {
-    // Get the index of the current rank.
-    final int index = ranks.indexOf(_rank);
+class _LoggedInProfile extends State<LoggedInProfile> {
+  @override
+  void initState() {
+    super.initState();
 
-    // If the current rank is the last rank, return the current rank.
-    if (index == ranks.length - 1) {
-      return _rank;
-    }
-
-    return ranks[index + 1];
+    // Check if the vendor data is not loaded
+    /* if (context.read<VendorBloc>().state is! VendorLoadedState) {
+      // Fetch the vendor data
+      context.read<VendorBloc>().add(FetchVendorEvent());
+    } */
   }
 
   @override
@@ -72,60 +74,89 @@ class LoggedInProfile extends StatelessWidget {
       // Open the logout modal.
       showBottomModalSheet(
           context,
-          Column(
-            children: [
-              Text.rich(
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: colorExt.textPrimary),
-                  TextSpan(text: "You are about to ", children: [
-                    TextSpan(
-                        text: "log out",
-                        style: TextStyle(color: colorExt.danger)),
-                    const TextSpan(text: ", confirm to proceed.")
-                  ])),
-              const SizedBox(
-                height: 30,
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SecondaryButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      style: ButtonStyle(
-                          side: WidgetStatePropertyAll(
-                              BorderSide(width: 1, color: colorExt.highlight!)),
-                          minimumSize:
-                              const WidgetStatePropertyAll(Size.fromHeight(0))),
-                      child: Text(
-                        "I changed my mind",
-                        style: TextStyle(
-                            color: colorExt.highlight,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  PrimaryButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          backgroundColor:
-                              WidgetStateProperty.all(colorExt.danger),
-                          minimumSize: WidgetStateProperty.all(
-                              const Size.fromHeight(0))),
-                      child: const Text("Log me out",
+          BlocConsumer<LogoutBloc, LogoutState>(
+              listener: (BuildContext context, LogoutState logoutState) {
+            // Handle the state
+            if (logoutState is LogoutSuccessState) {
+              // Close the modal
+              Navigator.pop(context);
+
+              context.read<AuthBloc>().add(CheckAuthEvent());
+            }
+
+            if (logoutState is LogoutErrorState) {
+              // Close the modal
+              Navigator.pop(context);
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(logoutState.errorMessage)));
+            }
+          }, builder: (BuildContext context, LogoutState state) {
+            // Check the state of the logout.
+            if (state is LogoutLoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            return Column(
+              children: [
+                Text.rich(
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: colorExt.textPrimary),
+                    TextSpan(text: "You are about to ", children: [
+                      TextSpan(
+                          text: "log out",
+                          style: TextStyle(color: colorExt.danger)),
+                      const TextSpan(text: ", confirm to proceed.")
+                    ])),
+                const SizedBox(
+                  height: 30,
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SecondaryButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: ButtonStyle(
+                            side: WidgetStatePropertyAll(BorderSide(
+                                width: 1, color: colorExt.highlight!)),
+                            minimumSize: const WidgetStatePropertyAll(
+                                Size.fromHeight(0))),
+                        child: Text(
+                          "I changed my mind",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: colorExt.highlight,
                               fontSize: 14,
-                              fontWeight: FontWeight.w500)))
-                ],
-              )
-            ],
-          ));
+                              fontWeight: FontWeight.w500),
+                        )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    PrimaryButton(
+                        onPressed: () {
+                          // Dispatch the logout event.
+                          context.read<LogoutBloc>().logout();
+                        },
+                        style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStateProperty.all(colorExt.danger),
+                            minimumSize: WidgetStateProperty.all(
+                                const Size.fromHeight(0))),
+                        child: const Text("Log me out",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500)))
+                  ],
+                )
+              ],
+            );
+          }));
     }
 
     return SafeArea(
@@ -137,91 +168,29 @@ class LoggedInProfile extends StatelessWidget {
               right: PAGE_PADDING_MOBILE,
               bottom: 20),
           color: colorExt.background,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(999)),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("John Doe",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                      Text(_rank.label,
-                          style: TextStyle(
-                              color: _rank.color,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500)),
-                    ],
-                  )
-                ],
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 64,
+                  height: 64,
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(999)),
+                ),
               ),
               const SizedBox(
-                height: 10,
+                width: 20,
               ),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: _rank.color, shape: BoxShape.circle),
-                    child: Text("1", style: TextStyle(color: Colors.white)),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                      child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      LinearProgressIndicator(
-                        value: 0.7,
-                        minHeight: 6,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                      ),
-                      const Positioned(
-                          left: 0,
-                          top: 10,
-                          child: Text(
-                            "EXP 700/1000",
-                            style: TextStyle(fontSize: 10),
-                          )),
-                      const Positioned(
-                          right: 0,
-                          top: 10,
-                          child: Text(
-                            "Elite Rank",
-                            style: TextStyle(fontSize: 10),
-                          ))
-                    ],
-                  )),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: _nextRank.color, shape: BoxShape.circle),
-                    child: Text(
-                      "2",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                  const Text("John Doe",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text("+62 812 3456 7890",
+                      style: TextStyle(fontSize: 12, color: colorExt.highlight))
                 ],
               )
             ],

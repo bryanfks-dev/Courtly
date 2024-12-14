@@ -1,14 +1,17 @@
 import 'package:courtly/core/config/app_themes.dart';
 import 'package:courtly/data/repository/api/login_repository.dart';
+import 'package:courtly/data/repository/api/logout_repository.dart';
 import 'package:courtly/data/repository/api/register_repository.dart';
 import 'package:courtly/data/repository/storage/theme_repository.dart';
 import 'package:courtly/data/repository/storage/token_repository.dart';
 import 'package:courtly/domain/usecases/auth_usecase.dart';
 import 'package:courtly/domain/usecases/login_usecase.dart';
+import 'package:courtly/domain/usecases/logout_usecase.dart';
 import 'package:courtly/domain/usecases/register_usecase.dart';
 import 'package:courtly/presentation/blocs/auth_bloc.dart';
 import 'package:courtly/presentation/blocs/events/auth_event.dart';
 import 'package:courtly/presentation/blocs/login_bloc.dart';
+import 'package:courtly/presentation/blocs/logout_bloc.dart';
 import 'package:courtly/presentation/blocs/register_bloc.dart';
 import 'package:courtly/presentation/pages/change_password.dart';
 import 'package:courtly/presentation/pages/change_username.dart';
@@ -66,7 +69,12 @@ class _MyApp extends State<MyApp> {
                 tokenRepository: TokenRepository(),
               ),
             ),
-          )
+          ),
+          BlocProvider(
+              create: (BuildContext context) => LogoutBloc(
+                  logoutUsecase: LogoutUsecase(
+                      logoutRepository: LogoutRepository(),
+                      tokenRepository: TokenRepository())))
         ],
         child: ChangeNotifierProvider(
           create: (_) => ThemeProvider(ThemeRepository()),
