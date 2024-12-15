@@ -9,6 +9,7 @@ import 'package:courtly/presentation/blocs/states/home_state.dart';
 import 'package:courtly/presentation/widgets/filter_chips.dart';
 import 'package:courtly/presentation/widgets/home/court_card.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
+import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
@@ -178,13 +179,25 @@ class _HomePage extends State<HomePage> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
                             return CourtCard(
-                                imgUrl: state.courts[index].imageUrl,
-                                rating: state.courts[index].rating,
-                                sportType: state.courts[index].type,
-                                vendorName: state.courts[index].vendor.name,
-                                openTime: state.courts[index].vendor.openTime,
-                                closeTime: state.courts[index].vendor.closeTime,
-                                address: state.courts[index].vendor.address);
+                              imgUrl: state.courts[index].imageUrl,
+                              rating: state.courts[index].rating,
+                              sportType: state.courts[index].type,
+                              vendorName: state.courts[index].vendor.name,
+                              openTime: state.courts[index].vendor.openTime,
+                              closeTime: state.courts[index].vendor.closeTime,
+                              address: state.courts[index].vendor.address,
+                              onTap: () {
+                                if (context.read<AuthBloc>().state
+                                    is AuthenticatedState) {
+                                  // Navigate to the login page.
+                                  Navigator.of(context).pushNamed(Routes.login);
+
+                                  return;
+                                }
+
+                                // Navigate to the booking page.
+                              },
+                            );
                           },
                           separatorBuilder: (BuildContext context, int index) =>
                               const SizedBox(height: 10),

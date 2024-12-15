@@ -1,6 +1,5 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
-import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 
@@ -14,7 +13,8 @@ class CourtCard extends StatelessWidget {
       required this.vendorName,
       required this.openTime,
       required this.closeTime,
-      required this.address});
+      required this.address,
+      required this.onTap});
 
   /// [imgUrl] is the image URL of the court.
   final String imgUrl;
@@ -37,6 +37,9 @@ class CourtCard extends StatelessWidget {
   /// [address] is the address of the vendor.
   final String address;
 
+  /// [onTap] is the callback function when the card is tapped.
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     /// [colorExt] is the extension of the color scheme.
@@ -44,9 +47,7 @@ class CourtCard extends StatelessWidget {
 
     return InkWell(
       overlayColor: WidgetStatePropertyAll(Colors.transparent),
-      onTap: () {
-        Navigator.of(context).pushNamed(Routes.selectBooking);
-      },
+      onTap: onTap,
       child: Container(
         width: double.maxFinite,
         height: 130,
