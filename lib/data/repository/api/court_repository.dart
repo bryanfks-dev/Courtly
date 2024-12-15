@@ -22,15 +22,15 @@ class CourtRepository {
   /// Returns a [Future] of [Either] [Failure] and a [List] of [CourtDTO].
   Future<Either<Failure, List<CourtDTO>>> getCourts(
       {String? courtType, String? vendorName}) async {
-    /// [queryParams] is the query parameters for the API request.
+    /// [queryParams] is the query parameters for the API request
     final Map<String, String> queryParams = {};
 
-    // Check if the court type is not null.
+    // Check if the court type is not null
     if (courtType != null) {
       queryParams["courtType"] = courtType;
     }
 
-    // Check if the vendor name is not null.
+    // Check if the vendor name is not null and not empty
     if (vendorName != null && vendorName.isNotEmpty) {
       queryParams["vendorName"] = vendorName;
     }
