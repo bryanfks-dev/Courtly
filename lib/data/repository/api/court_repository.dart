@@ -31,7 +31,7 @@ class CourtRepository {
     }
 
     // Check if the vendor name is not null.
-    if (vendorName != null) {
+    if (vendorName != null && vendorName.isNotEmpty) {
       queryParams["vendorName"] = vendorName;
     }
 

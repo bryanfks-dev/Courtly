@@ -112,7 +112,8 @@ class _HomePage extends State<HomePage> {
                                     defaultValue: null);
 
                                 context.read<HomeBloc>().fetchCourtsOnly(
-                                    courtType: selectedType?.label);
+                                    courtType: selectedType?.label,
+                                    vendorName: _searchController.text);
                               }),
                         ),
                         const SizedBox(height: 10),
@@ -132,7 +133,14 @@ class _HomePage extends State<HomePage> {
                               contentPadding: EdgeInsets.zero,
                             ),
                             onSubmitted: (value) {
+                              // Get the selected type.
+                              final Sports? selectedType = listSafeAccess(
+                                  list: Sports.values,
+                                  index: _selectedChipNotifier.value - 1,
+                                  defaultValue: null);
+
                               context.read<HomeBloc>().fetchCourtsOnly(
+                                  courtType: selectedType!.label,
                                   vendorName: value.isEmpty ? null : value);
                             },
                           ),
