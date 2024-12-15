@@ -20,11 +20,24 @@ class CourtRepository {
   ///   - [courtType] is the type of the court.
   ///
   /// Returns a [Future] of [Either] [Failure] and a [List] of [CourtDTO].
-  Future<Either<Failure, List<CourtDTO>>> getCourts({String? courtType}) async {
+  Future<Either<Failure, List<CourtDTO>>> getCourts(
+      {String? courtType, String? vendorName}) async {
+    /// [queryParams] is the query parameters for the API request.
+    final Map<String, String> queryParams = {};
+
+    // Check if the court type is not null.
+    if (courtType != null) {
+      queryParams["courtType"] = courtType;
+    }
+
+    // Check if the vendor name is not null.
+    if (vendorName != null) {
+      queryParams["vendorName"] = vendorName;
+    }
+
     // Fetch the courts from the API.
     final Either<Failure, http.Response> res = await _apiRepository.get(
-        endpoint: "courts${courtType != null ? "?type=$courtType" : ""}",
-        timeoutInSec: 10);
+        endpoint: "courts", queryParam: queryParams, timeoutInSec: 10);
 
     // Check if the response is a success.
     if (res.isLeft()) {

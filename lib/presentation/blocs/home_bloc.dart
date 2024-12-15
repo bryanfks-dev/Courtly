@@ -24,12 +24,12 @@ class HomeBloc extends Cubit<HomeState> {
   ///   - [courtType] is the type of the court.
   ///
   /// Returns a [Future] of [void].
-  Future<void> fetchCourtsOnly({String? courtType}) async {
+  Future<void> fetchCourtsOnly({String? courtType, String? vendorName}) async {
     emit(HomeLoadingState());
 
     // Fetch the courts.
-    final Either<Failure, List<Court>> res =
-        await courtUsecase.getCourts(courtType: courtType);
+    final Either<Failure, List<Court>> res = await courtUsecase.getCourts(
+        courtType: courtType, vendorName: vendorName);
 
     res.fold((l) => emit(HomeErrorState(errorMessage: l.errorMessage)),
         (r) => emit(HomeLoadedState(courts: r)));

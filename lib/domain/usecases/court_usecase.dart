@@ -14,10 +14,11 @@ class CourtUsecase {
   /// [getCourts] is a method that fetches the list of courts.
   ///
   /// Returns a [Future] of [Either] [Failure] and a list of [Court].
-  Future<Either<Failure, List<Court>>> getCourts({String? courtType}) async {
+  Future<Either<Failure, List<Court>>> getCourts(
+      {String? courtType, String? vendorName}) async {
     // Fetch courts from the repository.
-    final Either<Failure, List<CourtDTO>> res =
-        await courtRepository.getCourts(courtType: courtType);
+    final Either<Failure, List<CourtDTO>> res = await courtRepository.getCourts(
+        courtType: courtType, vendorName: vendorName);
 
     return res.fold((l) => Left(l), (r) {
       // Convert the list of [CourtDTO] to a list of [Court].

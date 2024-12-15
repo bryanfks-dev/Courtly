@@ -44,10 +44,23 @@ class ApiRepository {
   ///
   /// Returns a [Future] of [Either] a [Failure] or [http.Response].
   Future<Either<Failure, http.Response>> get(
-      {required String endpoint, required int timeoutInSec}) async {
+      {required String endpoint,
+      required int timeoutInSec,
+      Map<String, dynamic>? queryParam}) async {
+    /// [uri] is the URI for the API request.
+    late Uri uri;
+
+    // Check if the query parameters is null or empty
+    if (queryParam == null || queryParam.isEmpty) {
+      uri = Uri.parse('$_baseUrl/$endpoint');
+    } else {
+      uri =
+          Uri.parse('$_baseUrl/$endpoint').replace(queryParameters: queryParam);
+    }
+
     try {
       /// Make a GET request to the API.
-      final res = await http.get(Uri.parse('$_baseUrl/$endpoint'), headers: {
+      final res = await http.get(uri, headers: {
         ..._headers,
         if (_token != null) 'Authorization': 'Bearer $_token',
       }).timeout(Duration(seconds: timeoutInSec));

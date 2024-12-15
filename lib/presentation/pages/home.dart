@@ -23,6 +23,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  /// [_searchController] is the controller for the search field.
+  final TextEditingController _searchController = TextEditingController();
+
   /// [_chipLabelItems] is the items of filter chip.
   final List<Widget> _chipLabelItems =
       [const Text("All")] + Sports.values.map((e) => Text(e.label)).toList();
@@ -113,11 +116,13 @@ class _HomePage extends State<HomePage> {
                               }),
                         ),
                         const SizedBox(height: 10),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: PAGE_PADDING_MOBILE),
                           child: TextField(
+                            controller: _searchController,
                             style: TextStyle(fontSize: 14),
+                            keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                               hintText: "Search vendor..",
                               prefixIcon: HeroIcon(
@@ -126,33 +131,58 @@ class _HomePage extends State<HomePage> {
                               ),
                               contentPadding: EdgeInsets.zero,
                             ),
+                            onSubmitted: (value) {
+                              context.read<HomeBloc>().fetchCourtsOnly(
+                                  vendorName: value.isEmpty ? null : value);
+                            },
                           ),
                         )
                       ],
                     ),
                   ),
-                  content: Container(
-                    padding: const EdgeInsets.only(
-                        left: PAGE_PADDING_MOBILE,
-                        right: PAGE_PADDING_MOBILE,
-                        bottom: 10),
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          return const CourtCard(
-                              imgUrl: "",
-                              rating: 5.0,
-                              sportType: Sports.badminton,
-                              vendorName: "Unggul Sports Centre",
-                              openTime: "09:00 AM",
-                              closeTime: "09:00 PM",
-                              address: "Jl. Blimbing Indah 03 No. 07");
-                        },
-                        separatorBuilder: (BuildContext context, int index) =>
-                            const SizedBox(height: 10),
-                        itemCount: 10),
-                  ))
+                  content: BlocBuilder<HomeBloc, HomeState>(
+                      builder: (BuildContext context, HomeState state) {
+                    // Show loading screen if the state is loading.
+                    if (state is! HomeLoadedState) {
+                      return const Center(child: LoadingScreen());
+                    }
+
+                    // Show no courts found if the list is empty.
+                    if (state.courts.isEmpty) {
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 24),
+                          child: Text(
+                            "No courts found",
+                            style: TextStyle(color: colorExt.highlight),
+                          ),
+                        ),
+                      );
+                    }
+
+                    return Container(
+                      padding: const EdgeInsets.only(
+                          left: PAGE_PADDING_MOBILE,
+                          right: PAGE_PADDING_MOBILE,
+                          bottom: 10),
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            return const CourtCard(
+                                imgUrl: "",
+                                rating: 5.0,
+                                sportType: Sports.badminton,
+                                vendorName: "Unggul Sports Centre",
+                                openTime: "09:00 AM",
+                                closeTime: "09:00 PM",
+                                address: "Jl. Blimbing Indah 03 No. 07");
+                          },
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const SizedBox(height: 10),
+                          itemCount: state.courts.length),
+                    );
+                  }))
             ],
           ),
         );
