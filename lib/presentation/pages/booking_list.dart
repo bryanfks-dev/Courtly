@@ -44,8 +44,10 @@ class BookingList extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.only(left: PAGE_PADDING_MOBILE),
                   child: FilterChips(
-                      items: _chipLabelItems,
-                      selectedItem: _selectedChipNotifier),
+                    items: _chipLabelItems,
+                    selectedItem: _selectedChipNotifier,
+                    onSelected: () {},
+                  ),
                 ),
               ),
               content: SizedBox(

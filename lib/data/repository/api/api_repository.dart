@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 class ApiRepository {
   /// [_baseUrl] is the base URL of the API.
   /// This base URL is used to make the API request.
-  static const String _baseUrl = "http://10.39.50.158:3000/api/v1";
+  static const String _baseUrl = "http://192.168.1.4:3000/api/v1";
 
   /// [_token] is the JWT token for the API request.
   /// This JWT token is used to authenticate the API request.

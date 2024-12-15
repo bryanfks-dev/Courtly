@@ -4,13 +4,18 @@ import 'package:flutter/material.dart';
 /// choose from.
 class FilterChips extends StatelessWidget {
   const FilterChips(
-      {super.key, required this.items, required this.selectedItem});
+      {super.key,
+      required this.items,
+      required this.selectedItem,
+      required this.onSelected});
 
   /// [items] is the list of items that the user can choose from.
   final List<Widget> items;
 
   /// [selectedItem] is the selected item.
   final ValueNotifier<int> selectedItem;
+
+  final VoidCallback onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +44,9 @@ class FilterChips extends StatelessWidget {
 
                         // Set the selected chip
                         selectedItem.value = i;
+
+                        // Call the onSelected callback
+                        onSelected();
                       },
                     ),
                   )

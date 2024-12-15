@@ -1,5 +1,5 @@
 import 'package:courtly/core/config/app_color_extension.dart';
-import 'package:courtly/domain/entities/payment_method_props.dart';
+import 'package:courtly/domain/props/payment_method_props.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heroicons/heroicons.dart';

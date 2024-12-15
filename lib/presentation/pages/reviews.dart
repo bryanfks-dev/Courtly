@@ -138,8 +138,10 @@ class ReviewsPage extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.only(left: PAGE_PADDING_MOBILE),
                     child: FilterChips(
-                        items: chipLabelItems,
-                        selectedItem: _selectedChipNotifier),
+                      items: chipLabelItems,
+                      selectedItem: _selectedChipNotifier,
+                      onSelected: () {},
+                    ),
                   ),
                 ),
                 content: SizedBox(

@@ -1,6 +1,6 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
-import 'package:courtly/domain/entities/payment_method_props.dart';
+import 'package:courtly/domain/props/payment_method_props.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/choose_payment/payment_methods.dart';
 import 'package:flutter/material.dart';
