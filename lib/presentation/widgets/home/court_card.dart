@@ -1,6 +1,5 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
-import 'package:courtly/core/enums/sports.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
@@ -24,7 +23,7 @@ class CourtCard extends StatelessWidget {
   final double rating;
 
   /// [sportType] is the type of court sport.
-  final Sports sportType;
+  final String sportType;
 
   /// [vendorName] is the name of the court vendor.
   final String vendorName;
@@ -96,7 +95,7 @@ class CourtCard extends StatelessWidget {
                       height: 3,
                     ),
                     Text(
-                      "${sportType.label} Court",
+                      "$sportType Court",
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),

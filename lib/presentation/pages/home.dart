@@ -177,14 +177,14 @@ class _HomePage extends State<HomePage> {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
-                            return const CourtCard(
-                                imgUrl: "",
-                                rating: 5.0,
-                                sportType: Sports.badminton,
-                                vendorName: "Unggul Sports Centre",
-                                openTime: "09:00 AM",
-                                closeTime: "09:00 PM",
-                                address: "Jl. Blimbing Indah 03 No. 07");
+                            return CourtCard(
+                                imgUrl: state.courts[index].imageUrl,
+                                rating: state.courts[index].rating,
+                                sportType: state.courts[index].type,
+                                vendorName: state.courts[index].vendor.name,
+                                openTime: state.courts[index].vendor.openTime,
+                                closeTime: state.courts[index].vendor.closeTime,
+                                address: state.courts[index].vendor.address);
                           },
                           separatorBuilder: (BuildContext context, int index) =>
                               const SizedBox(height: 10),
