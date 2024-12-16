@@ -58,6 +58,7 @@ class _HomePage extends State<HomePage> {
     return SafeArea(
       child: BlocConsumer<HomeBloc, HomeState>(
           listener: (BuildContext context, HomeState state) {
+        // Show pop up if the state is error
         if (state is HomeErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errorMessage),

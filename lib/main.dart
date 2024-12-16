@@ -1,4 +1,5 @@
 import 'package:courtly/core/config/app_themes.dart';
+import 'package:courtly/data/repository/api/booking_repository.dart';
 import 'package:courtly/data/repository/api/court_repository.dart';
 import 'package:courtly/data/repository/api/login_repository.dart';
 import 'package:courtly/data/repository/api/logout_repository.dart';
@@ -7,12 +8,14 @@ import 'package:courtly/data/repository/api/user_repository.dart';
 import 'package:courtly/data/repository/storage/theme_repository.dart';
 import 'package:courtly/data/repository/storage/token_repository.dart';
 import 'package:courtly/domain/usecases/auth_usecase.dart';
+import 'package:courtly/domain/usecases/booking_usecase.dart';
 import 'package:courtly/domain/usecases/court_usecase.dart';
 import 'package:courtly/domain/usecases/login_usecase.dart';
 import 'package:courtly/domain/usecases/logout_usecase.dart';
 import 'package:courtly/domain/usecases/register_usecase.dart';
 import 'package:courtly/domain/usecases/user_usecase.dart';
 import 'package:courtly/presentation/blocs/auth_bloc.dart';
+import 'package:courtly/presentation/blocs/booking_bloc.dart';
 import 'package:courtly/presentation/blocs/events/auth_event.dart';
 import 'package:courtly/presentation/blocs/events/profile_event.dart';
 import 'package:courtly/presentation/blocs/home_bloc.dart';
@@ -79,6 +82,10 @@ class _MyApp extends State<MyApp> {
                   userUsecase: UserUsecase(userRepository: UserRepository()),
                   courtUsecase:
                       CourtUsecase(courtRepository: CourtRepository()))),
+          BlocProvider(
+              create: (BuildContext context) => BookingBloc(
+                  bookingUsecase:
+                      BookingUsecase(bookingRepository: BookingRepository()))),
           BlocProvider(
               create: (BuildContext context) => ProfileBloc(
                   userUsecase: UserUsecase(userRepository: UserRepository()))
