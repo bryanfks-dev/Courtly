@@ -9,7 +9,7 @@ class PaymentStatusBadge extends StatelessWidget {
   const PaymentStatusBadge({super.key, required this.paymentStatus});
 
   /// [paymentStatus] is the status of the payment.
-  final PaymentStatus paymentStatus;
+  final String paymentStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +17,9 @@ class PaymentStatusBadge extends StatelessWidget {
     final AppColorsExtension colorExt = Theme.of(context).extension()!;
 
     /// [colorMap] is the map of payment status and its color.
-    final Map<PaymentStatus, Color> colorMap = {
-      PaymentStatus.success: colorExt.success!,
-      PaymentStatus.pending: colorExt.warning!,
-      PaymentStatus.cancelled: colorExt.danger!,
+    final Map<String, Color> colorMap = {
+      PaymentStatus.success.label: colorExt.success!,
+      PaymentStatus.pending.label: colorExt.warning!,
     };
 
     return Container(
@@ -30,7 +29,7 @@ class PaymentStatusBadge extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: colorMap[paymentStatus]!)),
       child: Text(
-        paymentStatus.label,
+        paymentStatus,
         style: TextStyle(
           color: colorMap[paymentStatus],
           fontSize: 12,

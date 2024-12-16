@@ -1,7 +1,5 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
-import 'package:courtly/core/enums/payment_status.dart';
-import 'package:courtly/core/enums/sports.dart';
 import 'package:courtly/core/utils/money_formatter.dart';
 import 'package:courtly/presentation/widgets/booking_list/payment_status_badge.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
@@ -25,16 +23,16 @@ class PurchaseCard extends StatelessWidget {
   final DateTime purchaseDate;
 
   /// [sportType] is the type of the sport.
-  final Sports sportType;
+  final String sportType;
 
   /// [vendorName] is the name of the vendor.
   final String vendorName;
 
   /// [price] is the price of the purchase.
-  final int price;
+  final double price;
 
   /// [paymentStatus] is the status of the payment.
-  final PaymentStatus paymentStatus;
+  final String paymentStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +65,7 @@ class PurchaseCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${sportType.label} Court",
+                          "$sportType Court",
                           style: const TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),

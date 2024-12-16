@@ -1,6 +1,5 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
-import 'package:courtly/core/enums/payment_status.dart';
 import 'package:courtly/core/enums/sports.dart';
 import 'package:courtly/presentation/blocs/auth_bloc.dart';
 import 'package:courtly/presentation/blocs/booking_bloc.dart';
@@ -101,11 +100,11 @@ class _BookingList extends State<BookingList> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
                         return PurchaseCard(
-                            purchaseDate: DateTime.now(),
-                            sportType: Sports.badminton,
-                            vendorName: "Unggul Sports Centre",
-                            price: 100000,
-                            paymentStatus: PaymentStatus.success);
+                            purchaseDate: state.bookings[index].date,
+                            sportType: state.bookings[index].court.type,
+                            vendorName: state.bookings[index].court.vendor.name,
+                            price: state.bookings[index].order.price,
+                            paymentStatus: state.bookings[index].order.status);
                       },
                       separatorBuilder: (BuildContext context, int index) =>
                           const SizedBox(height: 10),

@@ -4,13 +4,13 @@ import 'package:intl/intl.dart';
 /// currency format, but intead of comma, it will use dots as 3 digits
 /// seperator.
 ///
-/// - Parameters:
+/// Parameters:
 ///   - [amount] is the amount that will be formatted to currency format.
 ///
-/// - Returns: a string of formatted amount within dots every 3 integer.
+/// Returns a string of formatted amount within dots every 3 integer.
 ///
 /// Example:
 /// moneyFormatter(amount: 1000000) => "1.000.000"
-String moneyFormatter({required int amount}) {
+String moneyFormatter({required double amount}) {
   return NumberFormat.decimalPattern("id_ID").format(amount);
 }
