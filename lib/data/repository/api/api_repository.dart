@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:courtly/core/config/api_server_config.dart';
 import 'package:courtly/core/errors/failure.dart';
 import 'package:courtly/data/repository/storage/token_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -10,9 +11,10 @@ import 'package:http/http.dart' as http;
 /// [ApiRepository] is a repository to handle API requests.
 /// This class is used to make API requests to the server.
 class ApiRepository {
-  /// [_baseUrl] is the base URL of the API.
-  /// This base URL is used to make the API request.
-  static const String _baseUrl = "http://192.168.1.4:3000/api/v1";
+  /// [_apiUrl] is the base URL of the API server.
+  /// This URL is used to make the API request.
+  static const String _apiUrl =
+      "${ApiServerConfig.baseUrl}/api/${ApiServerConfig.version}";
 
   /// [_token] is the JWT token for the API request.
   /// This JWT token is used to authenticate the API request.
@@ -52,10 +54,10 @@ class ApiRepository {
 
     // Check if the query parameters is null or empty
     if (queryParam == null || queryParam.isEmpty) {
-      uri = Uri.parse('$_baseUrl/$endpoint');
+      uri = Uri.parse('$_apiUrl/$endpoint');
     } else {
       uri =
-          Uri.parse('$_baseUrl/$endpoint').replace(queryParameters: queryParam);
+          Uri.parse('$_apiUrl/$endpoint').replace(queryParameters: queryParam);
     }
 
     try {
@@ -89,7 +91,7 @@ class ApiRepository {
     try {
       /// Make a POST request to the API.
       final res = await http
-          .post(Uri.parse('$_baseUrl/$endpoint'),
+          .post(Uri.parse('$_apiUrl/$endpoint'),
               headers: {
                 ..._headers,
                 if (_token != null) 'Authorization': 'Bearer $_token',
@@ -121,7 +123,7 @@ class ApiRepository {
     try {
       /// Make a PATCH request to the API.
       final res = await http
-          .patch(Uri.parse('$_baseUrl/$endpoint'),
+          .patch(Uri.parse('$_apiUrl/$endpoint'),
               headers: {
                 ..._headers,
                 if (_token != null) 'Authorization': 'Bearer $_token',

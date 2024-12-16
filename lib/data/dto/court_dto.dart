@@ -45,9 +45,9 @@ class CourtDTO {
       name: map['name'],
       vendor: VendorDTO.fromJson(map['vendor']),
       type: map['type'],
-      price: map['price'],
-      rating: map['rating'],
-      imageUrl: map['imageUrl'],
+      price: map['price'] + .0,
+      rating: map['rating'] + .0,
+      imageUrl: map['image_url'],
     );
   }
 }

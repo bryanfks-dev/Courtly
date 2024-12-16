@@ -1,3 +1,4 @@
+import 'package:courtly/core/config/api_server_config.dart';
 import 'package:courtly/data/dto/court_dto.dart';
 import 'package:courtly/domain/entities/vendor.dart';
 
@@ -48,6 +49,6 @@ class Court {
         type: dto.type,
         price: dto.price,
         rating: dto.rating,
-        imageUrl: dto.imageUrl);
+        imageUrl: "${ApiServerConfig.baseUrl}/${dto.imageUrl}");
   }
 }
