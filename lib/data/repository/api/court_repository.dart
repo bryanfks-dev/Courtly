@@ -27,12 +27,12 @@ class CourtRepository {
 
     // Check if the court type is not null
     if (courtType != null) {
-      queryParams["courtType"] = courtType;
+      queryParams["type"] = courtType;
     }
 
     // Check if the vendor name is not null and not empty
     if (vendorName != null && vendorName.isNotEmpty) {
-      queryParams["vendorName"] = vendorName;
+      queryParams["search"] = vendorName;
     }
 
     // Fetch the courts from the API.
