@@ -1,5 +1,6 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
+import 'package:courtly/domain/entities/vendor.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/routes/routes.dart';
@@ -7,16 +8,23 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
 
-/// [SelectBooking] is a [StatefulWidget] that displays the detail of a court.
+/// [SelectBookingPage] is a [StatefulWidget] that displays the detail of a court.
 /// This widget is used to display the detail of a court, including the schedule
-class SelectBooking extends StatefulWidget {
-  const SelectBooking({super.key});
+class SelectBookingPage extends StatefulWidget {
+  const SelectBookingPage(
+      {super.key, required this.vendor, required this.courtType});
+
+  /// [vendor] is the vendor of the court.
+  final Vendor vendor;
+
+  /// [courtType] is the type of the court.
+  final String courtType;
 
   @override
-  State<SelectBooking> createState() => _SelectBookingState();
+  State<SelectBookingPage> createState() => _SelectBookingPage();
 }
 
-class _SelectBookingState extends State<SelectBooking> {
+class _SelectBookingPage extends State<SelectBookingPage> {
   /// [__colorExt] is the extension of the color scheme of the app.
   late AppColorsExtension _colorExt;
 

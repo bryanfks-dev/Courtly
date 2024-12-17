@@ -38,7 +38,7 @@ class Court {
   /// [fromDTO] is a factory constructor that creates a [Court] instance from a [CourtDTO].
   ///
   /// Parameters:
-  ///   - [dto]: The [CourtDTO] instance to be converted.
+  ///   - [dto] the [CourtDTO] instance to be converted.
   ///
   /// Returns a [Court] instance.
   factory Court.fromDTO(CourtDTO dto) {

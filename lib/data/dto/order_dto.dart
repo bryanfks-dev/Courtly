@@ -33,8 +33,8 @@ class OrderDTO {
     return OrderDTO(
       id: json['id'],
       paymentMethod: json['payment_method'],
-      price: json['price'],
-      appFee: json['appFee'],
+      price: json['price'] + .0,
+      appFee: json['appFee'] + .0,
       status: json['status'],
     );
   }

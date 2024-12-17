@@ -30,7 +30,6 @@ import 'package:courtly/presentation/pages/login.dart';
 import 'package:courtly/presentation/pages/payment_detail.dart';
 import 'package:courtly/presentation/pages/register.dart';
 import 'package:courtly/presentation/pages/reviews.dart';
-import 'package:courtly/presentation/pages/select_booking.dart';
 import 'package:courtly/presentation/pages/write_review.dart';
 import 'package:courtly/presentation/providers/theme_provider.dart';
 import 'package:courtly/presentation/widgets/app_scaffold.dart';
@@ -126,7 +125,6 @@ class _MyApp extends State<MyApp> {
                     Routes.changeUsername: (context) => ChangeUsernamePage(),
                     Routes.changePassword: (context) =>
                         const ChangePasswordPage(),
-                    Routes.selectBooking: (context) => const SelectBooking(),
                   },
                   home: AppScaffold());
             },

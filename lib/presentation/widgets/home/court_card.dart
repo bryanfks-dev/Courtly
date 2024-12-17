@@ -1,41 +1,16 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
+import 'package:courtly/domain/entities/court.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:intl/intl.dart';
 
 /// [CourtCard] is a card that displays the selected item in the cart.
 class CourtCard extends StatelessWidget {
-  const CourtCard(
-      {super.key,
-      required this.imgUrl,
-      required this.rating,
-      required this.sportType,
-      required this.vendorName,
-      required this.openTime,
-      required this.closeTime,
-      required this.address,
-      required this.onTap});
+  const CourtCard({super.key, required this.data, required this.onTap});
 
-  /// [imgUrl] is the image URL of the court.
-  final String imgUrl;
-
-  /// [rating] is the rating of the cout.
-  final double rating;
-
-  /// [sportType] is the type of court sport.
-  final String sportType;
-
-  /// [vendorName] is the name of the court vendor.
-  final String vendorName;
-
-  /// [openTime] is the opening time of vendor / court.
-  final String openTime;
-
-  /// [closeTime] is the closing time of vendor / court.
-  final String closeTime;
-
-  /// [address] is the address of the vendor.
-  final String address;
+  /// [data] is the data of the court.
+  final Court data;
 
   /// [onTap] is the callback function when the card is tapped.
   final VoidCallback onTap;
@@ -43,7 +18,11 @@ class CourtCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// [colorExt] is the extension of the color scheme.
-    final AppColorsExtension colorExt = Theme.of(context).extension()!;
+    final AppColorsExtension colorExt =
+        Theme.of(context).extension<AppColorsExtension>()!;
+
+    /// [timeFormatter] is the time formatter.
+    final DateFormat timeFormatter = DateFormat("hh:mm");
 
     return InkWell(
       overlayColor: WidgetStatePropertyAll(Colors.transparent),
@@ -65,7 +44,7 @@ class CourtCard extends StatelessWidget {
                 color: colorExt.outline,
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
-                  image: NetworkImage(imgUrl),
+                  image: NetworkImage(data.imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -87,7 +66,7 @@ class CourtCard extends StatelessWidget {
                           style: HeroIconStyle.solid,
                         ),
                         const SizedBox(width: 3),
-                        Text(rating.toString(),
+                        Text(data.rating.toString(),
                             style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.bold))
                       ],
@@ -96,7 +75,7 @@ class CourtCard extends StatelessWidget {
                       height: 3,
                     ),
                     Text(
-                      "$sportType Court",
+                      "${data.type} Court",
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),
@@ -104,7 +83,7 @@ class CourtCard extends StatelessWidget {
                       width: MediaQuery.of(context).size.width -
                           PAGE_PADDING_MOBILE * 11,
                       child: Text(
-                        vendorName,
+                        data.vendor.name,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontSize: 12),
                       ),
@@ -123,7 +102,7 @@ class CourtCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          "$openTime - $closeTime",
+                          "${timeFormatter.format(data.vendor.openTime)} - ${timeFormatter.format(data.vendor.closeTime)}",
                           style: TextStyle(
                               fontSize: 12, color: colorExt.highlight),
                         )
@@ -143,7 +122,7 @@ class CourtCard extends StatelessWidget {
                           width: MediaQuery.of(context).size.width -
                               PAGE_PADDING_MOBILE * 11,
                           child: Text(
-                            address,
+                            data.vendor.address,
                             style: TextStyle(
                                 fontSize: 12, color: colorExt.highlight),
                             overflow: TextOverflow.ellipsis,

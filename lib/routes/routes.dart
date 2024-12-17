@@ -9,5 +9,4 @@ class Routes {
   static const String choosePayment = "/choose-payment";
   static const String changeUsername = "/change-username";
   static const String changePassword = "/change-password";
-  static const String selectBooking = "/select-booking";
 }

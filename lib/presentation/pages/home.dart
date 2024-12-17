@@ -6,6 +6,7 @@ import 'package:courtly/presentation/blocs/auth_bloc.dart';
 import 'package:courtly/presentation/blocs/home_bloc.dart';
 import 'package:courtly/presentation/blocs/states/auth_state.dart';
 import 'package:courtly/presentation/blocs/states/home_state.dart';
+import 'package:courtly/presentation/pages/select_booking.dart';
 import 'package:courtly/presentation/widgets/filter_chips.dart';
 import 'package:courtly/presentation/widgets/home/court_card.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
@@ -181,13 +182,7 @@ class _HomePage extends State<HomePage> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
                             return CourtCard(
-                              imgUrl: state.courts[index].imageUrl,
-                              rating: state.courts[index].rating,
-                              sportType: state.courts[index].type,
-                              vendorName: state.courts[index].vendor.name,
-                              openTime: state.courts[index].vendor.openTime,
-                              closeTime: state.courts[index].vendor.closeTime,
-                              address: state.courts[index].vendor.address,
+                              data: state.courts[index],
                               onTap: () {
                                 if (context.read<AuthBloc>().state
                                     is UnauthenticatedState) {
@@ -197,7 +192,16 @@ class _HomePage extends State<HomePage> {
                                   return;
                                 }
 
-                                // Navigate to the booking page.
+                                // Navigate to the select booking page.
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        SelectBookingPage(
+                                      vendor: state.courts[index].vendor,
+                                      courtType: state.courts[index].type,
+                                    ),
+                                  ),
+                                );
                               },
                             );
                           },

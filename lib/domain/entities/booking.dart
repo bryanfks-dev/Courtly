@@ -1,6 +1,7 @@
 import 'package:courtly/data/dto/booking_dto.dart';
 import 'package:courtly/domain/entities/court.dart';
 import 'package:courtly/domain/entities/order.dart';
+import 'package:intl/intl.dart';
 
 class Booking {
   /// [id] is the unique identifier for the booking.
@@ -31,13 +32,19 @@ class Booking {
   });
 
   factory Booking.fromDTO(BookingDTO dto) {
+    /// [dateFormatter] is a date formatter for date.
+    final DateFormat dateFormatter = DateFormat("yyyy-MM-dd");
+
+    /// [timeFormatter] is a date formatter for time.
+    final DateFormat timeFormatter = DateFormat("hh:mm");
+
     return Booking(
       id: dto.id,
       order: Order.fromDTO(dto.order),
       court: Court.fromDTO(dto.court),
-      date: DateTime.parse(dto.date),
-      startTime: DateTime.parse(dto.startTime),
-      endTime: DateTime.parse(dto.endTime),
+      date: dateFormatter.parse(dto.date),
+      startTime: timeFormatter.parse(dto.startTime),
+      endTime: timeFormatter.parse(dto.endTime),
     );
   }
 }
