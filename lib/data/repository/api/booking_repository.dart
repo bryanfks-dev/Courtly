@@ -31,7 +31,7 @@ class BookingRepository {
 
     // Check if the court type is not null.
     if (courtType != null) {
-      queryParams["courtType"] = courtType;
+      queryParams["type"] = courtType;
     }
 
     // Set the token from storage.
