@@ -126,6 +126,7 @@ class _HomePage extends State<HomePage> {
                             controller: _searchController,
                             style: TextStyle(fontSize: 14),
                             keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.search,
                             decoration: InputDecoration(
                               hintText: "Search vendor..",
                               prefixIcon: HeroIcon(
@@ -142,8 +143,8 @@ class _HomePage extends State<HomePage> {
                                   defaultValue: null);
 
                               context.read<HomeBloc>().fetchCourtsOnly(
-                                  courtType: selectedType!.label,
-                                  vendorName: value.isEmpty ? null : value);
+                                  courtType: selectedType?.label,
+                                  vendorName: value);
                             },
                           ),
                         )
@@ -189,7 +190,7 @@ class _HomePage extends State<HomePage> {
                               address: state.courts[index].vendor.address,
                               onTap: () {
                                 if (context.read<AuthBloc>().state
-                                    is AuthenticatedState) {
+                                    is UnauthenticatedState) {
                                   // Navigate to the login page.
                                   Navigator.of(context).pushNamed(Routes.login);
 
