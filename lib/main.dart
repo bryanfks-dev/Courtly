@@ -4,6 +4,7 @@ import 'package:courtly/data/repository/api/court_repository.dart';
 import 'package:courtly/data/repository/api/login_repository.dart';
 import 'package:courtly/data/repository/api/logout_repository.dart';
 import 'package:courtly/data/repository/api/register_repository.dart';
+import 'package:courtly/data/repository/api/review_repository.dart';
 import 'package:courtly/data/repository/api/user_repository.dart';
 import 'package:courtly/data/repository/storage/theme_repository.dart';
 import 'package:courtly/data/repository/storage/token_repository.dart';
@@ -13,6 +14,7 @@ import 'package:courtly/domain/usecases/court_usecase.dart';
 import 'package:courtly/domain/usecases/login_usecase.dart';
 import 'package:courtly/domain/usecases/logout_usecase.dart';
 import 'package:courtly/domain/usecases/register_usecase.dart';
+import 'package:courtly/domain/usecases/review_usecase.dart';
 import 'package:courtly/domain/usecases/user_usecase.dart';
 import 'package:courtly/presentation/blocs/auth_bloc.dart';
 import 'package:courtly/presentation/blocs/booking_bloc.dart';
@@ -23,6 +25,7 @@ import 'package:courtly/presentation/blocs/login_bloc.dart';
 import 'package:courtly/presentation/blocs/logout_bloc.dart';
 import 'package:courtly/presentation/blocs/profile_bloc.dart';
 import 'package:courtly/presentation/blocs/register_bloc.dart';
+import 'package:courtly/presentation/blocs/reviews_bloc.dart';
 import 'package:courtly/presentation/blocs/select_booking_bloc.dart';
 import 'package:courtly/presentation/pages/change_password.dart';
 import 'package:courtly/presentation/pages/change_username.dart';
@@ -30,7 +33,6 @@ import 'package:courtly/presentation/pages/choose_payment.dart';
 import 'package:courtly/presentation/pages/login.dart';
 import 'package:courtly/presentation/pages/payment_detail.dart';
 import 'package:courtly/presentation/pages/register.dart';
-import 'package:courtly/presentation/pages/reviews.dart';
 import 'package:courtly/presentation/pages/write_review.dart';
 import 'package:courtly/presentation/providers/theme_provider.dart';
 import 'package:courtly/presentation/widgets/app_scaffold.dart';
@@ -87,6 +89,10 @@ class _MyApp extends State<MyApp> {
                   courtUsecase:
                       CourtUsecase(courtRepository: CourtRepository()))),
           BlocProvider(
+              create: (BuildContext context) => ReviewsBloc(
+                  reviewUsecase:
+                      ReviewUsecase(reviewRepository: ReviewRepository()))),
+          BlocProvider(
               create: (BuildContext context) => BookingBloc(
                   bookingUsecase:
                       BookingUsecase(bookingRepository: BookingRepository()))),
@@ -123,7 +129,6 @@ class _MyApp extends State<MyApp> {
                     Routes.login: (context) => LoginPage(),
                     Routes.register: (context) => const RegisterPage(),
                     Routes.writeReview: (context) => WriteReviewPage(),
-                    Routes.reviews: (context) => ReviewsPage(),
                     Routes.paymentDetail: (context) =>
                         const PaymentDetailPage(),
                     Routes.choosePayment: (context) => ChoosePaymentPage(),

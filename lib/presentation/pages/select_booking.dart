@@ -4,10 +4,10 @@ import 'package:courtly/core/utils/money_formatter.dart';
 import 'package:courtly/domain/entities/court.dart';
 import 'package:courtly/presentation/blocs/select_booking_bloc.dart';
 import 'package:courtly/presentation/blocs/states/select_booking_state.dart';
+import 'package:courtly/presentation/pages/reviews.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
-import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
@@ -420,7 +420,11 @@ class _SelectBookingPage extends State<SelectBookingPage> {
                     )),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.reviews);
+                        // Navigate to the reviews page
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => ReviewsPage(
+                                  court: widget.court,
+                                )));
                       },
                       overlayColor:
                           const WidgetStatePropertyAll(Colors.transparent),
