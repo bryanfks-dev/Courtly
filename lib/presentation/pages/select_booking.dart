@@ -418,30 +418,30 @@ class _SelectBookingPage extends State<SelectBookingPage> {
                         )
                       ],
                     )),
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, Routes.reviews);
-                          },
-                          overlayColor:
-                              const WidgetStatePropertyAll(Colors.transparent),
-                          child: HeroIcon(HeroIcons.star,
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.reviews);
+                      },
+                      overlayColor:
+                          const WidgetStatePropertyAll(Colors.transparent),
+                      child: Row(
+                        children: [
+                          HeroIcon(HeroIcons.star,
                               size: 20,
                               color: _colorExt.star,
                               style: HeroIconStyle.solid),
-                        ),
-                        Text(
-                          widget.court.rating.toString(),
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            widget.court.rating.toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 2),
-                        HeroIcon(HeroIcons.chevronRight,
-                            size: 20, color: _colorExt.highlight),
-                      ],
+                          const SizedBox(width: 2),
+                          HeroIcon(HeroIcons.chevronRight,
+                              size: 20, color: _colorExt.highlight),
+                        ],
+                      ),
                     )
                   ],
                 ),
