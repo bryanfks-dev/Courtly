@@ -63,4 +63,42 @@ class CourtRepository {
 
     return Left(UnknownFailure(courtsResponse.message));
   }
+
+  /// [getVendorCourtsUsingCourtType] is a function that fetches the courts from the API.
+  ///
+  /// Parameters:
+  ///   - [vendorId] is the ID of the vendor.
+  ///   - [courtType] is the type of the court.
+  ///
+  /// Returns a [Future] of [Either] [Failure] and a [List] of [CourtDTO].
+  Future<Either<Failure, List<CourtDTO>>> getVendorCourtsUsingCourtType(
+      {required vendorId, required String courtType}) async {
+    // Fetch the courts from the API.
+    final Either<Failure, http.Response> res = await _apiRepository.get(
+        endpoint: "vendors/$vendorId/courts/$courtType", timeoutInSec: 5);
+
+    // Check if the response is a success.
+    if (res.isLeft()) {
+      return Left(res.fold((l) => l, (r) => UnknownFailure("Unknown error")));
+    }
+
+    // Get the response
+    final http.Response response = res.getOrElse(() => throw "No Response");
+
+    // Parse the response
+    final ResponseDTO<CourtsResponseDTO> courtsResponse = ResponseDTO.fromJson(
+        json: jsonDecode(response.body), fromJsonT: CourtsResponseDTO.fromJson);
+
+    // Check if the response is a success.
+    if (courtsResponse.success) {
+      return Right(courtsResponse.data!.courts);
+    }
+
+    // Check for different status codes
+    if (response.statusCode == HttpStatus.internalServerError) {
+      return Left(ServerFailure(courtsResponse.message));
+    }
+
+    return Left(UnknownFailure(courtsResponse.message));
+  }
 }

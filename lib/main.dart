@@ -23,6 +23,7 @@ import 'package:courtly/presentation/blocs/login_bloc.dart';
 import 'package:courtly/presentation/blocs/logout_bloc.dart';
 import 'package:courtly/presentation/blocs/profile_bloc.dart';
 import 'package:courtly/presentation/blocs/register_bloc.dart';
+import 'package:courtly/presentation/blocs/select_booking_bloc.dart';
 import 'package:courtly/presentation/pages/change_password.dart';
 import 'package:courtly/presentation/pages/change_username.dart';
 import 'package:courtly/presentation/pages/choose_payment.dart';
@@ -79,6 +80,10 @@ class _MyApp extends State<MyApp> {
           BlocProvider(
               create: (BuildContext context) => HomeBloc(
                   userUsecase: UserUsecase(userRepository: UserRepository()),
+                  courtUsecase:
+                      CourtUsecase(courtRepository: CourtRepository()))),
+          BlocProvider(
+              create: (BuildContext context) => SelectBookingBloc(
                   courtUsecase:
                       CourtUsecase(courtRepository: CourtRepository()))),
           BlocProvider(

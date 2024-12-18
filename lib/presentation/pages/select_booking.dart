@@ -1,34 +1,36 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
-import 'package:courtly/domain/entities/vendor.dart';
+import 'package:courtly/core/utils/money_formatter.dart';
+import 'package:courtly/domain/entities/court.dart';
+import 'package:courtly/presentation/blocs/select_booking_bloc.dart';
+import 'package:courtly/presentation/blocs/states/select_booking_state.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
+import 'package:courtly/presentation/widgets/loading_screen.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
+import 'package:intl/intl.dart';
 
 /// [SelectBookingPage] is a [StatefulWidget] that displays the detail of a court.
 /// This widget is used to display the detail of a court, including the schedule
 class SelectBookingPage extends StatefulWidget {
-  const SelectBookingPage(
-      {super.key, required this.vendor, required this.courtType});
+  const SelectBookingPage({super.key, required this.court});
 
-  /// [vendor] is the vendor of the court.
-  final Vendor vendor;
-
-  /// [courtType] is the type of the court.
-  final String courtType;
+  /// [court] is the court that is being displayed.
+  final Court court;
 
   @override
   State<SelectBookingPage> createState() => _SelectBookingPage();
 }
 
 class _SelectBookingPage extends State<SelectBookingPage> {
-  /// [__colorExt] is the extension of the color scheme of the app.
+  /// [_colorExt] is the extension of the color scheme of the app.
   late AppColorsExtension _colorExt;
 
-  // late List<Widget> _moreMenus;
+  /// [_selectedBoxes] is a map that contains the selected boxes.
   Map<String, Set<int>> _selectedBoxes = {};
 
   /// [_gridBoxWidth] is the width of the grid box.
@@ -42,53 +44,69 @@ class _SelectBookingPage extends State<SelectBookingPage> {
 
   DateTime selectedDate = DateTime.now();
 
-  final List<String> courts = ['Court 1', 'Court 2', 'Court 3', 'Court 4'];
+  /// [_courtsName] is the list of courts name.
+  late List<String> _courtsName;
 
   final List<DateTime> weekDays =
       List.generate(7, (index) => DateTime.now().add(Duration(days: index)));
 
-  final List<String> timeSlots = [
-    "08:00",
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00",
-    "15:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
-    "21:00",
-    "22:00",
-    "23:00",
-  ];
+  /// [_generateTimeSlots] is a function that generates the time slots between the start and end time.
+  ///
+  /// Parameters:
+  ///   - [start] is the start time.
+  ///   - [end] is the end time.
+  ///
+  /// Returns a [List] of [String]
+  List<String> _generateTimeSlots(DateTime start, DateTime end) {
+    final int hourDiff = end.difference(start).inHours + 1;
+
+    return List.generate(hourDiff, (index) {
+      final DateTime time = start.add(Duration(hours: index));
+
+      return "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
+    });
+  }
+
+  /// [_timeSlots] is the list of time slots.
+  late List<String> _timeSlots;
 
   // Schedule for each date (key = date, value = grid data)
   Map<String, List<List<bool>>> schedules = {};
 
   /// [_initializeSchedule] is a function that initializes the schedule for the selected date.
+  ///
+  /// Returns [void]
   void _initializeSchedule() {
     String dateKey = _formatDateKey(selectedDate);
 
     schedules[dateKey] = List.generate(
-      timeSlots.length,
-      (_) => List.generate(courts.length, (_) => false),
+      _timeSlots.length,
+      (_) => List.generate(_courtsName.length, (_) => false),
     );
   }
 
+  /// [_toggleSelection] is a function that toggles the selection of a box.
+  ///
+  /// Parameters:
+  ///   - [timeIndex] is the index of the time.
+  ///   - [courtIndex] is the index of the court.
+  ///
+  /// Returns [void]
   void _toggleSelection(int timeIndex, int courtIndex) {
+    // Get the date key
     String dateKey = _formatDateKey(selectedDate);
+
+    // Initialize the selected boxes for the date if it doesn't exist
     _selectedBoxes.putIfAbsent(dateKey, () => {});
 
     setState(() {
       if (_selectedBoxes[dateKey]!
-          .contains(courtIndex + timeIndex * courts.length)) {
-        _selectedBoxes[dateKey]!.remove(courtIndex + timeIndex * courts.length);
+          .contains(courtIndex + timeIndex * _courtsName.length)) {
+        _selectedBoxes[dateKey]!
+            .remove(courtIndex + timeIndex * _courtsName.length);
       } else {
-        _selectedBoxes[dateKey]!.add(courtIndex + timeIndex * courts.length);
+        _selectedBoxes[dateKey]!
+            .add(courtIndex + timeIndex * _courtsName.length);
       }
 
       // Jika semua kotak tidak dipilih, hapus kunci dari Map.
@@ -98,18 +116,27 @@ class _SelectBookingPage extends State<SelectBookingPage> {
     });
   }
 
+  /// [_isSelected] is a function that checks if a box is selected.
+  ///
+  /// Parameters:
+  ///   - [timeIndex] is the index of the time.
+  ///   - [courtIndex] is the index of the court.
+  ///
+  /// Returns a [bool] that indicates if the box is selected.
   bool _isSelected(int timeIndex, int courtIndex) {
     String dateKey = _formatDateKey(selectedDate);
     return _selectedBoxes.containsKey(dateKey) &&
         _selectedBoxes[dateKey]!
-            .contains(courtIndex + timeIndex * courts.length);
+            .contains(courtIndex + timeIndex * _courtsName.length);
   }
 
   @override
   void initState() {
     super.initState();
 
-    _initializeSchedule();
+    // Fetch the list of courts
+    context.read<SelectBookingBloc>().getCourts(
+        vendorId: widget.court.vendor.id, courtType: widget.court.type);
   }
 
   @override
@@ -119,15 +146,21 @@ class _SelectBookingPage extends State<SelectBookingPage> {
     _colorExt = Theme.of(context).extension<AppColorsExtension>()!;
   }
 
+  /// [_formatDateKey] is a function that formats the date key.
+  ///
+  /// Parameters:
+  ///   - [date] is the date to be formatted.
+  ///
+  /// Returns a [String] that represents the formatted date key.
   String _formatDateKey(DateTime date) {
-    return "${date.year}-${date.month}-${date.day}";
+    return DateFormat("yyyy-MM-dd").format(date);
   }
 
   /// [_onDateChanged] is a function that is called when the date is changed.
   /// This function will update the selected date and the schedule.
   ///
   /// Parameters:
-  /// - [newDate]: The new date that is selected.
+  ///   - [newDate] the new date that is selected.
   ///
   /// Returns: [void]
   void _onDateChanged(DateTime newDate) {
@@ -137,13 +170,50 @@ class _SelectBookingPage extends State<SelectBookingPage> {
     });
   }
 
+  /// [_formatWeekday] is a function that formats the weekday.
+  ///
+  /// Parameters:
+  ///   - [date] is the date to be formatted.
+  ///
+  /// Returns a [String] that represents the formatted weekday.
+  String _formatWeekday(DateTime date) {
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    return days[date.weekday % 7];
+  }
+
+  /// [_formatMonth] is a function that formats the month.
+  ///
+  /// Parameters:
+  ///   - [date] is the date to be formatted.
+  ///
+  /// Returns a [String] that represents the formatted month.
+  String _formatMonth(DateTime date) {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+
+    return months[date.month - 1];
+  }
+
   /// [_getTitleWidget] is a function that generates the title widget for the table.
   ///
   /// Returns: [List<Widget>]
   List<Widget> _getTitleWidget() {
     return [
       _getTitleItemWidget(label: 'Time', width: _timeColumnWidth),
-      ...courts.map(
+      ..._courtsName.map(
           (court) => _getTitleItemWidget(label: court, width: _gridBoxWidth)),
     ];
   }
@@ -151,10 +221,10 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   /// [_getTitleItemWidget] is a function that generates the title item widget for the table.
   ///
   /// Parameters:
-  ///   - [label]: The label of the title item.
-  ///   - [width]: The width of the title item.
+  ///   - [label] the label of the title item.
+  ///   - [width] the width of the title item.
   ///
-  /// Returns: [Widget]
+  /// Returns a [Widget]
   Widget _getTitleItemWidget({required String label, required double width}) {
     return Container(
       width: width,
@@ -167,8 +237,8 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   /// [_generateFirstColumnRow] is a function that generates the first column row for the table.
   ///
   /// Parameters:
-  ///   - [context]: The build context.
-  ///   - [index]: The index of the row.
+  ///   - [context] the build context.
+  ///   - [index] the index of the row.
   ///
   /// Returns: [Widget]
   Widget _generateFirstColumnRow(BuildContext context, int index) {
@@ -176,7 +246,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
       width: _gridBoxWidth,
       height: _gridBoxHeight,
       alignment: Alignment.center,
-      child: Text(timeSlots[index]),
+      child: Text(_timeSlots[index]),
     );
   }
 
@@ -184,13 +254,13 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   /// This function generates the grid box for each court.
   ///
   /// Parameters:
-  ///   - [context]: The build context.
-  ///   - [index]: The index of the row.
+  ///   - [context] the build context.
+  ///   - [index] the index of the row.
   ///
   /// Returns: [Widget]
   Widget _generateRightHandSideColumnRow(BuildContext context, int timeIndex) {
     return Row(
-      children: List.generate(courts.length, (courtIndex) {
+      children: List.generate(_courtsName.length, (courtIndex) {
         bool isSelected = _isSelected(timeIndex, courtIndex);
 
         return GestureDetector(
@@ -227,7 +297,10 @@ class _SelectBookingPage extends State<SelectBookingPage> {
         ? _selectedBoxes[dateKey]!.length
         : 0;
 
-    if (selectedCount == 0) return const SizedBox.shrink();
+    // Check if there is no selected box
+    if (selectedCount == 0) {
+      return const SizedBox(height: PAGE_PADDING_MOBILE);
+    }
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -249,7 +322,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                "Rp ${selectedCount * 20000}", // Harga per kotak, ganti sesuai kebutuhan.
+                "Rp ${moneyFormatter(amount: selectedCount * widget.court.price)}", // Harga per kotak, ganti sesuai kebutuhan.
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -280,185 +353,189 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _colorExt.background,
-      appBar: const BackableCenteredAppBar(title: "Basketball Court"),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Lunggu Sport Centre",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      SizedBox(
-                        height: 40,
-                        child: Text(
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          "Jl. Raya Karanglo No.84, Karanglo, Banjararum, Kec. Siantar pemantapan aselole jos awikwok",
+      appBar: BackableCenteredAppBar(title: "${widget.court.type} Court"),
+      body: BlocConsumer<SelectBookingBloc, SelectBookingState>(
+          listener: (BuildContext context, SelectBookingState state) {
+        // Show error message if the state is an error state
+        if (state is SelectBookingErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(state.errorMessage),
+          ));
+        }
+
+        // Initialize the schedule if the state is loaded
+        if (state is SelectBookingLoadedState) {
+          // Initialize time slot
+          _timeSlots = _generateTimeSlots(
+              widget.court.vendor.openTime, widget.court.vendor.closeTime);
+
+          // Initialize courts name
+          _courtsName = state.courts.map((e) => e.name).toList();
+
+          _initializeSchedule();
+        }
+      }, builder: (BuildContext context, SelectBookingState state) {
+        // Check if the state is not loaded yet
+        if (state is! SelectBookingLoadedState) {
+          return const Center(child: LoadingScreen());
+        }
+
+        return SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.court.vendor.name,
                           style: TextStyle(
-                            color: _colorExt.highlight,
-                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           ),
                         ),
-                      )
-                    ],
-                  )),
-                  Row(
-                    children: [
-                      InkWell(
+                        const SizedBox(height: 4),
+                        SizedBox(
+                          height: 40,
+                          child: Text(
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            widget.court.vendor.address,
+                            style: TextStyle(
+                              color: _colorExt.highlight,
+                              fontSize: 14,
+                            ),
+                          ),
+                        )
+                      ],
+                    )),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, Routes.reviews);
+                          },
+                          overlayColor:
+                              const WidgetStatePropertyAll(Colors.transparent),
+                          child: HeroIcon(HeroIcons.star,
+                              size: 20,
+                              color: _colorExt.star,
+                              style: HeroIconStyle.solid),
+                        ),
+                        Text(
+                          widget.court.rating.toString(),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 2),
+                        HeroIcon(HeroIcons.chevronRight,
+                            size: 20, color: _colorExt.highlight),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
+                child: SizedBox(
+                  height: 78,
+                  width: double.maxFinite,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int index) {
+                      DateTime date = weekDays[index];
+                      bool isSelected = selectedDate.day == date.day &&
+                          selectedDate.month == date.month;
+
+                      return InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.reviews);
+                          _onDateChanged(date);
                         },
                         overlayColor:
                             const WidgetStatePropertyAll(Colors.transparent),
-                        child: HeroIcon(HeroIcons.star,
-                            size: 20,
-                            color: _colorExt.star,
-                            style: HeroIconStyle.solid),
-                      ),
-                      const Text(
-                        "4.3",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(width: 2),
-                      HeroIcon(HeroIcons.chevronRight,
-                          size: 20, color: _colorExt.highlight),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
-              child: SizedBox(
-                height: 78,
-                width: double.maxFinite,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    DateTime date = weekDays[index];
-                    bool isSelected = selectedDate.day == date.day &&
-                        selectedDate.month == date.month;
-
-                    return InkWell(
-                      onTap: () {
-                        _onDateChanged(date);
-                      },
-                      overlayColor:
-                          const WidgetStatePropertyAll(Colors.transparent),
-                      child: Column(
-                        children: [
-                          Text(
-                            _formatWeekday(date),
-                            style: TextStyle(
-                              color: isSelected
-                                  ? _colorExt.primary
-                                  : _colorExt.highlight,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Container(
-                            width: 50,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 8),
-                            decoration: BoxDecoration(
-                                color: isSelected
-                                    ? _colorExt.primary
-                                    : Colors.transparent,
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: isSelected
-                                      ? _colorExt.primary!
-                                      : _colorExt.outline!,
-                                )),
-                            child: Text(
-                              "${date.day} ${_formatMonth(date)}",
-                              textAlign: TextAlign.center,
+                        child: Column(
+                          children: [
+                            Text(
+                              _formatWeekday(date),
                               style: TextStyle(
                                 color: isSelected
-                                    ? _colorExt.background
+                                    ? _colorExt.primary
                                     : _colorExt.highlight,
-                                fontSize: 12,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, _) =>
-                      const SizedBox(width: 6),
-                  itemCount: weekDays.length,
+                            const SizedBox(height: 4),
+                            Container(
+                              width: 50,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 8),
+                              decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? _colorExt.primary
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color: isSelected
+                                        ? _colorExt.primary!
+                                        : _colorExt.outline!,
+                                  )),
+                              child: Text(
+                                "${date.day} ${_formatMonth(date)}",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: isSelected
+                                      ? _colorExt.background
+                                      : _colorExt.highlight,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, _) =>
+                        const SizedBox(width: 6),
+                    itemCount: weekDays.length,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
-                child: HorizontalDataTable(
-                  leftHandSideColumnWidth: _timeColumnWidth,
-                  rightHandSideColumnWidth: courts.length * _gridBoxWidth,
-                  isFixedHeader: true,
-                  headerWidgets: _getTitleWidget(),
-                  leftSideItemBuilder: _generateFirstColumnRow,
-                  rightSideItemBuilder: _generateRightHandSideColumnRow,
-                  itemCount: timeSlots.length,
-                  leftHandSideColBackgroundColor: _colorExt.background!,
-                  rightHandSideColBackgroundColor: _colorExt.background!,
+              const SizedBox(height: 10),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: PAGE_PADDING_MOBILE),
+                  child: HorizontalDataTable(
+                    leftHandSideColumnWidth: _timeColumnWidth,
+                    rightHandSideColumnWidth:
+                        _courtsName.length * _gridBoxWidth,
+                    isFixedHeader: true,
+                    headerWidgets: _getTitleWidget(),
+                    leftSideItemBuilder: _generateFirstColumnRow,
+                    rightSideItemBuilder: _generateRightHandSideColumnRow,
+                    itemCount: _timeSlots.length,
+                    leftHandSideColBackgroundColor: _colorExt.background!,
+                    rightHandSideColBackgroundColor: _colorExt.background!,
+                  ),
                 ),
               ),
-            ),
-            _buildPriceBox(),
-          ],
-        ),
-      ),
+              _buildPriceBox(),
+            ],
+          ),
+        );
+      }),
     );
-  }
-
-  String _formatWeekday(DateTime date) {
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-    return days[date.weekday % 7];
-  }
-
-  String _formatMonth(DateTime date) {
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ];
-    return months[date.month - 1];
   }
 }

@@ -197,8 +197,7 @@ class _HomePage extends State<HomePage> {
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         SelectBookingPage(
-                                      vendor: state.courts[index].vendor,
-                                      courtType: state.courts[index].type,
+                                      court: state.courts[index],
                                     ),
                                   ),
                                 );
