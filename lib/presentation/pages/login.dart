@@ -80,7 +80,7 @@ class _LoginPage extends State<LoginPage> {
               // Check the state
               if (state is LoginSuccessState) {
                 // Navigate to home page
-                Navigator.pop(context);
+                Navigator.popUntil(context, (route) => route.isFirst);
               }
 
               if (state is LoginErrorState) {
