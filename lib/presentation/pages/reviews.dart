@@ -227,6 +227,7 @@ class _ReviewsPage extends State<ReviewsPage> {
                       );
                     }
 
+                    // Show no reviews found if the reviews is empty.
                     if (state.reviews.isEmpty) {
                       return Center(
                         child: Padding(
@@ -244,12 +245,7 @@ class _ReviewsPage extends State<ReviewsPage> {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
-                            return ReviewCard(
-                                userProfile: "",
-                                userName: "EL Gasing",
-                                reviewDate: DateTime.now(),
-                                rate: 3,
-                                review: "This is a review from user.");
+                            return ReviewCard(review: state.reviews[index]);
                           },
                           separatorBuilder: (BuildContext context, int index) =>
                               const SizedBox(height: 10),

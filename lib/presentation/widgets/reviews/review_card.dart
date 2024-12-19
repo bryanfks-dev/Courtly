@@ -1,7 +1,9 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
+import 'package:courtly/domain/entities/review.dart';
 import 'package:courtly/presentation/widgets/reviews/star_row.dart';
 import 'package:flutter/material.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
 
 /// [ReviewCard] is a card to show the review of the user.
@@ -10,33 +12,19 @@ import 'package:intl/intl.dart';
 class ReviewCard extends StatelessWidget {
   const ReviewCard({
     super.key,
-    required this.userName,
-    required this.userProfile,
-    required this.reviewDate,
-    required this.rate,
     required this.review,
   });
 
-  /// [userName] is the name of the user.
-  final String userName;
-
-  /// [userProfile] is the profile of the user.
-  final String userProfile;
-
-  /// [reviewDate] is the date of the review.
-  final DateTime reviewDate;
-
-  /// [rate] is the rate of the review.
-  final int rate;
-
-  /// [review] is the review of the user.
-  final String review;
+  final Review review;
 
   @override
   Widget build(BuildContext context) {
     /// [colorExt] is the extension of the color scheme of the app.
     final AppColorsExtension colorExt =
         Theme.of(context).extension<AppColorsExtension>()!;
+
+    /// [dateFormatter] is the date formatter to format the date of the review.
+    final DateFormat dateFormatter = DateFormat("yyyy-MM-dd");
 
     return Container(
       padding: const EdgeInsets.all(PAGE_PADDING_MOBILE),
@@ -49,19 +37,19 @@ class ReviewCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      color: colorExt.outline,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
+                  review.user.profilePictureUrl!.isEmpty
+                      ? HeroIcon(
+                          HeroIcons.userCircle,
+                          color: colorExt.highlight,
+                          style: HeroIconStyle.solid,
+                          size: 64,
+                        )
+                      : Image.network(review.user.profilePictureUrl!),
                   const SizedBox(
                     width: 10,
                   ),
                   Text(
-                    userName,
+                    review.user.username,
                     style: TextStyle(
                         color: colorExt.textPrimary,
                         fontSize: 14,
@@ -70,7 +58,7 @@ class ReviewCard extends StatelessWidget {
                 ],
               ),
               Text(
-                DateFormat("MMM, dd yyyy", "en_US").format(reviewDate),
+                dateFormatter.format(review.date),
                 style: TextStyle(
                   color: colorExt.highlight,
                   fontSize: 12,
@@ -82,10 +70,10 @@ class ReviewCard extends StatelessWidget {
           Text("Football Court",
               style: TextStyle(color: colorExt.highlight, fontSize: 12)),
           const SizedBox(height: 5),
-          StarRow(rate: rate),
+          StarRow(rate: review.rating),
           const SizedBox(height: 5),
           Text(
-            review,
+            review.review,
             textAlign: TextAlign.justify,
             style: TextStyle(
               color: colorExt.textPrimary,
