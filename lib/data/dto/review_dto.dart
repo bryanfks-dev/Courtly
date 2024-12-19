@@ -39,7 +39,7 @@ class ReviewDTO {
     return ReviewDTO(
       id: json['id'],
       user: UserDTO.fromJson(json['user']),
-      courtType: json['courtType'],
+      courtType: json['court_type'],
       rating: json['rating'],
       review: json['review'],
       date: json['date'],

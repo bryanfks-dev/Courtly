@@ -24,7 +24,7 @@ class ReviewCard extends StatelessWidget {
         Theme.of(context).extension<AppColorsExtension>()!;
 
     /// [dateFormatter] is the date formatter to format the date of the review.
-    final DateFormat dateFormatter = DateFormat("yyyy-MM-dd");
+    final DateFormat dateFormatter = DateFormat("MMM d, yyyy");
 
     return Container(
       padding: const EdgeInsets.all(PAGE_PADDING_MOBILE),
@@ -42,7 +42,7 @@ class ReviewCard extends StatelessWidget {
                           HeroIcons.userCircle,
                           color: colorExt.highlight,
                           style: HeroIconStyle.solid,
-                          size: 64,
+                          size: 32,
                         )
                       : Image.network(review.user.profilePictureUrl!),
                   const SizedBox(
@@ -66,9 +66,6 @@ class ReviewCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 5),
-          Text("Football Court",
-              style: TextStyle(color: colorExt.highlight, fontSize: 12)),
           const SizedBox(height: 5),
           StarRow(rate: review.rating),
           const SizedBox(height: 5),
