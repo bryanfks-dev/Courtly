@@ -22,7 +22,7 @@ class CourtCard extends StatelessWidget {
         Theme.of(context).extension<AppColorsExtension>()!;
 
     /// [timeFormatter] is the time formatter.
-    final DateFormat timeFormatter = DateFormat("hh:mm");
+    final DateFormat timeFormatter = DateFormat("HH:mm");
 
     return InkWell(
       overlayColor: WidgetStatePropertyAll(Colors.transparent),
