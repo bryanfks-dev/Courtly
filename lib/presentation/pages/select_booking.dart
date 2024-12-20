@@ -58,7 +58,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   ///
   /// Returns a [List] of [String]
   List<String> _generateTimeSlots(DateTime start, DateTime end) {
-    final int hourDiff = end.difference(start).inHours + 1;
+    final int hourDiff = end.difference(start).inHours;
 
     return List.generate(hourDiff, (index) {
       final DateTime time = start.add(Duration(hours: index));
@@ -100,6 +100,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
     _selectedBoxes.putIfAbsent(dateKey, () => {});
 
     setState(() {
+      // Toggle the selection
       if (_selectedBoxes[dateKey]!
           .contains(courtIndex + timeIndex * _courtsName.length)) {
         _selectedBoxes[dateKey]!
@@ -125,6 +126,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   /// Returns a [bool] that indicates if the box is selected.
   bool _isSelected(int timeIndex, int courtIndex) {
     String dateKey = _formatDateKey(selectedDate);
+
     return _selectedBoxes.containsKey(dateKey) &&
         _selectedBoxes[dateKey]!
             .contains(courtIndex + timeIndex * _courtsName.length);
@@ -177,9 +179,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   ///
   /// Returns a [String] that represents the formatted weekday.
   String _formatWeekday(DateTime date) {
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-    return days[date.weekday % 7];
+    return DateFormat("E").format(date);
   }
 
   /// [_formatMonth] is a function that formats the month.
@@ -189,27 +189,12 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   ///
   /// Returns a [String] that represents the formatted month.
   String _formatMonth(DateTime date) {
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ];
-
-    return months[date.month - 1];
+    return DateFormat("MMM").format(date);
   }
 
   /// [_getTitleWidget] is a function that generates the title widget for the table.
   ///
-  /// Returns: [List<Widget>]
+  /// Returns a [List] of [Widget]
   List<Widget> _getTitleWidget() {
     return [
       _getTitleItemWidget(label: 'Time', width: _timeColumnWidth),
@@ -255,12 +240,13 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   ///
   /// Parameters:
   ///   - [context] the build context.
-  ///   - [index] the index of the row.
+  ///   - [timeIndex] the index of the row.
   ///
   /// Returns: [Widget]
   Widget _generateRightHandSideColumnRow(BuildContext context, int timeIndex) {
     return Row(
       children: List.generate(_courtsName.length, (courtIndex) {
+        // Check if the box is selected
         bool isSelected = _isSelected(timeIndex, courtIndex);
 
         return GestureDetector(
@@ -293,6 +279,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   /// Returns [Widget]
   Widget _buildPriceBox() {
     String dateKey = _formatDateKey(selectedDate);
+
     int selectedCount = _selectedBoxes.containsKey(dateKey)
         ? _selectedBoxes[dateKey]!.length
         : 0;
