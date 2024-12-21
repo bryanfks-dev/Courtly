@@ -23,7 +23,7 @@ class BookingLoadedState extends BookingState {
 }
 
 /// [BookingErrorState] is the error state of the booking bloc.
-/// This state will be used when the booking bloc has encountered 
+/// This state will be used when the booking bloc has encountered
 /// an error.
 class BookingErrorState extends BookingState {
   /// [errorMessage] is the error message.

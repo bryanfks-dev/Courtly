@@ -87,7 +87,9 @@ class _MyApp extends State<MyApp> {
           BlocProvider(
               create: (BuildContext context) => SelectBookingBloc(
                   courtUsecase:
-                      CourtUsecase(courtRepository: CourtRepository()))),
+                      CourtUsecase(courtRepository: CourtRepository()),
+                  bookingUsecase:
+                      BookingUsecase(bookingRepository: BookingRepository()))),
           BlocProvider(
               create: (BuildContext context) => ReviewsBloc(
                   reviewUsecase:

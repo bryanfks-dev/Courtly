@@ -2,6 +2,7 @@ import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/utils/money_formatter.dart';
 import 'package:courtly/domain/entities/court.dart';
+import 'package:courtly/domain/props/booking_value_props.dart';
 import 'package:courtly/presentation/blocs/select_booking_bloc.dart';
 import 'package:courtly/presentation/blocs/states/select_booking_state.dart';
 import 'package:courtly/presentation/pages/reviews.dart';
@@ -31,7 +32,8 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   late AppColorsExtension _colorExt;
 
   /// [_selectedBoxes] is a map that contains the selected boxes.
-  Map<String, Set<int>> _selectedBoxes = {};
+  /// The key is the date and the value is the set of selected boxes.
+  final Map<String, Set<int>> _selectedBoxes = {};
 
   /// [_gridBoxWidth] is the width of the grid box.
   final double _gridBoxWidth = 90;
@@ -42,11 +44,13 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   /// [_timeColumnWidth] is the width of the time column.
   final double _timeColumnWidth = 70;
 
-  DateTime selectedDate = DateTime.now();
+  /// [_selectedDate] is the selected date.
+  DateTime _selectedDate = DateTime.now();
 
   /// [_courtsName] is the list of courts name.
   late List<String> _courtsName;
 
+  /// [weekDays] is the list of week days.
   final List<DateTime> weekDays =
       List.generate(7, (index) => DateTime.now().add(Duration(days: index)));
 
@@ -70,18 +74,45 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   /// [_timeSlots] is the list of time slots.
   late List<String> _timeSlots;
 
-  // Schedule for each date (key = date, value = grid data)
+  /// [schedules] is a map that contains the schedules for each date.
   Map<String, List<List<bool>>> schedules = {};
 
   /// [_initializeSchedule] is a function that initializes the schedule for the selected date.
   ///
   /// Returns [void]
   void _initializeSchedule() {
-    String dateKey = _formatDateKey(selectedDate);
+    String dateKey = _formatDateKey(_selectedDate);
 
     schedules[dateKey] = List.generate(
       _timeSlots.length,
       (_) => List.generate(_courtsName.length, (_) => false),
+    );
+  }
+
+  /// [_encodeBookingValue] is a function that encodes the booking value.
+  ///
+  /// Parameters:
+  ///   - [timeIndex] is the index of the time.
+  ///   - [courtIndex] is the index of the court.
+  ///
+  /// Returns an [int] that represents the encoded booking value.
+  int _encodeBookingValue(int timeIndex, int courtIndex) {
+    return courtIndex + timeIndex * _courtsName.length;
+  }
+
+  /// [_decodeBookingValue] is a function that decodes the booking value.
+  ///
+  /// Parameters:
+  ///   - [value] is the value to be decoded.
+  ///
+  /// Returns a [BookingValueProps]
+  BookingValueProps _decodeBookingValue(int value) {
+    return BookingValueProps(
+      time: _timeSlots[value ~/ _courtsName.length],
+      courtId:
+          (context.read<SelectBookingBloc>().state as SelectBookingLoadedState)
+              .courts[value % _courtsName.length]
+              .id,
     );
   }
 
@@ -94,23 +125,23 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   /// Returns [void]
   void _toggleSelection(int timeIndex, int courtIndex) {
     // Get the date key
-    String dateKey = _formatDateKey(selectedDate);
+    String dateKey = _formatDateKey(_selectedDate);
 
     // Initialize the selected boxes for the date if it doesn't exist
     _selectedBoxes.putIfAbsent(dateKey, () => {});
 
+    // Get the current value
+    final int currVal = _encodeBookingValue(timeIndex, courtIndex);
+
     setState(() {
       // Toggle the selection
-      if (_selectedBoxes[dateKey]!
-          .contains(courtIndex + timeIndex * _courtsName.length)) {
-        _selectedBoxes[dateKey]!
-            .remove(courtIndex + timeIndex * _courtsName.length);
+      if (_selectedBoxes[dateKey]!.contains(currVal)) {
+        _selectedBoxes[dateKey]!.remove(currVal);
       } else {
-        _selectedBoxes[dateKey]!
-            .add(courtIndex + timeIndex * _courtsName.length);
+        _selectedBoxes[dateKey]!.add(currVal);
       }
 
-      // Jika semua kotak tidak dipilih, hapus kunci dari Map.
+      // Remove the date key if there is no selected box
       if (_selectedBoxes[dateKey]!.isEmpty) {
         _selectedBoxes.remove(dateKey);
       }
@@ -125,7 +156,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   ///
   /// Returns a [bool] that indicates if the box is selected.
   bool _isSelected(int timeIndex, int courtIndex) {
-    String dateKey = _formatDateKey(selectedDate);
+    String dateKey = _formatDateKey(_selectedDate);
 
     return _selectedBoxes.containsKey(dateKey) &&
         _selectedBoxes[dateKey]!
@@ -168,7 +199,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   void _onDateChanged(DateTime newDate) {
     setState(() {
       // Update the selected date
-      selectedDate = newDate;
+      _selectedDate = newDate;
     });
   }
 
@@ -242,15 +273,17 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   ///   - [context] the build context.
   ///   - [timeIndex] the index of the row.
   ///
-  /// Returns: [Widget]
+  /// Returns a [Widget]
   Widget _generateRightHandSideColumnRow(BuildContext context, int timeIndex) {
     return Row(
-      children: List.generate(_courtsName.length, (courtIndex) {
+      children: List.generate(_courtsName.length, (int courtIndex) {
         // Check if the box is selected
         bool isSelected = _isSelected(timeIndex, courtIndex);
 
         return GestureDetector(
-          onTap: () => _toggleSelection(timeIndex, courtIndex),
+          onTap: () {
+            _toggleSelection(timeIndex, courtIndex);
+          },
           child: Container(
             width: _gridBoxWidth,
             height: _gridBoxHeight,
@@ -278,9 +311,11 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   ///
   /// Returns [Widget]
   Widget _buildPriceBox() {
-    String dateKey = _formatDateKey(selectedDate);
+    // Get the date key
+    final String dateKey = _formatDateKey(_selectedDate);
 
-    int selectedCount = _selectedBoxes.containsKey(dateKey)
+    // Get the selected count
+    final int selectedCount = _selectedBoxes.containsKey(dateKey)
         ? _selectedBoxes[dateKey]!.length
         : 0;
 
@@ -319,8 +354,13 @@ class _SelectBookingPage extends State<SelectBookingPage> {
           const SizedBox(height: 24), // Jarak antara total price dan tombol
           PrimaryButton(
             onPressed: () {
-              // Return to previous page
-              Navigator.pop(context);
+              // Create the bookings
+              context.read<SelectBookingBloc>().createBookings(
+                  vendorId: widget.court.vendor.id,
+                  date: _formatDateKey(_selectedDate),
+                  bookingDatas: _selectedBoxes[dateKey]!
+                      .map((e) => _decodeBookingValue(e))
+                      .toSet());
             },
             style: ButtonStyle(
               minimumSize: WidgetStateProperty.all(const Size.fromHeight(0)),
@@ -348,6 +388,20 @@ class _SelectBookingPage extends State<SelectBookingPage> {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errorMessage),
           ));
+        }
+
+        if (state is CreateBookingErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(state.errorMessage),
+          ));
+
+          // Refetch the list of courts
+          context.read<SelectBookingBloc>().getCourts(
+              vendorId: widget.court.vendor.id, courtType: widget.court.type);
+        }
+
+        if (state is BookingCreatedState) {
+          print("terbuat");
         }
 
         // Initialize the schedule if the state is loaded
@@ -448,8 +502,8 @@ class _SelectBookingPage extends State<SelectBookingPage> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       DateTime date = weekDays[index];
-                      bool isSelected = selectedDate.day == date.day &&
-                          selectedDate.month == date.month;
+                      bool isSelected = _selectedDate.day == date.day &&
+                          _selectedDate.month == date.month;
 
                       return InkWell(
                         onTap: () {
