@@ -15,6 +15,7 @@ class FilterChips extends StatelessWidget {
   /// [selectedItem] is the selected item.
   final ValueNotifier<int> selectedItem;
 
+  /// [onSelected] is the callback function that is called when an item is
   final VoidCallback onSelected;
 
   @override
