@@ -26,6 +26,10 @@ class OrderDTO {
   /// [status] is the status of the order.
   final String status;
 
+  /// [reviewed] is a boolean value that indicates whether the order
+  /// is reviewed or not.
+  final bool? reviewed;
+
   OrderDTO({
     required this.id,
     required this.date,
@@ -35,6 +39,7 @@ class OrderDTO {
     required this.price,
     required this.appFee,
     required this.status,
+    this.reviewed,
   });
 
   /// [fromJson] is a factory method that creates an [OrderDTO] instance from a JSON object.
@@ -53,6 +58,7 @@ class OrderDTO {
       price: json['price'] + .0,
       appFee: json['app_fee'] + .0,
       status: json['status'],
+      reviewed: json['reviewed'],
     );
   }
 }

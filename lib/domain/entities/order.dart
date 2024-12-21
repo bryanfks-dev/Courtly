@@ -28,16 +28,20 @@ class Order {
   /// [status] is the status of the order.
   final String status;
 
-  Order({
-    required this.id,
-    required this.date,
-    required this.courtType,
-    required this.vendor,
-    required this.paymentMethod,
-    required this.price,
-    required this.appFee,
-    required this.status,
-  });
+  /// [reviewed] is a boolean value that indicates whether the order
+  /// is reviewed or not.
+  final bool? reviewed;
+
+  Order(
+      {required this.id,
+      required this.date,
+      required this.courtType,
+      required this.vendor,
+      required this.paymentMethod,
+      required this.price,
+      required this.appFee,
+      required this.status,
+      this.reviewed});
 
   /// [fromDTO] is a factory method that converts the [OrderDTO] object to a [Order] object.
   ///
@@ -58,6 +62,7 @@ class Order {
       price: dto.price,
       appFee: dto.appFee,
       status: dto.status,
+      reviewed: dto.reviewed,
     );
   }
 }

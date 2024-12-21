@@ -75,22 +75,25 @@ class PurchaseCard extends StatelessWidget {
                 if (order.status == PaymentStatus.success.label) ...[
                   Row(
                     children: [
-                      SecondaryButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WriteReviewPage(
-                                          order: order,
-                                        )));
-                          },
-                          style: const ButtonStyle(
-                            visualDensity: VisualDensity.compact,
-                          ),
-                          child: const Text("Rate")),
-                      const SizedBox(
-                        width: 10,
-                      ),
+                      if (!order.reviewed!) ...[
+                        SecondaryButton(
+                            onPressed: () {
+                              // Navigate to write review page
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WriteReviewPage(
+                                            order: order,
+                                          )));
+                            },
+                            style: const ButtonStyle(
+                              visualDensity: VisualDensity.compact,
+                            ),
+                            child: const Text("Rate")),
+                        const SizedBox(
+                          width: 10,
+                        )
+                      ],
                       PrimaryButton(
                           onPressed: () {},
                           style: const ButtonStyle(
