@@ -113,7 +113,7 @@ class UserRepository {
 
     // Patch password
     final Either<Failure, http.Response> res = await _apiRepository.patch(
-        endpoint: 'users/me/password', body: formDto.toJson(), timeoutInSec: 2);
+        endpoint: 'users/me/password', body: formDto.toJson(), timeoutInSec: 5);
 
     // Check if response is left
     if (res.isLeft()) {

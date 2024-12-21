@@ -130,6 +130,7 @@ class _ChangePasswordPage extends State<ChangePasswordPage> {
                   TextFormField(
                       controller: _textInputControllers["oldPassword"],
                       style: const TextStyle(fontSize: 14),
+                      obscureText: true,
                       decoration: InputDecoration(
                         label: Text("Password"),
                         errorText: _errorTexts["oldPassword"],
@@ -304,7 +305,7 @@ class _ChangePasswordPage extends State<ChangePasswordPage> {
               // Set error texts
               setState(() {
                 _errorTexts["oldPassword"] =
-                    state.errorMessage["old_password"]?.first;
+                    state.errorMessage["password"]?.first;
                 _errorTexts["newPassword"] =
                     state.errorMessage["new_password"]?.first;
                 _errorTexts["confirmPassword"] =
@@ -318,6 +319,10 @@ class _ChangePasswordPage extends State<ChangePasswordPage> {
           }
 
           if (state is ChangePasswordSuccessState) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: const Text("Password changed successfully!"),
+            ));
+
             Navigator.popUntil(context, (route) => route.isFirst);
           }
         }, builder: (BuildContext context, ChangePasswordState state) {

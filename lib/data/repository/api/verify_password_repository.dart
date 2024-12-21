@@ -31,10 +31,10 @@ class VerifyPasswordRepository {
     await _apiRepository.setTokenFromStorage(tokenRepository: _tokenRepository);
 
     // Send the request to the server
-    final Either<Failure, http.Response> res = await _apiRepository.patch(
+    final Either<Failure, http.Response> res = await _apiRepository.post(
         endpoint: 'auth/user/verify-password',
         body: formDto.toJson(),
-        timeoutInSec: 1);
+        timeoutInSec: 2);
 
     // Check if the request is successful
     if (res.isLeft()) {
