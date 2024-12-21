@@ -1,4 +1,5 @@
 import 'package:courtly/data/dto/order_dto.dart';
+import 'package:courtly/domain/entities/vendor.dart';
 import 'package:intl/intl.dart';
 
 /// [Order] is a class that holds the information of an order.
@@ -12,8 +13,8 @@ class Order {
   /// [courtType] is the type of the court.
   final String courtType;
 
-  /// [vendorName] is the name of the vendor.
-  final String vendorName;
+  /// [vendor] is the vendor of the order.
+  final Vendor vendor;
 
   /// [paymentMethod] is the payment method of the order.
   final String paymentMethod;
@@ -31,7 +32,7 @@ class Order {
     required this.id,
     required this.date,
     required this.courtType,
-    required this.vendorName,
+    required this.vendor,
     required this.paymentMethod,
     required this.price,
     required this.appFee,
@@ -52,7 +53,7 @@ class Order {
       id: dto.id,
       date: dateFormatter.parse(dto.date),
       courtType: dto.courtType,
-      vendorName: dto.vendorName,
+      vendor: Vendor.fromDTO(dto.vendor),
       paymentMethod: dto.paymentMethod,
       price: dto.price,
       appFee: dto.appFee,

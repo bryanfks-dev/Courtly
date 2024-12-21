@@ -51,7 +51,7 @@ class PurchaseCard extends StatelessWidget {
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          order.courtType,
+                          order.vendor.name,
                           style: const TextStyle(fontSize: 12),
                         )
                       ],

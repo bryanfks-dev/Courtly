@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:courtly/core/errors/failure.dart';
+import 'package:courtly/data/dto/create_review_form_dto.dart';
 import 'package:courtly/data/dto/response_dto.dart';
+import 'package:courtly/data/dto/review_dto.dart';
+import 'package:courtly/data/dto/review_response_dto.dart';
 import 'package:courtly/data/dto/reviews_response_dto.dart';
 import 'package:courtly/data/repository/api/api_repository.dart';
 import 'package:courtly/data/repository/storage/token_repository.dart';
@@ -64,6 +67,61 @@ class ReviewRepository {
 
     // Check for status codes
     if (response.statusCode == HttpStatus.badRequest) {
+      return Left(RequestFailure(dto.message));
+    }
+
+    if (response.statusCode == HttpStatus.internalServerError) {
+      return Left(ServerFailure(dto.message));
+    }
+
+    return Left(UnknownFailure("Unkown Error"));
+  }
+
+  /// [postReview] is a function to post review to the api.
+  ///
+  /// Parameters:
+  ///   - [vendorId] is the id of the vendor.
+  ///   - [courtType] is the type of the court.
+  ///   - [formDto] is the form data to create a review.
+  ///
+  /// Returns a [Future] [Either] a [Failure] or [ReviewDTO].
+  Future<Either<Failure, ReviewDTO>> postReview({
+    required int vendorId,
+    required String courtType,
+    required CreateReviewFormDTO formDto,
+  }) async {
+    // Set token from storage.
+    await _apiRepository.setTokenFromStorage(tokenRepository: _tokenRepository);
+
+    // Post review to the API.
+    final Either<Failure, http.Response> res = await _apiRepository.post(
+        endpoint: "vendors/$vendorId/courts/$courtType/reviews",
+        body: formDto.toJson(),
+        timeoutInSec: 5);
+
+    // Check if the response is successful.
+    if (res.isLeft()) {
+      return Left(res.fold((l) => l, (r) => UnknownFailure("Unkown Error")));
+    }
+
+    // Parse the response.
+    final http.Response response = res.getOrElse(() => throw "No Response");
+
+    // Parse the response
+    final ResponseDTO<ReviewResponseDTO> dto = ResponseDTO.fromJson(
+        json: jsonDecode(response.body), fromJsonT: ReviewResponseDTO.fromJson);
+
+    // Check if the response is successful.
+    if (dto.success) {
+      return Right(dto.data!.review);
+    }
+
+    // Check for status codes
+    if (response.statusCode == HttpStatus.badRequest) {
+      return Left(FormFailure(dto.message));
+    }
+
+    if (response.statusCode == HttpStatus.forbidden) {
       return Left(RequestFailure(dto.message));
     }
 

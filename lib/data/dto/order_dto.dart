@@ -1,3 +1,5 @@
+import 'package:courtly/data/dto/vendor_dto.dart';
+
 /// [OrderDTO] is a data transfer object that represents an order.
 class OrderDTO {
   /// [id] is the unique identifier of the order.
@@ -9,8 +11,8 @@ class OrderDTO {
   /// [courtType] is the type of the court.
   final String courtType;
 
-  /// [vendorName] is the name of the vendor.
-  final String vendorName;
+  /// [vendor] is the vendor of the order.
+  final VendorDTO vendor;
 
   /// [paymentMethod] is the payment method used for the order.
   final String paymentMethod;
@@ -28,7 +30,7 @@ class OrderDTO {
     required this.id,
     required this.date,
     required this.courtType,
-    required this.vendorName,
+    required this.vendor,
     required this.paymentMethod,
     required this.price,
     required this.appFee,
@@ -46,7 +48,7 @@ class OrderDTO {
       id: json['id'],
       date: json['date'],
       courtType: json['court_type'],
-      vendorName: json['vendor_name'],
+      vendor: VendorDTO.fromJson(json['vendor']),
       paymentMethod: json['payment_method'],
       price: json['price'] + .0,
       appFee: json['app_fee'] + .0,
