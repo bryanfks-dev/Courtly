@@ -74,7 +74,7 @@ class ReviewRepository {
       return Left(ServerFailure(dto.message));
     }
 
-    return Left(UnknownFailure("Unkown Error"));
+    return Left(UnknownFailure(dto.message));
   }
 
   /// [postReview] is a function to post review to the api.
@@ -129,6 +129,6 @@ class ReviewRepository {
       return Left(ServerFailure(dto.message));
     }
 
-    return Left(UnknownFailure("Unkown Error"));
+    return Left(UnknownFailure(dto.message));
   }
 }

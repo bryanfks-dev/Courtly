@@ -7,6 +7,7 @@ import 'package:courtly/data/repository/api/order_repository.dart';
 import 'package:courtly/data/repository/api/register_repository.dart';
 import 'package:courtly/data/repository/api/review_repository.dart';
 import 'package:courtly/data/repository/api/user_repository.dart';
+import 'package:courtly/data/repository/api/verify_password_repository.dart';
 import 'package:courtly/data/repository/storage/theme_repository.dart';
 import 'package:courtly/data/repository/storage/token_repository.dart';
 import 'package:courtly/domain/usecases/auth_usecase.dart';
@@ -18,7 +19,9 @@ import 'package:courtly/domain/usecases/order_usecase.dart';
 import 'package:courtly/domain/usecases/register_usecase.dart';
 import 'package:courtly/domain/usecases/review_usecase.dart';
 import 'package:courtly/domain/usecases/user_usecase.dart';
+import 'package:courtly/domain/usecases/verify_password_usecase.dart';
 import 'package:courtly/presentation/blocs/auth_bloc.dart';
+import 'package:courtly/presentation/blocs/change_password_bloc.dart';
 import 'package:courtly/presentation/blocs/change_username_bloc.dart';
 import 'package:courtly/presentation/blocs/orders_bloc.dart';
 import 'package:courtly/presentation/blocs/events/auth_event.dart';
@@ -111,6 +114,11 @@ class _MyApp extends State<MyApp> {
                 ..add(FetchProfileEvent())),
           BlocProvider(
               create: (BuildContext context) => ChangeUsernameBloc(
+                  userUsecase: UserUsecase(userRepository: UserRepository()))),
+          BlocProvider(
+              create: (BuildContext context) => ChangePasswordBloc(
+                  verifyPasswordUsecase: VerifyPasswordUsecase(
+                      verifyPasswordRepository: VerifyPasswordRepository()),
                   userUsecase: UserUsecase(userRepository: UserRepository()))),
           BlocProvider(
             create: (BuildContext context) => LoginBloc(
