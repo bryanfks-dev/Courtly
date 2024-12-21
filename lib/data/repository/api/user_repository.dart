@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:courtly/core/errors/failure.dart';
+import 'package:courtly/data/dto/change_username_form_dto.dart';
 import 'package:courtly/data/dto/response_dto.dart';
 import 'package:courtly/data/dto/user_dto.dart';
 import 'package:courtly/data/dto/user_response_dto.dart';
@@ -52,5 +53,49 @@ class UserRepository {
     }
 
     return Left(UnknownFailure(responseDto.message));
+  }
+
+  /// [patchUsername] is a function to patch the username.
+  ///
+  /// Parameters:
+  ///   - [formDto] is the form data transfer object.
+  ///
+  /// Returns [Future] of [Failure].
+  Future<Failure?> patchUsername(
+      {required ChangeUsernameFormDTO formDto}) async {
+    // Set token from storage
+    await _apiRepository.setTokenFromStorage(tokenRepository: _tokenRepository);
+
+    // Patch username
+    final Either<Failure, http.Response> res = await _apiRepository.patch(
+        endpoint: 'users/me/username', body: formDto.toJson(), timeoutInSec: 2);
+
+    // Check if response is left
+    if (res.isLeft()) {
+      return res.fold((l) => l, (r) => UnknownFailure("Unknown error"));
+    }
+
+    // Parse response to http response
+    final http.Response response = res.getOrElse(() => throw 'No response');
+
+    // Parse response
+    final ResponseDTO responseDto =
+        ResponseDTO.fromJson(json: jsonDecode(response.body));
+
+    // Check if response is successful
+    if (responseDto.success) {
+      return null;
+    }
+
+    // Check for status codes
+    if (response.statusCode == HttpStatus.badRequest) {
+      return FormFailure(responseDto.message);
+    }
+
+    if (response.statusCode == HttpStatus.internalServerError) {
+      return ServerFailure(responseDto.message);
+    }
+
+    return UnknownFailure(responseDto.message);
   }
 }

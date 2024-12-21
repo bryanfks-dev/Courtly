@@ -19,6 +19,7 @@ import 'package:courtly/domain/usecases/register_usecase.dart';
 import 'package:courtly/domain/usecases/review_usecase.dart';
 import 'package:courtly/domain/usecases/user_usecase.dart';
 import 'package:courtly/presentation/blocs/auth_bloc.dart';
+import 'package:courtly/presentation/blocs/change_username_bloc.dart';
 import 'package:courtly/presentation/blocs/orders_bloc.dart';
 import 'package:courtly/presentation/blocs/events/auth_event.dart';
 import 'package:courtly/presentation/blocs/events/profile_event.dart';
@@ -108,6 +109,9 @@ class _MyApp extends State<MyApp> {
               create: (BuildContext context) => ProfileBloc(
                   userUsecase: UserUsecase(userRepository: UserRepository()))
                 ..add(FetchProfileEvent())),
+          BlocProvider(
+              create: (BuildContext context) => ChangeUsernameBloc(
+                  userUsecase: UserUsecase(userRepository: UserRepository()))),
           BlocProvider(
             create: (BuildContext context) => LoginBloc(
               loginUsecase: LoginUsecase(

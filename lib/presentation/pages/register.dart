@@ -317,7 +317,7 @@ class _RegisterPage extends State<RegisterPage> {
           // Check the state
           if (state is RegisterSuccessState) {
             // Navigate to login page
-            Navigator.pushNamed(context, Routes.login);
+            Navigator.popAndPushNamed(context, Routes.login);
 
             // Show success message
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

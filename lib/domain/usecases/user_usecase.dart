@@ -1,4 +1,5 @@
 import 'package:courtly/core/errors/failure.dart';
+import 'package:courtly/data/dto/change_username_form_dto.dart';
 import 'package:courtly/data/dto/user_dto.dart';
 import 'package:courtly/data/repository/api/user_repository.dart';
 import 'package:courtly/domain/entities/user.dart';
@@ -21,5 +22,22 @@ class UserUsecase {
     return res.fold((l) => left(l), (r) {
       return Right(User.fromDTO(r));
     });
+  }
+
+  /// [changeUsername] is a function to change the username.
+  ///
+  /// Parameters:
+  ///   - [newUsername] is a required String.
+  ///
+  /// Returns [Future] of [Failure].
+  Future<Failure?> changeUsername({required String newUsername}) async {
+    // Create change username form dto
+    final ChangeUsernameFormDTO formDto =
+        ChangeUsernameFormDTO(newUsername: newUsername);
+
+    // Change the username
+    final Failure? res = await userRepository.patchUsername(formDto: formDto);
+
+    return res;
   }
 }

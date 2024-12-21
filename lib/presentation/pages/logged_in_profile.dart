@@ -163,8 +163,7 @@ class _LoggedInProfile extends State<LoggedInProfile> {
           }));
     }
 
-    return BlocConsumer<ProfileBloc, ProfileState>(
-        listener: (BuildContext context, ProfileState profileState) {},
+    return BlocBuilder<ProfileBloc, ProfileState>(
         builder: (BuildContext context, ProfileState state) {
           // Check the state of the profile.
           if (state is! ProfileLoadedState) {
