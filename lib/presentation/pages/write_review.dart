@@ -1,5 +1,6 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
+import 'package:courtly/domain/entities/order.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/write_review/star_button.dart';
@@ -8,7 +9,10 @@ import 'package:flutter/material.dart';
 /// [WriteReviewPage] is a widget that is used to display the write review
 /// page of the application.
 class WriteReviewPage extends StatelessWidget {
-  WriteReviewPage({super.key});
+  WriteReviewPage({super.key, required this.order});
+
+  /// [order] is the order entity.
+  final Order order;
 
   /// [_selectedStartNotifier] is a value notifier that is used to notify
   final ValueNotifier<int> _selectedStartNotifier = ValueNotifier<int>(0);
@@ -29,16 +33,16 @@ class WriteReviewPage extends StatelessWidget {
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text(
-                  "Lunggu Sport Centre",
+                Text(
+                  order.vendorName,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Text(
-                  "Basketball Court",
+                Text(
+                  "${order.courtType} Court",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -84,7 +88,7 @@ class WriteReviewPage extends StatelessWidget {
                   style: TextStyle(fontSize: 14),
                   decoration: InputDecoration(
                     hintText: "Write your thoughts here...",
-                    contentPadding: EdgeInsets.all(15),
+                    contentPadding: EdgeInsets.all(16),
                   ),
                 ),
                 const SizedBox(

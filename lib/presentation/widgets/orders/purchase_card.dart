@@ -3,6 +3,7 @@ import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/enums/payment_status.dart';
 import 'package:courtly/core/utils/money_formatter.dart';
 import 'package:courtly/domain/entities/order.dart';
+import 'package:courtly/presentation/pages/write_review.dart';
 import 'package:courtly/presentation/widgets/orders/payment_status_badge.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
@@ -75,7 +76,14 @@ class PurchaseCard extends StatelessWidget {
                   Row(
                     children: [
                       SecondaryButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WriteReviewPage(
+                                          order: order,
+                                        )));
+                          },
                           style: const ButtonStyle(
                             visualDensity: VisualDensity.compact,
                           ),
