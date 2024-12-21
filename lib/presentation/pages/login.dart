@@ -62,165 +62,154 @@ class _LoginPage extends State<LoginPage> {
     final AppColorsExtension colorExt =
         Theme.of(context).extension<AppColorsExtension>()!;
 
-    return PopScope(
-        onPopInvokedWithResult: (bool didPop, _) {
-          // Check if the page is popped
-          if (!didPop) {
-            return;
+    return Scaffold(
+      backgroundColor: colorExt.background,
+      body: SafeArea(
+        child: BlocConsumer<LoginBloc, LoginState>(
+            listener: (BuildContext context, LoginState state) {
+          // Check the state
+          if (state is LoginSuccessState) {
+            // Dispatch the check auth event
+            context.read<AuthBloc>().add(CheckAuthEvent());
+
+            // Navigate to home page
+            Navigator.popUntil(context, (route) => route.isFirst);
           }
 
-          // Dispatch the check auth event
-          context.read<AuthBloc>().add(CheckAuthEvent());
-        },
-        child: Scaffold(
-          backgroundColor: colorExt.background,
-          body: SafeArea(
-            child: BlocConsumer<LoginBloc, LoginState>(
-                listener: (BuildContext context, LoginState state) {
-              // Check the state
-              if (state is LoginSuccessState) {
-                // Navigate to home page
-                Navigator.popUntil(context, (route) => route.isFirst);
-              }
+          if (state is LoginErrorState) {
+            // Check if the error message is a string
+            if (state.errorMessage is String) {
+              // Show the error message
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(state.errorMessage),
+              ));
+            }
 
-              if (state is LoginErrorState) {
-                // Check if the error message is a string
-                if (state.errorMessage is String) {
-                  // Show the error message
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(state.errorMessage),
-                  ));
-                }
+            // Check if the error message is a map
+            if (state.errorMessage is Map) {
+              setState(() {
+                _errorTexts["username"] = state.errorMessage["username"]?.first;
+                _errorTexts["password"] = state.errorMessage["password"]?.first;
+              });
+            }
+          }
+        }, builder: (BuildContext context, LoginState state) {
+          // Check if the state is loading
+          if (state is LoginLoadingState) {
+            return const Center(
+              child: LoadingScreen(),
+            );
+          }
 
-                // Check if the error message is a map
-                if (state.errorMessage is Map) {
-                  _errorTexts["username"] =
-                      state.errorMessage["username"]?.first;
-                  _errorTexts["password"] =
-                      state.errorMessage["password"]?.first;
-                }
-              }
-            }, builder: (BuildContext context, LoginState state) {
-              // Check if the state is loading
-              if (state is LoginLoadingState) {
-                return const Center(
-                  child: LoadingScreen(),
-                );
-              }
-
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Login",
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: colorExt.primary,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const Text(
-                      "Signing into your existing account",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Form(
-                        child: Column(
-                      children: [
-                        TextFormField(
-                            controller: _textInputControllers["username"],
-                            style: const TextStyle(fontSize: 14),
-                            decoration: InputDecoration(
-                              label: Text("Username"),
-                              errorText: _errorTexts["username"],
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 0, horizontal: 15),
-                            )),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        ValueListenableBuilder(
-                            valueListenable: _obsecureTextNotifier,
-                            builder:
-                                (BuildContext context, bool obsecureText, _) {
-                              return TextFormField(
-                                controller: _textInputControllers["password"],
-                                style: const TextStyle(fontSize: 14),
-                                obscureText: obsecureText,
-                                enableSuggestions: false,
-                                autocorrect: false,
-                                decoration: InputDecoration(
-                                  label: const Text("Password"),
-                                  errorText: _errorTexts["password"],
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 15),
-                                  suffixIcon: IconButton(
-                                    icon: HeroIcon((obsecureText)
-                                        ? HeroIcons.eyeSlash
-                                        : HeroIcons.eye),
-                                    iconSize: 16,
-                                    onPressed: () {
-                                      _obsecureTextNotifier.value =
-                                          !obsecureText;
-                                    },
-                                  ),
-                                ),
-                              );
-                            }),
-                      ],
-                    )),
-                    const SizedBox(height: 40),
-                    Column(
-                      children: [
-                        PrimaryButton(
-                          onPressed: () {
-                            // Validate the login form
-                            if (!_validateLoginForm()) {
-                              return;
-                            }
-
-                            // Dispatch the login event
-                            context.read<LoginBloc>().login(
-                                username:
-                                    _textInputControllers["username"]!.text,
-                                password:
-                                    _textInputControllers["password"]!.text);
-                          },
-                          style: ButtonStyle(
-                            minimumSize: WidgetStateProperty.all(
-                                const Size.fromHeight(0)),
-                          ),
-                          child: const Text("Login"),
-                        ),
-                        const SizedBox(height: 10),
-                        SecondaryButton(
-                          onPressed: () {
-                            // Navigate to register page
-                            Navigator.pushReplacementNamed(
-                                context, Routes.register);
-                          },
-                          style: ButtonStyle(
-                            minimumSize: WidgetStateProperty.all(
-                                const Size.fromHeight(0)),
-                          ),
-                          child: const Text("I'm new here"),
-                        ),
-                      ],
-                    )
-                  ],
+          return Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: PAGE_PADDING_MOBILE),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Login",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: colorExt.primary,
+                  ),
                 ),
-              );
-            }),
-          ),
-        ));
+                const SizedBox(
+                  height: 5,
+                ),
+                const Text(
+                  "Signing into your existing account",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Form(
+                    child: Column(
+                  children: [
+                    TextFormField(
+                        controller: _textInputControllers["username"],
+                        style: const TextStyle(fontSize: 14),
+                        decoration: InputDecoration(
+                          label: Text("Username"),
+                          errorText: _errorTexts["username"],
+                          contentPadding:
+                              EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                        )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ValueListenableBuilder(
+                        valueListenable: _obsecureTextNotifier,
+                        builder: (BuildContext context, bool obsecureText, _) {
+                          return TextFormField(
+                            controller: _textInputControllers["password"],
+                            style: const TextStyle(fontSize: 14),
+                            obscureText: obsecureText,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            decoration: InputDecoration(
+                              label: const Text("Password"),
+                              errorText: _errorTexts["password"],
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 15),
+                              suffixIcon: IconButton(
+                                icon: HeroIcon((obsecureText)
+                                    ? HeroIcons.eyeSlash
+                                    : HeroIcons.eye),
+                                iconSize: 16,
+                                onPressed: () {
+                                  _obsecureTextNotifier.value = !obsecureText;
+                                },
+                              ),
+                            ),
+                          );
+                        }),
+                  ],
+                )),
+                const SizedBox(height: 40),
+                Column(
+                  children: [
+                    PrimaryButton(
+                      onPressed: () {
+                        // Validate the login form
+                        if (!_validateLoginForm()) {
+                          return;
+                        }
+
+                        // Dispatch the login event
+                        context.read<LoginBloc>().login(
+                            username: _textInputControllers["username"]!.text,
+                            password: _textInputControllers["password"]!.text);
+                      },
+                      style: ButtonStyle(
+                        minimumSize:
+                            WidgetStateProperty.all(const Size.fromHeight(0)),
+                      ),
+                      child: const Text("Login"),
+                    ),
+                    const SizedBox(height: 10),
+                    SecondaryButton(
+                      onPressed: () {
+                        // Navigate to register page
+                        Navigator.pushReplacementNamed(
+                            context, Routes.register);
+                      },
+                      style: ButtonStyle(
+                        minimumSize:
+                            WidgetStateProperty.all(const Size.fromHeight(0)),
+                      ),
+                      child: const Text("I'm new here"),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          );
+        }),
+      ),
+    );
   }
 }
