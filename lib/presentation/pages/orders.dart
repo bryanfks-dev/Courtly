@@ -1,26 +1,27 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/enums/sports.dart';
+import 'package:courtly/core/utils/safe_access.dart';
 import 'package:courtly/presentation/blocs/auth_bloc.dart';
-import 'package:courtly/presentation/blocs/booking_bloc.dart';
+import 'package:courtly/presentation/blocs/orders_bloc.dart';
 import 'package:courtly/presentation/blocs/states/auth_state.dart';
-import 'package:courtly/presentation/blocs/states/booking_state.dart';
-import 'package:courtly/presentation/widgets/booking_list/purchase_card.dart';
+import 'package:courtly/presentation/blocs/states/orders_state.dart';
+import 'package:courtly/presentation/widgets/orders/purchase_card.dart';
 import 'package:courtly/presentation/widgets/filter_chips.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
-/// [BookingList] is a page to show user's order history.
-class BookingList extends StatefulWidget {
-  const BookingList({super.key});
+/// [OrdersPage] is a page to show user's order history.
+class OrdersPage extends StatefulWidget {
+  const OrdersPage({super.key});
 
   @override
-  State<BookingList> createState() => _BookingList();
+  State<OrdersPage> createState() => _OrdersPage();
 }
 
-class _BookingList extends State<BookingList> {
+class _OrdersPage extends State<OrdersPage> {
   /// [_chipLabelItems] is the items of filter chip.
   final List<Widget> _chipLabelItems =
       [const Text("All")] + Sports.values.map((e) => Text(e.label)).toList();
@@ -37,8 +38,8 @@ class _BookingList extends State<BookingList> {
       return;
     }
 
-    // Fetch the bookings.
-    context.read<BookingBloc>().getBookings();
+    // Fetch the orders.
+    context.read<OrdersBloc>().getOrders();
   }
 
   @override
@@ -49,29 +50,27 @@ class _BookingList extends State<BookingList> {
     return SafeArea(
       child: Container(
         color: colorExt.backgroundSecondary,
-        child: BlocConsumer<BookingBloc, BookingState>(
-            listener: (BuildContext context, BookingState state) {
+        child: BlocConsumer<OrdersBloc, OrdersState>(
+            listener: (BuildContext context, OrdersState state) {
           // Show pop up if the state is error
-          if (state is BookingErrorState) {
+          if (state is OrdersErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.errorMessage),
             ));
           }
-        }, builder: (BuildContext context, BookingState state) {
+        }, builder: (BuildContext context, OrdersState state) {
           // Check if user is authenticated or if use doesn't
-          // have any bookings appointment
-          if (BlocProvider.of<AuthBloc>(context).state
-                  is UnauthenticatedState ||
-              (state is BookingLoadedState && state.bookings.isEmpty)) {
+          // have any orders appointment
+          if (context.read<AuthBloc>().state is UnauthenticatedState) {
             return Center(
                 child: Text(
-              "No Bookings yet..",
+              "No Orders yet..",
               style: TextStyle(color: colorExt.highlight),
             ));
           }
 
           // Show loading screen if the state is not loaded
-          if (state is! BookingLoadedState) {
+          if (state is! OrdersLoadedState) {
             return Center(child: LoadingScreen());
           }
 
@@ -90,26 +89,39 @@ class _BookingList extends State<BookingList> {
                     child: FilterChips(
                       items: _chipLabelItems,
                       selectedItem: _selectedChipNotifier,
-                      onSelected: () {},
+                      onSelected: () {
+                        context.read<OrdersBloc>().getOrders(
+                            courtType: listSafeAccess(
+                                    list: Sports.values,
+                                    index: _selectedChipNotifier.value - 1,
+                                    defaultValue: null)
+                                ?.label);
+                      },
                     ),
                   ),
                 ),
-                content: SizedBox(
-                  child: ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return PurchaseCard(
-                            purchaseDate: state.bookings[index].date,
-                            sportType: state.bookings[index].court.type,
-                            vendorName: state.bookings[index].court.vendor.name,
-                            price: state.bookings[index].order.price,
-                            paymentStatus: state.bookings[index].order.status);
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(height: 10),
-                      itemCount: state.bookings.length),
-                )),
+                content: (state.orders.isEmpty)
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height / 1.5,
+                        child: Center(
+                          child: Text(
+                            "No Orders yet..",
+                            style: TextStyle(color: colorExt.highlight),
+                          ),
+                        ),
+                      )
+                    : SizedBox(
+                        child: ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              return PurchaseCard(order: state.orders[index]);
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const SizedBox(height: 10),
+                            itemCount: state.orders.length),
+                      )),
           );
         }),
       ),

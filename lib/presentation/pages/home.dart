@@ -108,14 +108,13 @@ class _HomePage extends State<HomePage> {
                               items: _chipLabelItems,
                               selectedItem: _selectedChipNotifier,
                               onSelected: () {
-                                // Get the selected type.
-                                final Sports? selectedType = listSafeAccess(
-                                    list: Sports.values,
-                                    index: _selectedChipNotifier.value - 1,
-                                    defaultValue: null);
-
                                 context.read<HomeBloc>().fetchCourtsOnly(
-                                    courtType: selectedType?.label,
+                                    courtType: listSafeAccess(
+                                            list: Sports.values,
+                                            index:
+                                                _selectedChipNotifier.value - 1,
+                                            defaultValue: null)
+                                        ?.label,
                                     vendorName: _searchController.text);
                               }),
                         ),
@@ -137,14 +136,13 @@ class _HomePage extends State<HomePage> {
                               contentPadding: EdgeInsets.zero,
                             ),
                             onSubmitted: (value) {
-                              // Get the selected type.
-                              final Sports? selectedType = listSafeAccess(
-                                  list: Sports.values,
-                                  index: _selectedChipNotifier.value - 1,
-                                  defaultValue: null);
-
                               context.read<HomeBloc>().fetchCourtsOnly(
-                                  courtType: selectedType?.label,
+                                  courtType: listSafeAccess(
+                                          list: Sports.values,
+                                          index:
+                                              _selectedChipNotifier.value - 1,
+                                          defaultValue: null)
+                                      ?.label,
                                   vendorName: value);
                             },
                           ),

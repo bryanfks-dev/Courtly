@@ -20,7 +20,7 @@ class Court {
   final double price;
 
   /// [rating] is the rating of the court.
-  final double rating;
+  final double? rating;
 
   /// [imageUrl] is the image URL of the court.
   final String imageUrl;
@@ -31,7 +31,7 @@ class Court {
     required this.vendor,
     required this.type,
     required this.price,
-    required this.rating,
+    this.rating,
     required this.imageUrl,
   });
 

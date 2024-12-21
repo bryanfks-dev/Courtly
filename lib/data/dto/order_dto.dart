@@ -3,6 +3,15 @@ class OrderDTO {
   /// [id] is the unique identifier of the order.
   final int id;
 
+  /// [date] is the date of the order.
+  final String date;
+
+  /// [courtType] is the type of the court.
+  final String courtType;
+
+  /// [vendorName] is the name of the vendor.
+  final String vendorName;
+
   /// [paymentMethod] is the payment method used for the order.
   final String paymentMethod;
 
@@ -17,6 +26,9 @@ class OrderDTO {
 
   OrderDTO({
     required this.id,
+    required this.date,
+    required this.courtType,
+    required this.vendorName,
     required this.paymentMethod,
     required this.price,
     required this.appFee,
@@ -32,9 +44,12 @@ class OrderDTO {
   factory OrderDTO.fromJson(Map<String, dynamic> json) {
     return OrderDTO(
       id: json['id'],
+      date: json['date'],
+      courtType: json['court_type'],
+      vendorName: json['vendor_name'],
       paymentMethod: json['payment_method'],
       price: json['price'] + .0,
-      appFee: json['appFee'] + .0,
+      appFee: json['app_fee'] + .0,
       status: json['status'],
     );
   }

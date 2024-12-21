@@ -1,6 +1,6 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/domain/props/page_props.dart';
-import 'package:courtly/presentation/pages/booking_list.dart';
+import 'package:courtly/presentation/pages/orders.dart';
 import 'package:courtly/presentation/pages/home.dart';
 import 'package:courtly/presentation/pages/profile.dart';
 import 'package:courtly/presentation/widgets/bottom_navbar.dart';
@@ -56,12 +56,12 @@ class _AppScaffold extends State<AppScaffold> {
           label: "Home",
           backgroundColor: colorExt.background),
       PageProps(
-          appBar: const CenteredAppBar(title: "Booking List"),
-          body: BookingList(),
+          appBar: const CenteredAppBar(title: "Orders"),
+          body: const OrdersPage(),
           icon: const HeroIcon(HeroIcons.calendarDays),
           selectedIcon: const HeroIcon(HeroIcons.calendarDays,
               style: HeroIconStyle.solid),
-          label: "Booking List",
+          label: "Orders",
           backgroundColor: colorExt.backgroundSecondary),
       PageProps(
           appBar: const CenteredAppBar(title: "Profile"),
