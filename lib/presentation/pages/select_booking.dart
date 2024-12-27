@@ -5,6 +5,7 @@ import 'package:courtly/domain/entities/court.dart';
 import 'package:courtly/domain/props/booking_value_props.dart';
 import 'package:courtly/presentation/blocs/select_booking_bloc.dart';
 import 'package:courtly/presentation/blocs/states/select_booking_state.dart';
+import 'package:courtly/presentation/pages/choose_payment.dart';
 import 'package:courtly/presentation/pages/reviews.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
@@ -354,13 +355,22 @@ class _SelectBookingPage extends State<SelectBookingPage> {
           const SizedBox(height: 24), // Jarak antara total price dan tombol
           PrimaryButton(
             onPressed: () {
-              // Create the bookings
-              context.read<SelectBookingBloc>().createBookings(
+              // Navigate to the choose payment page
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                // Get the selected bookings date
+                final String date = _formatDateKey(_selectedDate);
+
+                return ChoosePaymentPage(
+                  paymentTotal:
+                      _selectedBoxes[date]!.length * widget.court.price,
+                  bookingDate: date,
                   vendorId: widget.court.vendor.id,
-                  date: _formatDateKey(_selectedDate),
-                  bookingDatas: _selectedBoxes[dateKey]!
+                  bookings: _selectedBoxes[date]!
                       .map((e) => _decodeBookingValue(e))
-                      .toSet());
+                      .toSet(),
+                );
+              }));
             },
             style: ButtonStyle(
               minimumSize: WidgetStateProperty.all(const Size.fromHeight(0)),
@@ -390,20 +400,6 @@ class _SelectBookingPage extends State<SelectBookingPage> {
           ));
         }
 
-        if (state is CreateBookingErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(state.errorMessage),
-          ));
-
-          // Refetch the list of courts
-          context.read<SelectBookingBloc>().getCourts(
-              vendorId: widget.court.vendor.id, courtType: widget.court.type);
-        }
-
-        if (state is BookingCreatedState) {
-          print("terbuat");
-        }
-
         // Initialize the schedule if the state is loaded
         if (state is SelectBookingLoadedState) {
           // Initialize time slot
@@ -418,7 +414,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
       }, builder: (BuildContext context, SelectBookingState state) {
         // Check if the state is not loaded yet
         if (state is! SelectBookingLoadedState) {
-          return const Center(child: LoadingScreen());
+          return const LoadingScreen();
         }
 
         return SafeArea(

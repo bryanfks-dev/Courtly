@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:courtly/core/errors/failure.dart';
+import 'package:courtly/data/dto/create_order_dto.dart';
 import 'package:courtly/data/dto/order_dto.dart';
 import 'package:courtly/data/dto/orders_response_dto.dart';
 import 'package:courtly/data/dto/response_dto.dart';
@@ -60,5 +61,48 @@ class OrderRepository {
     }
 
     return left(UnknownFailure(responseDTO.message));
+  }
+
+  /// [createOrder] is the function to create the order.
+  ///
+  /// Parameters:
+  ///   - [dto] is the data transfer object for the create order.
+  ///
+  /// Returns a [Future] of [Failure].
+  Future<Failure?> createOrder({required CreateOrderDTO dto}) async {
+    // Set the token from storage.
+    await _apiRepository.setTokenFromStorage(tokenRepository: _tokenRepository);
+
+    // Create the bookings.
+    final Either<Failure, http.Response> res = await _apiRepository.post(
+        endpoint: "users/me/orders", body: dto.toJson(), timeoutInSec: 5);
+
+    // Check if the request fails.
+    if (res.isLeft()) {
+      return res.fold((l) => l, (r) => UnknownFailure("Unknown error"));
+    }
+
+    // Get the response.
+    final http.Response response = res.getOrElse(() => throw "No Response");
+
+    // Parse the response.
+    final ResponseDTO result =
+        ResponseDTO.fromJson(json: jsonDecode(response.body));
+
+    // Check if the response is a success.
+    if (result.success) {
+      return null;
+    }
+
+    // Check for different status codes.
+    if (response.statusCode == HttpStatus.internalServerError) {
+      return UnknownFailure(result.message);
+    }
+
+    if (response.statusCode == HttpStatus.badRequest) {
+      return UnknownFailure(result.message);
+    }
+
+    return UnknownFailure(result.message);
   }
 }

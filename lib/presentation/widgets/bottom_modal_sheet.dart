@@ -8,9 +8,11 @@ void showBottomModalSheet(BuildContext context, Widget content) {
         return Wrap(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: PAGE_PADDING_MOBILE,
-                  vertical: PAGE_PADDING_MOBILE * 2),
+              padding: const EdgeInsets.only(
+                  left: PAGE_PADDING_MOBILE,
+                  right: PAGE_PADDING_MOBILE,
+                  top: PAGE_PADDING_MOBILE,
+                  bottom: PAGE_PADDING_MOBILE * 2),
               child: content,
             )
           ],

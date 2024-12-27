@@ -21,10 +21,6 @@ class SelectBookingLoadedState extends SelectBookingState {
   SelectBookingLoadedState({required this.courts});
 }
 
-/// [BookingCreatedState] is the created state of the booking bloc.
-/// This state will be used when the booking bloc has created a booking.
-class BookingCreatedState extends SelectBookingState {}
-
 /// [SelectBookingErrorState] is a state of the select booking bloc.
 /// This state is the error state of the select booking bloc.
 class SelectBookingErrorState extends SelectBookingState {
@@ -32,12 +28,4 @@ class SelectBookingErrorState extends SelectBookingState {
   final String errorMessage;
 
   SelectBookingErrorState({required this.errorMessage});
-}
-
-/// [CreateBookingErrorState] is the error state of the booking bloc.
-class CreateBookingErrorState extends SelectBookingState {
-  /// [errorMessage] is the error message.
-  final String errorMessage;
-
-  CreateBookingErrorState({required this.errorMessage});
 }

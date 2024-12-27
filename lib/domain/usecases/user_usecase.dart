@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:courtly/core/errors/failure.dart';
 import 'package:courtly/data/dto/change_password_form_dto.dart';
+import 'package:courtly/data/dto/change_profile_picture_dto.dart';
 import 'package:courtly/data/dto/change_username_form_dto.dart';
 import 'package:courtly/data/dto/user_dto.dart';
 import 'package:courtly/data/repository/api/user_repository.dart';
@@ -62,6 +66,23 @@ class UserUsecase {
 
     // Change the password
     final Failure? res = await userRepository.patchPassword(formDto: formDto);
+
+    return res;
+  }
+
+  /// [changeProfilePicture] is a function to change the profile picture.
+  ///
+  /// Parameters:
+  ///   - [imageFile] is a required File.
+  ///
+  /// Returns [Future] of [Failure].
+  Future<Failure?> changeProfilePicture({required File imageFile}) async {
+    // Create a new instance of the ChangeProfilePictureDTO class.
+    final ChangeProfilePictureDTO dto = ChangeProfilePictureDTO(
+        image: base64Encode(await imageFile.readAsBytes()));
+
+    // Change the profile picture
+    final Failure? res = await userRepository.patchProfilePicture(dto: dto);
 
     return res;
   }

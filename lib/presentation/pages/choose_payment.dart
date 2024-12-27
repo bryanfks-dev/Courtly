@@ -1,41 +1,72 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
+import 'package:courtly/core/enums/payment_methods.dart';
+import 'package:courtly/core/utils/money_formatter.dart';
+import 'package:courtly/domain/entities/booking.dart';
+import 'package:courtly/domain/props/booking_value_props.dart';
 import 'package:courtly/domain/props/payment_method_props.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/choose_payment/payment_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
-class ChoosePaymentPage extends StatelessWidget {
-  ChoosePaymentPage({super.key});
+/// [ChoosePaymentPage] is a [StatefulWidget] that displays the
+/// choose payment page.
+class ChoosePaymentPage extends StatefulWidget {
+  const ChoosePaymentPage(
+      {super.key,
+      required this.paymentTotal,
+      required this.bookingDate,
+      required this.vendorId,
+      required this.bookings});
 
+  /// [paymentTotal] is the total amount of the payment.
+  final double paymentTotal;
+
+  /// [bookingDate] is the date of the booking.
+  final String bookingDate;
+
+  /// [vendorId] is the id of the vendor.
+  final int vendorId;
+
+  /// [bookings] is a list of [Booking] that contains the booking details.
+  final Set<BookingValueProps> bookings;
+
+  @override
+  State<ChoosePaymentPage> createState() => _ChoosePaymentPage();
+}
+
+class _ChoosePaymentPage extends State<ChoosePaymentPage> {
   /// [_eWallets] is a list of [PaymentMethodProps] that contains the credit card payment methods.
   final List<PaymentMethodProps> _eWallets = [
     PaymentMethodProps(
-        paymentImgSrc: "assets/images/ovo.svg.vec", paymentName: "OVO"),
+        paymentImgSrc: "assets/images/ovo.svg.vec",
+        paymentMethod: PaymentMethods.ovo,
+        instructions: "Go to your OVO app and pay the amount."),
     PaymentMethodProps(
-        paymentImgSrc: "assets/images/dana.svg.vec", paymentName: "Dana"),
+        paymentImgSrc: "assets/images/dana.svg.vec",
+        paymentMethod: PaymentMethods.dana,
+        instructions: "Go to your Dana app and pay the amount."),
     PaymentMethodProps(
-        paymentImgSrc: "assets/images/gopay.svg.vec", paymentName: "GoPay"),
+        paymentImgSrc: "assets/images/gopay.svg.vec",
+        paymentMethod: PaymentMethods.gopay,
+        instructions: "Go to your GoPay app and pay the amount."),
     PaymentMethodProps(
         paymentImgSrc: "assets/images/shopee_pay.svg.vec",
-        paymentName: "Shopee Pay"),
+        paymentMethod: PaymentMethods.shopeePay,
+        instructions: "Go to your Shopee Pay app and pay the amount."),
   ];
 
   /// [_virtualAccounts] is a list of [PaymentMethodProps] that contains the virtual account payment methods.
   final List<PaymentMethodProps> _virtualAccounts = [
     PaymentMethodProps(
         paymentImgSrc: "assets/images/bca.svg.vec",
-        paymentName: "BCA Virtual Account"),
-    PaymentMethodProps(
-        paymentImgSrc: "assets/images/bni.svg.vec",
-        paymentName: "BNI Virtual Account"),
-    PaymentMethodProps(
-        paymentImgSrc: "assets/images/mandiri.svg.vec",
-        paymentName: "Mandiri Virtual Account"),
+        paymentMethod: PaymentMethods.bca,
+        instructions: "Go to your BCA app and pay the amount."),
     PaymentMethodProps(
         paymentImgSrc: "assets/images/bri.svg.vec",
-        paymentName: "BRI Virtual Account"),
+        paymentMethod: PaymentMethods.bri,
+        instructions: "Go to your BRI app and pay the amount."),
   ];
 
   @override
@@ -71,7 +102,7 @@ class ChoosePaymentPage extends StatelessWidget {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        "Rp 31,000",
+                        "Rp ${moneyFormatter(amount: widget.paymentTotal)}",
                         style: TextStyle(
                             color: colorExt.primary,
                             fontSize: 14,
@@ -87,11 +118,23 @@ class ChoosePaymentPage extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    PaymentMethods(paymentMethods: _eWallets),
+                    PaymentMethodsCol(
+                      paymentMethods: _eWallets,
+                      vendorId: widget.vendorId,
+                      bookingDate: widget.bookingDate,
+                      bookings: widget.bookings,
+                      paymentTotal: widget.paymentTotal,
+                    ),
                     const SizedBox(
                       height: 20,
                     ),
-                    PaymentMethods(paymentMethods: _virtualAccounts),
+                    PaymentMethodsCol(
+                      paymentMethods: _virtualAccounts,
+                      vendorId: widget.vendorId,
+                      bookingDate: widget.bookingDate,
+                      bookings: widget.bookings,
+                      paymentTotal: widget.paymentTotal,
+                    ),
                     const SizedBox(
                       height: 20,
                     ),

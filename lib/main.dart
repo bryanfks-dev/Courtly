@@ -1,5 +1,4 @@
 import 'package:courtly/core/config/app_themes.dart';
-import 'package:courtly/data/repository/api/booking_repository.dart';
 import 'package:courtly/data/repository/api/court_repository.dart';
 import 'package:courtly/data/repository/api/login_repository.dart';
 import 'package:courtly/data/repository/api/logout_repository.dart';
@@ -11,7 +10,6 @@ import 'package:courtly/data/repository/api/verify_password_repository.dart';
 import 'package:courtly/data/repository/storage/theme_repository.dart';
 import 'package:courtly/data/repository/storage/token_repository.dart';
 import 'package:courtly/domain/usecases/auth_usecase.dart';
-import 'package:courtly/domain/usecases/booking_usecase.dart';
 import 'package:courtly/domain/usecases/court_usecase.dart';
 import 'package:courtly/domain/usecases/login_usecase.dart';
 import 'package:courtly/domain/usecases/logout_usecase.dart';
@@ -22,6 +20,7 @@ import 'package:courtly/domain/usecases/user_usecase.dart';
 import 'package:courtly/domain/usecases/verify_password_usecase.dart';
 import 'package:courtly/presentation/blocs/auth_bloc.dart';
 import 'package:courtly/presentation/blocs/change_password_bloc.dart';
+import 'package:courtly/presentation/blocs/change_profile_picture_bloc.dart';
 import 'package:courtly/presentation/blocs/change_username_bloc.dart';
 import 'package:courtly/presentation/blocs/orders_bloc.dart';
 import 'package:courtly/presentation/blocs/events/auth_event.dart';
@@ -33,12 +32,11 @@ import 'package:courtly/presentation/blocs/profile_bloc.dart';
 import 'package:courtly/presentation/blocs/register_bloc.dart';
 import 'package:courtly/presentation/blocs/reviews_bloc.dart';
 import 'package:courtly/presentation/blocs/select_booking_bloc.dart';
+import 'package:courtly/presentation/blocs/selected_payment_bloc.dart';
 import 'package:courtly/presentation/blocs/write_review_bloc.dart';
 import 'package:courtly/presentation/pages/change_password.dart';
 import 'package:courtly/presentation/pages/change_username.dart';
-import 'package:courtly/presentation/pages/choose_payment.dart';
 import 'package:courtly/presentation/pages/login.dart';
-import 'package:courtly/presentation/pages/payment_detail.dart';
 import 'package:courtly/presentation/pages/register.dart';
 import 'package:courtly/presentation/providers/theme_provider.dart';
 import 'package:courtly/presentation/widgets/app_scaffold.dart';
@@ -93,9 +91,11 @@ class _MyApp extends State<MyApp> {
           BlocProvider(
               create: (BuildContext context) => SelectBookingBloc(
                   courtUsecase:
-                      CourtUsecase(courtRepository: CourtRepository()),
-                  bookingUsecase:
-                      BookingUsecase(bookingRepository: BookingRepository()))),
+                      CourtUsecase(courtRepository: CourtRepository()))),
+          BlocProvider(
+              create: (BuildContext context) => SelectedPaymentBloc(
+                  orderUsecase:
+                      OrderUsecase(orderRepository: OrderRepository()))),
           BlocProvider(
               create: (BuildContext context) => ReviewsBloc(
                   reviewUsecase:
@@ -112,6 +112,9 @@ class _MyApp extends State<MyApp> {
               create: (BuildContext context) => ProfileBloc(
                   userUsecase: UserUsecase(userRepository: UserRepository()))
                 ..add(FetchProfileEvent())),
+          BlocProvider(
+              create: (BuildContext context) => ChangeProfilePictureBloc(
+                  userUsecase: UserUsecase(userRepository: UserRepository()))),
           BlocProvider(
               create: (BuildContext context) => ChangeUsernameBloc(
                   userUsecase: UserUsecase(userRepository: UserRepository()))),
@@ -148,9 +151,6 @@ class _MyApp extends State<MyApp> {
                   routes: {
                     Routes.login: (context) => LoginPage(),
                     Routes.register: (context) => const RegisterPage(),
-                    Routes.paymentDetail: (context) =>
-                        const PaymentDetailPage(),
-                    Routes.choosePayment: (context) => ChoosePaymentPage(),
                     Routes.changeUsername: (context) => ChangeUsernamePage(),
                     Routes.changePassword: (context) =>
                         const ChangePasswordPage(),
