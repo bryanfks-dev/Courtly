@@ -1,13 +1,22 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
+import 'package:courtly/domain/entities/order.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 
-/// [PaymentDetailPage] is a page to show payment details.
-class PaymentDetailPage extends StatelessWidget {
-  const PaymentDetailPage({super.key});
+/// [OrderDetailPage] is a page to show payment details.
+class OrderDetailPage extends StatefulWidget {
+  const OrderDetailPage({super.key, required this.order});
 
+  /// [order] is the order to show.
+  final Order order;
+
+  @override
+  State<OrderDetailPage> createState() => _OrderDetailPageState();
+}
+
+class _OrderDetailPageState extends State<OrderDetailPage> {
   @override
   Widget build(BuildContext context) {
     /// [colorExt] is an extension of the app.

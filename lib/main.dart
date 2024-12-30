@@ -38,6 +38,7 @@ import 'package:courtly/presentation/pages/change_password.dart';
 import 'package:courtly/presentation/pages/change_username.dart';
 import 'package:courtly/presentation/pages/login.dart';
 import 'package:courtly/presentation/pages/register.dart';
+import 'package:courtly/presentation/providers/midtrans_provider.dart';
 import 'package:courtly/presentation/providers/theme_provider.dart';
 import 'package:courtly/presentation/widgets/app_scaffold.dart';
 import 'package:courtly/routes/routes.dart';
@@ -50,7 +51,10 @@ import 'package:provider/provider.dart';
 ///
 /// Returns [void]
 void main() {
+  // Initialize the application.
   WidgetsFlutterBinding.ensureInitialized();
+
+  MidtransProvider.initSDK();
 
   runApp(const MyApp());
 }
@@ -91,7 +95,9 @@ class _MyApp extends State<MyApp> {
           BlocProvider(
               create: (BuildContext context) => SelectBookingBloc(
                   courtUsecase:
-                      CourtUsecase(courtRepository: CourtRepository()))),
+                      CourtUsecase(courtRepository: CourtRepository()),
+                  orderUsecase:
+                      OrderUsecase(orderRepository: OrderRepository()))),
           BlocProvider(
               create: (BuildContext context) => SelectedPaymentBloc(
                   orderUsecase:

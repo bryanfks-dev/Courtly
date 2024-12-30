@@ -8,17 +8,30 @@ abstract class SelectBookingState {}
 /// This state is the initial state of the select booking bloc.
 class SelectBookingInitialState extends SelectBookingState {}
 
-/// [SelectBookingLoadingState] is a state of the select booking bloc.
-/// This state is the loading state of the select booking bloc.
-class SelectBookingLoadingState extends SelectBookingState {}
+/// [SelectBookingFetchingState] is a state of the select booking bloc.
+/// This state is the fetching state of the select booking bloc.
+class SelectBookingFetchingState extends SelectBookingState {}
 
-/// [SelectBookingLoadedState] is a state of the select booking bloc.
-/// This state is the loaded state of the select booking bloc.
-class SelectBookingLoadedState extends SelectBookingState {
+/// [SelectBookingFetchedState] is a state of the select booking bloc.
+/// This state is the fetched state of the select booking bloc.
+class SelectBookingFetchedState extends SelectBookingState {
   /// [courts] is the list of courts.
   final List<Court> courts;
 
-  SelectBookingLoadedState({required this.courts});
+  SelectBookingFetchedState({required this.courts});
+}
+
+/// [SelectBookingSubmittingState] is a state of the select booking bloc.
+/// This state is the submitting state of the select booking bloc.
+class SelectBookingSubmittingState extends SelectBookingState {}
+
+/// [SelectBookingSubmittedState] is a state of the select booking bloc.
+/// This state is the submitted state of the select booking bloc.
+class SelectBookingSubmittedState extends SelectBookingState {
+  /// [paymentToken] is the payment token.
+  final String paymentToken;
+
+  SelectBookingSubmittedState({required this.paymentToken});
 }
 
 /// [SelectBookingErrorState] is a state of the select booking bloc.

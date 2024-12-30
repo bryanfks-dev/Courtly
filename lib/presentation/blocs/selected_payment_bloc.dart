@@ -2,6 +2,7 @@ import 'package:courtly/core/errors/failure.dart';
 import 'package:courtly/domain/props/booking_value_props.dart';
 import 'package:courtly/domain/usecases/order_usecase.dart';
 import 'package:courtly/presentation/blocs/states/selected_payment_state.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// [SelectedPaymentBloc] is a [Cubit] that manages the selected payment
@@ -31,19 +32,13 @@ class SelectedPaymentBloc extends Cubit<SelectedPaymentState> {
     emit(SelectedPaymentLoadingState());
 
     // Submit the booking payment.
-    final Failure? res = await orderUsecase.createOrder(
+    final Either<Failure, String> res = await orderUsecase.createOrder(
         vendorId: vendorId,
         date: date,
-        paymentMethodApiValue: paymentMethodApiValue,
         bookingDatas: bookingDatas);
 
-    // Handle the result.
-    if (res != null) {
-      emit(SelectedPaymentErrorState(errorMessage: res.errorMessage));
-
-      return;
-    }
-
-    emit(SelectedPaymentSuccessState());
+    res.fold(
+        (l) => emit(SelectedPaymentErrorState(errorMessage: l.errorMessage)),
+        (r) => emit(SelectedPaymentSuccessState(paymentToken: r)));
   }
 }

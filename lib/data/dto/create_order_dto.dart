@@ -6,16 +6,12 @@ class CreateOrderDTO {
   /// [date] is the date of the booking.
   final String date;
 
-  /// [paymentMethod] is the payment method.
-  final String paymentMethod;
-
   /// [bookings] is the list of bookings.
   final List<CreateBookingsInnerDTO> bookings;
 
   CreateOrderDTO({
     required this.vendorId,
     required this.date,
-    required this.paymentMethod,
     required this.bookings,
   });
 
@@ -26,7 +22,6 @@ class CreateOrderDTO {
     return {
       "vendor_id": vendorId,
       "date": date,
-      "payment_method": paymentMethod,
       "bookings": bookings.map((e) => e.toJson()).toList(),
     };
   }

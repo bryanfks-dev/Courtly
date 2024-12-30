@@ -5,8 +5,8 @@ import 'package:courtly/domain/entities/court.dart';
 import 'package:courtly/domain/props/booking_value_props.dart';
 import 'package:courtly/presentation/blocs/select_booking_bloc.dart';
 import 'package:courtly/presentation/blocs/states/select_booking_state.dart';
-import 'package:courtly/presentation/pages/choose_payment.dart';
 import 'package:courtly/presentation/pages/reviews.dart';
+import 'package:courtly/presentation/providers/midtrans_provider.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
@@ -111,7 +111,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
     return BookingValueProps(
       time: _timeSlots[value ~/ _courtsName.length],
       courtId:
-          (context.read<SelectBookingBloc>().state as SelectBookingLoadedState)
+          (context.read<SelectBookingBloc>().state as SelectBookingFetchedState)
               .courts[value % _courtsName.length]
               .id,
     );
@@ -355,12 +355,19 @@ class _SelectBookingPage extends State<SelectBookingPage> {
           const SizedBox(height: 24), // Jarak antara total price dan tombol
           PrimaryButton(
             onPressed: () {
-              // Navigate to the choose payment page
+              final String date = _formatDateKey(_selectedDate);
+
+              context.read<SelectBookingBloc>().submitBooking(
+                  vendorId: widget.court.vendor.id,
+                  date: date,
+                  bookingDatas: _selectedBoxes[date]!
+                      .map((e) => _decodeBookingValue(e))
+                      .toSet());
+
+              /* // Navigate to the choose payment page
               Navigator.push(context,
                   MaterialPageRoute(builder: (BuildContext context) {
-                // Get the selected bookings date
-                final String date = _formatDateKey(_selectedDate);
-
+                /// Get the selected bookings date
                 return ChoosePaymentPage(
                   paymentTotal:
                       _selectedBoxes[date]!.length * widget.court.price,
@@ -370,7 +377,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
                       .map((e) => _decodeBookingValue(e))
                       .toSet(),
                 );
-              }));
+              })); */
             },
             style: ButtonStyle(
               minimumSize: WidgetStateProperty.all(const Size.fromHeight(0)),
@@ -401,7 +408,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
         }
 
         // Initialize the schedule if the state is loaded
-        if (state is SelectBookingLoadedState) {
+        if (state is SelectBookingFetchedState) {
           // Initialize time slot
           _timeSlots = _generateTimeSlots(
               widget.court.vendor.openTime, widget.court.vendor.closeTime);
@@ -411,9 +418,14 @@ class _SelectBookingPage extends State<SelectBookingPage> {
 
           _initializeSchedule();
         }
+
+        if (state is SelectBookingSubmittedState) {
+          MidtransProvider.startPayment(paymentToken: state.paymentToken);
+        }
       }, builder: (BuildContext context, SelectBookingState state) {
         // Check if the state is not loaded yet
-        if (state is! SelectBookingLoadedState) {
+        if (state is! SelectBookingFetchedState &&
+            state is! SelectBookingSubmittedState) {
           return const LoadingScreen();
         }
 

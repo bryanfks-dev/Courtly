@@ -47,6 +47,7 @@ dependencies:
   horizontal_data_table: ^4.3.1
   dartz: ^0.10.1
   image_picker: ^1.1.2
+  midtrans_sdk: ^0.4.0
 
 dev_dependencies:
   flutter_test:

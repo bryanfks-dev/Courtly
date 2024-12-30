@@ -37,11 +37,10 @@ class OrderUsecase {
   ///   - [paymentMethodApiValue] is the payment method.
   ///   - [bookingDatas] is the set of booking data.
   ///
-  /// Returns a [Future] of [Failure]
-  Future<Failure?> createOrder(
+  /// Returns a [Future] of [dartz.Either] a [Failure] or [String].
+  Future<dartz.Either<Failure, String>> createOrder(
       {required int vendorId,
       required String date,
-      required String paymentMethodApiValue,
       required Set<BookingValueProps> bookingDatas}) async {
     /// [bookingDatasGroup] is a list of groupped booking data based on
     /// court id.
@@ -63,7 +62,6 @@ class OrderUsecase {
     final CreateOrderDTO dto = CreateOrderDTO(
         date: date,
         vendorId: vendorId,
-        paymentMethod: paymentMethodApiValue,
         bookings: bookingDatasGroupped
             .map((k, v) => MapEntry(
                 k,
@@ -73,8 +71,9 @@ class OrderUsecase {
             .toList());
 
     // Create bookings from repository
-    final Failure? res = await orderRepository.createOrder(dto: dto);
+    final dartz.Either<Failure, String> res =
+        await orderRepository.createOrder(dto: dto);
 
-    return res;
+    return res.fold((l) => dartz.left(l), (r) => dartz.Right(r));
   }
 }

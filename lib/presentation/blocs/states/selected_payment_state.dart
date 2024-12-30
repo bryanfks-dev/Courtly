@@ -24,4 +24,9 @@ class SelectedPaymentErrorState extends SelectedPaymentState {
 /// [SelectedPaymentSuccessState] is the state when the selected payment is
 /// successful.
 /// This state will be used to show the selected payment.
-class SelectedPaymentSuccessState extends SelectedPaymentState {}
+class SelectedPaymentSuccessState extends SelectedPaymentState {
+  /// [paymentToken] is the token for the payment.
+  final String paymentToken;
+
+  SelectedPaymentSuccessState({required this.paymentToken});
+}

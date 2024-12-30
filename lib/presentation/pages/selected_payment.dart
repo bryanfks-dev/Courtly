@@ -5,6 +5,7 @@ import 'package:courtly/domain/props/booking_value_props.dart';
 import 'package:courtly/domain/props/payment_method_props.dart';
 import 'package:courtly/presentation/blocs/selected_payment_bloc.dart';
 import 'package:courtly/presentation/blocs/states/selected_payment_state.dart';
+import 'package:courtly/presentation/providers/midtrans_provider.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
@@ -60,7 +61,8 @@ class SelectedPaymentPage extends StatelessWidget {
             }
 
             if (state is SelectedPaymentSuccessState) {
-              Navigator.pop(context);
+              // Start the payment.
+              MidtransProvider.startPayment(paymentToken: state.paymentToken);
             }
           }, builder: (BuildContext context, SelectedPaymentState state) {
             // Check the state of the selected payment.
