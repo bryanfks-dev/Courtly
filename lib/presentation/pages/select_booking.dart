@@ -1,6 +1,7 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/utils/money_formatter.dart';
+import 'package:courtly/domain/entities/booking.dart';
 import 'package:courtly/domain/entities/court.dart';
 import 'package:courtly/domain/props/booking_value_props.dart';
 import 'package:courtly/presentation/blocs/select_booking_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
 import 'package:intl/intl.dart';
+import 'package:midtrans_sdk/midtrans_sdk.dart';
 
 /// [SelectBookingPage] is a [StatefulWidget] that displays the detail of a court.
 /// This widget is used to display the detail of a court, including the schedule
@@ -35,6 +37,10 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   /// [_selectedBoxes] is a map that contains the selected boxes.
   /// The key is the date and the value is the set of selected boxes.
   final Map<String, Set<int>> _selectedBoxes = {};
+
+  /// [_bookedBoxes] is a list of booked boxes.
+  /// This list is used to store the booked boxes.
+  final List<int> _bookedBoxes = [];
 
   /// [_gridBoxWidth] is the width of the grid box.
   final double _gridBoxWidth = 90;
@@ -164,13 +170,57 @@ class _SelectBookingPage extends State<SelectBookingPage> {
             .contains(courtIndex + timeIndex * _courtsName.length);
   }
 
+  /// [_isBooked] is a function that checks if a box is booked.
+  ///
+  /// Parameters:
+  ///   - [courtIndex] is the index of the court.
+  ///   - [timeIndex] is the index of the time.
+  ///
+  /// Returns a [bool] that indicates if the box is booked.
+  bool _isBooked(int courtIndex, int timeIndex) {
+    return _bookedBoxes.contains(_encodeBookingValue(timeIndex, courtIndex));
+  }
+
+  /// [_initBookedBoxes] is a function that initializes the booked boxes.
+  ///
+  /// Parameters:
+  ///   - [bookings] is the list of bookings.
+  ///
+  /// Returns [void]
+  void _initBookedBoxes(List<Booking> bookings) {
+    // Clear the booked boxes
+    _bookedBoxes.clear();
+
+    // Encode the booking value
+    for (Booking booking in bookings) {
+      _bookedBoxes.add(_encodeBookingValue(
+          _timeSlots.indexOf(DateFormat("HH:mm").format(booking.startTime)),
+          _courtsName.indexOf(booking.court.name)));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
+    // Set the transaction finished callback
+    MidtransProvider.midtransSDK
+        ?.setTransactionFinishedCallback((TransactionResult result) {
+      // Check if the transaction is successful
+      if (result.transactionStatus == TransactionResultStatus.settlement) {
+        Navigator.popUntil(context, (route) => route.isFirst);
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Successfully booked the court!"),
+        ));
+      }
+    });
+
     // Fetch the list of courts
     context.read<SelectBookingBloc>().getCourts(
-        vendorId: widget.court.vendor.id, courtType: widget.court.type);
+        vendorId: widget.court.vendor.id,
+        courtType: widget.court.type,
+        date: _selectedDate);
   }
 
   @override
@@ -202,6 +252,12 @@ class _SelectBookingPage extends State<SelectBookingPage> {
       // Update the selected date
       _selectedDate = newDate;
     });
+
+    // Fetch the list of courts
+    context.read<SelectBookingBloc>().getCourts(
+        vendorId: widget.court.vendor.id,
+        courtType: widget.court.type,
+        date: _selectedDate);
   }
 
   /// [_formatWeekday] is a function that formats the weekday.
@@ -278,30 +334,43 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   Widget _generateRightHandSideColumnRow(BuildContext context, int timeIndex) {
     return Row(
       children: List.generate(_courtsName.length, (int courtIndex) {
+        // Check if the box is booked
+        final bool isBooked = _isBooked(courtIndex, timeIndex);
+
         // Check if the box is selected
-        bool isSelected = _isSelected(timeIndex, courtIndex);
+        final bool isSelected = _isSelected(timeIndex, courtIndex);
 
         return GestureDetector(
           onTap: () {
+            // Check if the box is booked
+            if (isBooked) {
+              return;
+            }
+
             _toggleSelection(timeIndex, courtIndex);
           },
           child: Container(
             width: _gridBoxWidth,
             height: _gridBoxHeight,
             decoration: BoxDecoration(
-              color: isSelected ? _colorExt.primary : _colorExt.background,
+              color: isBooked
+                  ? _colorExt.outline
+                  : (isSelected ? _colorExt.primary : _colorExt.background),
               border: Border.all(color: _colorExt.outline!),
             ),
-            child: Center(
-              child: Text(
-                isSelected ? "Selected" : "",
-                style: TextStyle(
-                  fontSize: 12,
-                  color:
-                      isSelected ? _colorExt.background : _colorExt.textPrimary,
-                ),
-              ),
-            ),
+            child: (isSelected || isBooked)
+                ? Center(
+                    child: Text(
+                      isBooked ? "Booked" : (isSelected ? "Selected" : ""),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isBooked
+                            ? _colorExt.highlight
+                            : _colorExt.background,
+                      ),
+                    ),
+                  )
+                : null,
           ),
         );
       }),
@@ -417,6 +486,8 @@ class _SelectBookingPage extends State<SelectBookingPage> {
           _courtsName = state.courts.map((e) => e.name).toList();
 
           _initializeSchedule();
+
+          _initBookedBoxes(state.bookings);
         }
 
         if (state is SelectBookingSubmittedState) {

@@ -22,6 +22,7 @@ import 'package:courtly/presentation/blocs/auth_bloc.dart';
 import 'package:courtly/presentation/blocs/change_password_bloc.dart';
 import 'package:courtly/presentation/blocs/change_profile_picture_bloc.dart';
 import 'package:courtly/presentation/blocs/change_username_bloc.dart';
+import 'package:courtly/presentation/blocs/order_detail_bloc.dart';
 import 'package:courtly/presentation/blocs/orders_bloc.dart';
 import 'package:courtly/presentation/blocs/events/auth_event.dart';
 import 'package:courtly/presentation/blocs/events/profile_event.dart';
@@ -108,6 +109,10 @@ class _MyApp extends State<MyApp> {
                       ReviewUsecase(reviewRepository: ReviewRepository()))),
           BlocProvider(
               create: (BuildContext context) => OrdersBloc(
+                  orderUsecase:
+                      OrderUsecase(orderRepository: OrderRepository()))),
+          BlocProvider(
+              create: (BuildContext context) => OrderDetailBloc(
                   orderUsecase:
                       OrderUsecase(orderRepository: OrderRepository()))),
           BlocProvider(

@@ -4,7 +4,8 @@
 /// The enum has three values: [success] and [pending].
 enum PaymentStatus {
   success("Success"),
-  pending("Pending");
+  pending("Pending"),
+  canceled("Canceled");
 
   /// [label] is the human readable representation of the enum
   final String label;

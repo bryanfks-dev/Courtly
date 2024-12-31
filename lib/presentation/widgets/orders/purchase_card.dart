@@ -3,7 +3,9 @@ import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/enums/payment_status.dart';
 import 'package:courtly/core/utils/money_formatter.dart';
 import 'package:courtly/domain/entities/order.dart';
+import 'package:courtly/presentation/pages/order_detail.dart';
 import 'package:courtly/presentation/pages/write_review.dart';
+import 'package:courtly/presentation/providers/midtrans_provider.dart';
 import 'package:courtly/presentation/widgets/orders/payment_status_badge.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
@@ -23,7 +25,25 @@ class PurchaseCard extends StatelessWidget {
     final AppColorsExtension colorExt = Theme.of(context).extension()!;
 
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        // Check for the order status
+        if (order.status == PaymentStatus.canceled.label) {
+          return;
+        }
+
+        if (order.status == PaymentStatus.pending.label) {
+          MidtransProvider.startPayment(paymentToken: order.paymentToken);
+
+          return;
+        }
+
+        // Navigate to order detail page
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    OrderDetailPage(orderId: order.id)));
+      },
       child: Container(
         color: colorExt.background,
         padding: const EdgeInsets.all(PAGE_PADDING_MOBILE),

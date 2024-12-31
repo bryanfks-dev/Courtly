@@ -1,19 +1,12 @@
 import 'package:courtly/data/dto/court_dto.dart';
-import 'package:courtly/data/dto/order_dto.dart';
 
 /// [BookingDTO] is a data transfer object that represents a booking.
 class BookingDTO {
   /// [id] is the unique identifier of the booking.
   final int id;
 
-  /// [order] is the order of the booking.
-  final OrderDTO order;
-
   /// [court] is the court of the booking.
   final CourtDTO court;
-
-  /// [date] is the date of the booking.
-  final String date;
 
   /// [startTime] is the start time of the booking.
   final String startTime;
@@ -23,9 +16,7 @@ class BookingDTO {
 
   BookingDTO({
     required this.id,
-    required this.order,
     required this.court,
-    required this.date,
     required this.startTime,
     required this.endTime,
   });
@@ -39,9 +30,7 @@ class BookingDTO {
   factory BookingDTO.fromJson(Map<String, dynamic> json) {
     return BookingDTO(
       id: json['id'],
-      order: OrderDTO.fromJson(json['order']),
       court: CourtDTO.fromJson(json['court']),
-      date: json['date'],
       startTime: json['book_start_time'],
       endTime: json['book_end_time'],
     );

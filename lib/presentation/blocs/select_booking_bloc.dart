@@ -22,19 +22,43 @@ class SelectBookingBloc extends Cubit<SelectBookingState> {
   /// Parameters:
   ///   - [vendorId] is the id of the vendor.
   ///   - [courtType] is the type of court.
+  ///   - [date] is the date of the booking.
   ///
   /// Returns a [Future] of [void]
   Future<void> getCourts(
-      {required int vendorId, required String courtType}) async {
+      {required int vendorId,
+      required String courtType,
+      required DateTime date}) async {
     emit(SelectBookingFetchingState());
 
-    // Fetch the list of courts.
-    final res = await courtUsecase.getVendorCourtsUsingCourtType(
-        vendorId: vendorId, courtType: courtType);
+    // Fetch the list of courts and list of court bookings.
+    final List<Either> res = await Future.wait([
+      courtUsecase.getVendorCourtsUsingCourtType(
+          vendorId: vendorId, courtType: courtType),
+      courtUsecase.getCourtBookings(
+          vendorId: vendorId, courtType: courtType, date: date),
+    ]);
 
-    // Handle the result.
-    res.fold((l) => emit(SelectBookingErrorState(errorMessage: l.errorMessage)),
-        (r) => emit(SelectBookingFetchedState(courts: r)));
+    // Check for failure
+    if (res[0].isLeft()) {
+      res[0].fold(
+          (l) => emit(SelectBookingErrorState(errorMessage: l.errorMessage)),
+          (r) => emit(SelectBookingErrorState(errorMessage: "Unknown Error")));
+
+      return;
+    }
+
+    if (res[1].isLeft()) {
+      res[1].fold(
+          (l) => emit(SelectBookingErrorState(errorMessage: l.errorMessage)),
+          (r) => emit(SelectBookingErrorState(errorMessage: "Unknown Error")));
+
+      return;
+    }
+
+    emit(SelectBookingFetchedState(
+        courts: res[0].getOrElse(() => throw 'No Courts Response'),
+        bookings: res[1].getOrElse(() => throw 'No Court Bookings Response')));
   }
 
   Future<void> submitBooking({

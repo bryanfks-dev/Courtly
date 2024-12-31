@@ -16,14 +16,14 @@ class Order {
   /// [vendor] is the vendor of the order.
   final Vendor vendor;
 
-  /// [paymentMethod] is the payment method of the order.
-  final String paymentMethod;
-
   /// [price] is the price of the order.
   final double price;
 
   /// [appFee] is the application fee of the order.
   final double appFee;
+
+  /// [paymentToken] is the payment token of the order.
+  final String paymentToken;
 
   /// [status] is the status of the order.
   final String status;
@@ -37,13 +37,14 @@ class Order {
       required this.date,
       required this.courtType,
       required this.vendor,
-      required this.paymentMethod,
       required this.price,
       required this.appFee,
+      required this.paymentToken,
       required this.status,
       this.reviewed});
 
-  /// [fromDTO] is a factory method that converts the [OrderDTO] object to a [Order] object.
+  /// [fromDTO] is a factory method that converts the [OrderDTO] object to a
+  /// [Order] object.
   ///
   /// Parameters:
   ///   - [dto] is the [OrderDTO] object.
@@ -58,9 +59,9 @@ class Order {
       date: dateFormatter.parse(dto.date),
       courtType: dto.courtType,
       vendor: Vendor.fromDTO(dto.vendor),
-      paymentMethod: dto.paymentMethod,
       price: dto.price,
       appFee: dto.appFee,
+      paymentToken: dto.paymentToken,
       status: dto.status,
       reviewed: dto.reviewed,
     );

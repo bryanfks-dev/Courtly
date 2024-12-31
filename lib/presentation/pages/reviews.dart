@@ -36,6 +36,7 @@ class _ReviewsPage extends State<ReviewsPage> {
   ///
   /// Returns a [double] of the star value.
   double _calcStarValue({required int starCount, required int totalReviews}) {
+    // Return 0 if the total reviews is 0.
     if (totalReviews == 0) {
       return 0;
     }
@@ -222,9 +223,7 @@ class _ReviewsPage extends State<ReviewsPage> {
                       builder: (BuildContext context, ReviewsState state) {
                     // Show loading screen if the state is not loaded.
                     if (state is! ReviewsLoadedState) {
-                      return const Center(
-                        child: LoadingScreen(),
-                      );
+                      return const LoadingScreen();
                     }
 
                     // Show no reviews found if the reviews is empty.

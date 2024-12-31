@@ -1,7 +1,9 @@
 import 'package:courtly/core/errors/failure.dart';
 import 'package:courtly/data/dto/create_order_dto.dart';
+import 'package:courtly/data/dto/order_detail_dto.dart';
 import 'package:courtly/data/dto/order_dto.dart';
 import 'package:courtly/data/repository/api/order_repository.dart';
+import 'package:courtly/domain/entities/order_detail.dart';
 import 'package:courtly/domain/props/booking_value_props.dart';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:courtly/domain/entities/order.dart';
@@ -75,5 +77,21 @@ class OrderUsecase {
         await orderRepository.createOrder(dto: dto);
 
     return res.fold((l) => dartz.left(l), (r) => dartz.Right(r));
+  }
+
+  /// [getOrderDetail] is a method to get the order detail.
+  /// 
+  /// Parameters:
+  ///   - [orderId] is the id of the order.
+  /// 
+  /// Returns a [Future] of [dartz.Either] of [Failure] or [OrderDetail].
+  Future<dartz.Either<Failure, OrderDetail>> getOrderDetail(
+      {required int orderId}) async {
+    // Get the order detail
+    final dartz.Either<Failure, OrderDetailDTO> res =
+        await orderRepository.getOrderDetail(orderId: orderId);
+
+    return res.fold(
+        (l) => dartz.left(l), (r) => dartz.right(OrderDetail.fromDTO(r)));
   }
 }

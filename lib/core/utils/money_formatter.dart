@@ -12,5 +12,7 @@ import 'package:intl/intl.dart';
 /// Example:
 /// moneyFormatter(amount: 1000000) => "1.000.000"
 String moneyFormatter({required double amount}) {
-  return NumberFormat.decimalPattern("id_ID").format(amount);
+  return NumberFormat.decimalPattern("id_ID")
+      .format(amount)
+      .replaceAll(".", ",");
 }

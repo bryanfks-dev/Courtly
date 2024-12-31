@@ -20,6 +20,7 @@ class PaymentStatusBadge extends StatelessWidget {
     final Map<String, Color> colorMap = {
       PaymentStatus.success.label: colorExt.success!,
       PaymentStatus.pending.label: colorExt.warning!,
+      PaymentStatus.canceled.label: colorExt.danger!,
     };
 
     return Container(

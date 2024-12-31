@@ -56,9 +56,7 @@ class WriteReviewPage extends StatelessWidget {
           // Check for states
           if (state is! WriteReviewInitialState &&
               state is! WriteReviewErrorState) {
-            return const Center(
-              child: LoadingScreen(),
-            );
+            return const LoadingScreen();
           }
 
           return SafeArea(
@@ -74,22 +72,40 @@ class WriteReviewPage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
+                      color: colorExt.textPrimary,
                     ),
+                  ),
+                  Text(
+                    order.vendor.address,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: colorExt.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   Text(
                     "${order.courtType} Court",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
+                      color: colorExt.textPrimary,
                     ),
                   ),
                   const SizedBox(
                     height: 30,
                   ),
-                  const Text(
+                  Text(
                     "How do you rate the place?",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: colorExt.textPrimary,
+                    ),
                   ),
                   const SizedBox(
                     height: 10,
@@ -97,7 +113,10 @@ class WriteReviewPage extends StatelessWidget {
                   Text(
                     "Your review helps others make informed decisions and helps vendor maintain high-quality service.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: colorExt.highlight, fontSize: 14),
+                    style: TextStyle(
+                      color: colorExt.highlight,
+                      fontSize: 14,
+                    ),
                   ),
                   const SizedBox(
                     height: 20,

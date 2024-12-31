@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:courtly/core/errors/failure.dart';
 import 'package:courtly/data/dto/create_order_dto.dart';
 import 'package:courtly/data/dto/create_order_response_dto.dart';
+import 'package:courtly/data/dto/order_detail_dto.dart';
+import 'package:courtly/data/dto/order_detail_response_dto.dart';
 import 'package:courtly/data/dto/order_dto.dart';
 import 'package:courtly/data/dto/orders_response_dto.dart';
 import 'package:courtly/data/dto/response_dto.dart';
@@ -95,6 +97,51 @@ class OrderRepository {
     // Check if the response is a success.
     if (result.success) {
       return right(result.data!.paymentToken);
+    }
+
+    // Check for different status codes.
+    if (response.statusCode == HttpStatus.internalServerError) {
+      return left(UnknownFailure(result.message));
+    }
+
+    if (response.statusCode == HttpStatus.badRequest) {
+      return left(UnknownFailure(result.message));
+    }
+
+    return left(UnknownFailure(result.message));
+  }
+
+  /// [getOrderDetail] is the function to get the order detail.
+  ///
+  /// Parameters:
+  ///   - [orderId] is the unique identifier of the order.
+  ///
+  /// Returns a [Future] of [Either] of [Failure] or [OrderDetailDTO].
+  Future<Either<Failure, OrderDetailDTO>> getOrderDetail(
+      {required int orderId}) async {
+    // Set the token from storage.
+    await _apiRepository.setTokenFromStorage(tokenRepository: _tokenRepository);
+
+    // Send a GET request to the server.
+    final Either<Failure, http.Response> res = await _apiRepository.get(
+        endpoint: "users/me/orders/$orderId", timeoutInSec: 2);
+
+    // Check if the request fails.
+    if (res.isLeft()) {
+      return left(res.fold((l) => l, (r) => UnknownFailure("Unknown error")));
+    }
+
+    // Get the response.
+    final http.Response response = res.getOrElse(() => throw "No Response");
+
+    // Parse the response.
+    final ResponseDTO<OrderDetailResponseDTO> result = ResponseDTO.fromJson(
+        json: jsonDecode(response.body),
+        fromJsonT: OrderDetailResponseDTO.fromJson);
+
+    // Check if the response is a success.
+    if (result.success) {
+      return right(result.data!.orderDetail);
     }
 
     // Check for different status codes.

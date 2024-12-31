@@ -1,3 +1,4 @@
+import 'package:courtly/domain/entities/booking.dart';
 import 'package:courtly/domain/entities/court.dart';
 
 /// [SelectBookingState] is an abstract class that will be extended
@@ -18,7 +19,10 @@ class SelectBookingFetchedState extends SelectBookingState {
   /// [courts] is the list of courts.
   final List<Court> courts;
 
-  SelectBookingFetchedState({required this.courts});
+  /// [bookings] is the list of booking
+  final List<Booking> bookings;
+
+  SelectBookingFetchedState({required this.courts, required this.bookings});
 }
 
 /// [SelectBookingSubmittingState] is a state of the select booking bloc.

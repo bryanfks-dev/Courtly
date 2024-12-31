@@ -32,19 +32,14 @@ class MidtransProvider {
     _midtransSDK?.setUIKitCustomSetting(
       skipCustomerDetailsPages: true,
     );
-
-    // Set the transaction finished callback
-    _midtransSDK!.setTransactionFinishedCallback((result) {
-      print(result.toJson());
-    });
   }
 
   /// [startPayment] is a method to start the payment flow.
   /// It is used to start the payment flow.
-  /// 
+  ///
   /// Parameters:
   ///   - [paymentToken] is the payment token to start the payment flow.
-  /// 
+  ///
   /// Returns a [Future] of [void].
   static Future<void> startPayment({required String paymentToken}) async {
     _midtransSDK?.startPaymentUiFlow(token: paymentToken);

@@ -34,7 +34,7 @@ class CourtCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: colorExt.outline!, width: 1),
         ),
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -42,7 +42,7 @@ class CourtCard extends StatelessWidget {
               width: 90,
               decoration: BoxDecoration(
                 color: colorExt.outline,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(6),
                 image: DecorationImage(
                   image: NetworkImage(data.imageUrl),
                   fit: BoxFit.cover,
