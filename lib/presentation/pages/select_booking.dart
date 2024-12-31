@@ -432,21 +432,6 @@ class _SelectBookingPage extends State<SelectBookingPage> {
                   bookingDatas: _selectedBoxes[date]!
                       .map((e) => _decodeBookingValue(e))
                       .toSet());
-
-              /* // Navigate to the choose payment page
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                /// Get the selected bookings date
-                return ChoosePaymentPage(
-                  paymentTotal:
-                      _selectedBoxes[date]!.length * widget.court.price,
-                  bookingDate: date,
-                  vendorId: widget.court.vendor.id,
-                  bookings: _selectedBoxes[date]!
-                      .map((e) => _decodeBookingValue(e))
-                      .toSet(),
-                );
-              })); */
             },
             style: ButtonStyle(
               minimumSize: WidgetStateProperty.all(const Size.fromHeight(0)),
