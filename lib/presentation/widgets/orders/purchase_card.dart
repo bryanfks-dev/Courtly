@@ -120,7 +120,7 @@ class PurchaseCard extends StatelessWidget {
                               visualDensity: VisualDensity.compact,
                               padding: WidgetStatePropertyAll(
                                   EdgeInsets.symmetric(horizontal: 10))),
-                          child: const Text("Rebook"))
+                          child: const Text("Reorder"))
                     ],
                   )
                 ]

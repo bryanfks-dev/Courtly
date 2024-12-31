@@ -23,6 +23,7 @@ class MidtransProvider {
         config: MidtransConfig(
             clientKey: MidtransEnv.clientKey,
             merchantBaseUrl: "",
+            language: "en",
             colorTheme: ColorTheme(
               colorPrimary: ColorSchemes.primaryLight,
               colorPrimaryDark: ColorSchemes.primaryDark,
