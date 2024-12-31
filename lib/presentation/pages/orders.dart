@@ -71,7 +71,7 @@ class _OrdersPage extends State<OrdersPage> {
 
           // Show loading screen if the state is not loaded
           if (state is! OrdersLoadedState) {
-            return Center(child: LoadingScreen());
+            return LoadingScreen();
           }
 
           return SingleChildScrollView(

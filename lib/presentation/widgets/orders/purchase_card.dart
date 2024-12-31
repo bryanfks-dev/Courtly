@@ -8,7 +8,6 @@ import 'package:courtly/presentation/pages/write_review.dart';
 import 'package:courtly/presentation/providers/midtrans_provider.dart';
 import 'package:courtly/presentation/widgets/orders/payment_status_badge.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
-import 'package:courtly/presentation/widgets/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -96,7 +95,7 @@ class PurchaseCard extends StatelessWidget {
                   Row(
                     children: [
                       if (!order.reviewed!) ...[
-                        SecondaryButton(
+                        PrimaryButton(
                             onPressed: () {
                               // Navigate to write review page
                               Navigator.push(
@@ -110,17 +109,7 @@ class PurchaseCard extends StatelessWidget {
                               visualDensity: VisualDensity.compact,
                             ),
                             child: const Text("Rate")),
-                        const SizedBox(
-                          width: 10,
-                        )
                       ],
-                      PrimaryButton(
-                          onPressed: () {},
-                          style: const ButtonStyle(
-                              visualDensity: VisualDensity.compact,
-                              padding: WidgetStatePropertyAll(
-                                  EdgeInsets.symmetric(horizontal: 10))),
-                          child: const Text("Reorder"))
                     ],
                   )
                 ]
