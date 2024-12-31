@@ -149,7 +149,7 @@ class _MyApp extends State<MyApp> {
                       tokenRepository: TokenRepository())))
         ],
         child: ChangeNotifierProvider(
-          create: (_) => ThemeProvider(ThemeRepository()),
+          create: (BuildContext context) => ThemeProvider(ThemeRepository()),
           child: Consumer<ThemeProvider>(
             builder: (BuildContext context, ThemeProvider themeProvider, _) {
               return MaterialApp(
@@ -157,8 +157,9 @@ class _MyApp extends State<MyApp> {
                   debugShowCheckedModeBanner: false,
                   theme: AppThemes.light,
                   darkTheme: AppThemes.dark,
-                  themeMode: ThemeMode
-                      .light, // TODO: Change this after installing local storage dependency
+                  themeMode: themeProvider.currentTheme == AppThemes.light
+                      ? ThemeMode.light
+                      : ThemeMode.dark,
                   routes: {
                     Routes.login: (context) => LoginPage(),
                     Routes.register: (context) => const RegisterPage(),

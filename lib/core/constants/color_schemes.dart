@@ -41,6 +41,15 @@ class ColorSchemes {
   static Color primaryDark = const Color(0xFF00A297);
 
   static Color defaultDark = const Color(0xFFFFFFFF);
-  static Color subtleDark = const Color(0xFFA6A6A6);
-  static Color highlightDark = const Color(0xFF5B5B5B);
+  static Color subtleDark = const Color(0xFF8C8C8C);
+  static Color highlightDark = const Color(0xFFA3A3A3);
+
+  static Color successDark = const Color(0xFF388E3C);
+  static Color warningDark = const Color(0xFFCC9900);
+  static Color errorDark = const Color(0xFFD32F2F);
+
+  static Color starDark = const Color(0xFFD4A72C);
+
+  static Color primaryBackgroundDark = const Color(0xFF221D1D);
+  static Color secondaryBackgroundDark = const Color(0xFF2A2424);
 }
