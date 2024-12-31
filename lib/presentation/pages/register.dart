@@ -364,7 +364,7 @@ class _RegisterPage extends State<RegisterPage> {
                   builder: (BuildContext context, RegisterState state) {
                 // Check the state
                 if (state is RegisterLoadingState) {
-                  return Center(child: LoadingScreen());
+                  return LoadingScreen();
                 }
 
                 return Padding(

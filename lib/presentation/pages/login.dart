@@ -96,9 +96,7 @@ class _LoginPage extends State<LoginPage> {
         }, builder: (BuildContext context, LoginState state) {
           // Check if the state is loading
           if (state is LoginLoadingState) {
-            return const Center(
-              child: LoadingScreen(),
-            );
+            return LoadingScreen();
           }
 
           return Padding(

@@ -326,7 +326,7 @@ class _LoggedInProfile extends State<LoggedInProfile> {
         builder: (BuildContext context, ProfileState state) {
       // Check the state of the profile.
       if (state is! ProfileLoadedState) {
-        return const Center(child: LoadingScreen());
+        return LoadingScreen();
       }
 
       return SafeArea(

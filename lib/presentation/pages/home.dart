@@ -154,7 +154,7 @@ class _HomePage extends State<HomePage> {
                       builder: (BuildContext context, HomeState state) {
                     // Show loading screen if the state is loading.
                     if (state is! HomeLoadedState) {
-                      return const Center(child: LoadingScreen());
+                      return LoadingScreen();
                     }
 
                     // Show no courts found if the list is empty.
