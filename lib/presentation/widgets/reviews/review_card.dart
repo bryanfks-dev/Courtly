@@ -41,7 +41,6 @@ class ReviewCard extends StatelessWidget {
                       width: 32,
                       height: 32,
                       decoration: BoxDecoration(
-                          color: colorExt.outline,
                           shape: BoxShape.circle,
                           image: review.user.profilePictureUrl.isNotEmpty
                               ? DecorationImage(
@@ -54,7 +53,7 @@ class ReviewCard extends StatelessWidget {
                               HeroIcons.userCircle,
                               color: colorExt.highlight,
                               style: HeroIconStyle.solid,
-                              size: 64,
+                              size: 72,
                             )
                           : null),
                   const SizedBox(

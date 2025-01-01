@@ -32,8 +32,8 @@ class User {
         id: dto.id,
         username: dto.username,
         phoneNumber: dto.phoneNumber,
-        profilePictureUrl: dto.profilePictureUrl != null
-            ? ""
-            : "${ApiServerConfig.baseUrl}/${dto.profilePictureUrl}");
+        profilePictureUrl: (dto.profilePictureUrl != null)
+            ? "${ApiServerConfig.baseUrl}/${dto.profilePictureUrl}"
+            : "");
   }
 }
