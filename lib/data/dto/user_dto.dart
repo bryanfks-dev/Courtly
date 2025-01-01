@@ -10,7 +10,7 @@ class UserDTO {
   final String? phoneNumber;
 
   /// [profilePictureUrl] is the URL of the profile picture of the user.
-  final String profilePictureUrl;
+  final String? profilePictureUrl;
 
   UserDTO(
       {required this.id,

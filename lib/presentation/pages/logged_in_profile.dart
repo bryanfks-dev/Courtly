@@ -364,13 +364,13 @@ class _LoggedInProfile extends State<LoggedInProfile> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(999),
                         color: colorExt.outline,
-                        image: state.user.profilePictureUrl!.isNotEmpty
+                        image: state.user.profilePictureUrl.isNotEmpty
                             ? DecorationImage(
                                 image:
-                                    NetworkImage(state.user.profilePictureUrl!),
+                                    NetworkImage(state.user.profilePictureUrl),
                                 fit: BoxFit.cover)
                             : null),
-                    child: state.user.profilePictureUrl!.isEmpty
+                    child: state.user.profilePictureUrl.isEmpty
                         ? HeroIcon(
                             HeroIcons.userCircle,
                             color: colorExt.highlight,

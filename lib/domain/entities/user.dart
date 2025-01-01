@@ -13,7 +13,7 @@ class User {
   final String? phoneNumber;
 
   /// [profilePictureUrl] is the URL of the user's profile picture
-  final String? profilePictureUrl;
+  final String profilePictureUrl;
 
   User(
       {required this.id,
@@ -32,7 +32,7 @@ class User {
         id: dto.id,
         username: dto.username,
         phoneNumber: dto.phoneNumber,
-        profilePictureUrl: dto.profilePictureUrl.isEmpty
+        profilePictureUrl: dto.profilePictureUrl != null
             ? ""
             : "${ApiServerConfig.baseUrl}/${dto.profilePictureUrl}");
   }

@@ -43,13 +43,13 @@ class ReviewCard extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: colorExt.outline,
                           shape: BoxShape.circle,
-                          image: review.user.profilePictureUrl!.isNotEmpty
+                          image: review.user.profilePictureUrl.isNotEmpty
                               ? DecorationImage(
                                   image: NetworkImage(
-                                      review.user.profilePictureUrl!),
+                                      review.user.profilePictureUrl),
                                   fit: BoxFit.cover)
                               : null),
-                      child: review.user.profilePictureUrl!.isEmpty
+                      child: review.user.profilePictureUrl.isEmpty
                           ? HeroIcon(
                               HeroIcons.userCircle,
                               color: colorExt.highlight,
