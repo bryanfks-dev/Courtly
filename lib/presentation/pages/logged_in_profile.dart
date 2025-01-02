@@ -330,109 +330,115 @@ class _LoggedInProfile extends State<LoggedInProfile> {
       }
 
       return SafeArea(
-          child: ListView(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(
-                left: PAGE_PADDING_MOBILE,
-                right: PAGE_PADDING_MOBILE,
-                bottom: 20),
-            color: colorExt.background,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    // Pick an image
-                    _image = await _pickImage();
+          child: RefreshIndicator(
+              onRefresh: () async {
+                context.read<ProfileBloc>().add(FetchProfileEvent());
+              },
+              color: colorExt.primary,
+              backgroundColor: colorExt.background,
+              child: ListView(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(
+                        left: PAGE_PADDING_MOBILE,
+                        right: PAGE_PADDING_MOBILE,
+                        bottom: 20),
+                    color: colorExt.background,
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            // Pick an image
+                            _image = await _pickImage();
 
-                    // Check if the image is null
-                    if (_image == null) {
-                      return;
-                    }
+                            // Check if the image is null
+                            if (_image == null) {
+                              return;
+                            }
 
-                    // Check if the context is not mounted
-                    if (!context.mounted) {
-                      return;
-                    }
+                            // Check if the context is not mounted
+                            if (!context.mounted) {
+                              return;
+                            }
 
-                    // Open the change profile picture modal.
-                    _openChangeProfilePictureModal(context, colorExt);
-                  },
-                  child: Container(
-                    width: 64,
-                    height: 64,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(999),
-                        color: colorExt.outline,
-                        image: state.user.profilePictureUrl.isNotEmpty
-                            ? DecorationImage(
-                                image:
-                                    NetworkImage(state.user.profilePictureUrl),
-                                fit: BoxFit.cover)
-                            : null),
-                    child: state.user.profilePictureUrl.isEmpty
-                        ? HeroIcon(
-                            HeroIcons.userCircle,
-                            color: colorExt.highlight,
-                            style: HeroIconStyle.solid,
-                            size: 64,
-                          )
-                        : null,
+                            // Open the change profile picture modal.
+                            _openChangeProfilePictureModal(context, colorExt);
+                          },
+                          child: Container(
+                            width: 64,
+                            height: 64,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(999),
+                                color: colorExt.outline,
+                                image: state.user.profilePictureUrl.isNotEmpty
+                                    ? DecorationImage(
+                                        image: NetworkImage(
+                                            state.user.profilePictureUrl),
+                                        fit: BoxFit.cover)
+                                    : null),
+                            child: state.user.profilePictureUrl.isEmpty
+                                ? HeroIcon(
+                                    HeroIcons.userCircle,
+                                    color: colorExt.highlight,
+                                    style: HeroIconStyle.solid,
+                                    size: 64,
+                                  )
+                                : null,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(state.user.username,
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                            Text("+${state.user.phoneNumber}",
+                                style: TextStyle(
+                                    fontSize: 12, color: colorExt.highlight))
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(state.user.username,
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text("+${state.user.phoneNumber}",
-                        style:
-                            TextStyle(fontSize: 12, color: colorExt.highlight))
-                  ],
-                )
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          ProfileMenuCard(title: "Personal Information", menus: [
-            ProfileMenu(
-                iconData: HeroIcons.atSymbol,
-                title: "Change Username",
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.changeUsername);
-                }),
-            ProfileMenu(
-                iconData: HeroIcons.lockClosed,
-                title: "Change Password",
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.changePassword);
-                }),
-          ]),
-          const SizedBox(
-            height: 10,
-          ),
-          ProfileMenuCard(title: "Preference", menus: [
-            ProfileMenuToggle(
-                iconData: HeroIcons.moon,
-                title: "Dark Mode",
-                defaultValue: darkMode.value,
-                onChanged: toggleDarkMode),
-          ]),
-          const SizedBox(
-            height: 10,
-          ),
-          ProfileMenu(
-              iconData: HeroIcons.arrowRightStartOnRectangle,
-              title: "Log Out",
-              onTap: () => _openLogoutModal(context, colorExt)),
-        ],
-      ));
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ProfileMenuCard(title: "Personal Information", menus: [
+                    ProfileMenu(
+                        iconData: HeroIcons.atSymbol,
+                        title: "Change Username",
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.changeUsername);
+                        }),
+                    ProfileMenu(
+                        iconData: HeroIcons.lockClosed,
+                        title: "Change Password",
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.changePassword);
+                        }),
+                  ]),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ProfileMenuCard(title: "Preference", menus: [
+                    ProfileMenuToggle(
+                        iconData: HeroIcons.moon,
+                        title: "Dark Mode",
+                        defaultValue: darkMode.value,
+                        onChanged: toggleDarkMode),
+                  ]),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ProfileMenu(
+                      iconData: HeroIcons.arrowRightStartOnRectangle,
+                      title: "Log Out",
+                      onTap: () => _openLogoutModal(context, colorExt)),
+                ],
+              )));
     });
   }
 }

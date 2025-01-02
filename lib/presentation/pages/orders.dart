@@ -74,55 +74,69 @@ class _OrdersPage extends State<OrdersPage> {
             return LoadingScreen();
           }
 
-          return SingleChildScrollView(
-            child: StickyHeader(
-                header: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                      color: colorExt.background,
-                      border: Border(
-                          top: BorderSide(width: 1, color: colorExt.outline!),
-                          bottom:
-                              BorderSide(width: 1, color: colorExt.outline!))),
-                  child: Container(
-                    margin: const EdgeInsets.only(left: PAGE_PADDING_MOBILE),
-                    child: FilterChips(
-                      items: _chipLabelItems,
-                      selectedItem: _selectedChipNotifier,
-                      onSelected: () {
-                        context.read<OrdersBloc>().getOrders(
-                            courtType: listSafeAccess(
-                                    list: Sports.values,
-                                    index: _selectedChipNotifier.value - 1,
-                                    defaultValue: null)
-                                ?.label);
-                      },
-                    ),
-                  ),
-                ),
-                content: (state.orders.isEmpty)
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height / 1.5,
-                        child: Center(
-                          child: Text(
-                            "No Orders yet..",
-                            style: TextStyle(color: colorExt.highlight),
-                          ),
+          return RefreshIndicator(
+              onRefresh: () async {
+                context.read<OrdersBloc>().getOrders(
+                    courtType: listSafeAccess(
+                            list: Sports.values,
+                            index: _selectedChipNotifier.value - 1,
+                            defaultValue: null)
+                        ?.label);
+              },
+              color: colorExt.primary,
+              backgroundColor: colorExt.background,
+              child: SingleChildScrollView(
+                child: StickyHeader(
+                    header: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                          color: colorExt.background,
+                          border: Border(
+                              top: BorderSide(
+                                  width: 1, color: colorExt.outline!),
+                              bottom: BorderSide(
+                                  width: 1, color: colorExt.outline!))),
+                      child: Container(
+                        margin:
+                            const EdgeInsets.only(left: PAGE_PADDING_MOBILE),
+                        child: FilterChips(
+                          items: _chipLabelItems,
+                          selectedItem: _selectedChipNotifier,
+                          onSelected: () {
+                            context.read<OrdersBloc>().getOrders(
+                                courtType: listSafeAccess(
+                                        list: Sports.values,
+                                        index: _selectedChipNotifier.value - 1,
+                                        defaultValue: null)
+                                    ?.label);
+                          },
                         ),
-                      )
-                    : SizedBox(
-                        child: ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              return PurchaseCard(order: state.orders[index]);
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) =>
-                                    const SizedBox(height: 10),
-                            itemCount: state.orders.length),
-                      )),
-          );
+                      ),
+                    ),
+                    content: (state.orders.isEmpty)
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.5,
+                            child: Center(
+                              child: Text(
+                                "No Orders yet..",
+                                style: TextStyle(color: colorExt.highlight),
+                              ),
+                            ),
+                          )
+                        : SizedBox(
+                            child: ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return PurchaseCard(
+                                      order: state.orders[index]);
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        const SizedBox(height: 10),
+                                itemCount: state.orders.length),
+                          )),
+              ));
         }),
       ),
     );
