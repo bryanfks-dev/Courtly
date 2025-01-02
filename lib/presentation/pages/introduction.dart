@@ -1,6 +1,9 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
+import 'package:courtly/presentation/blocs/events/introduction_event.dart';
+import 'package:courtly/presentation/blocs/introduction_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vector_graphics/vector_graphics.dart';
@@ -24,11 +27,12 @@ class _IntroductionPage extends State<IntroductionPage> {
     /// [customPageViewModel] is a function to create a custom page view model.
     /// It takes [title] and [body] as the title and body of the page.
     ///
-    /// - Parameters:
-    ///  - [title]: The title of the page.
-    ///  - [body]: The body of the page.
+    /// Parameters:
+    ///   - [imageUrl]: The image URL of the page.
+    ///   - [title]: The title of the page.
+    ///   - [body]: The body of the page.
     ///
-    /// - Returns: PageViewModel
+    /// Returns a PageViewModel
     PageViewModel customPageViewModel({
       required String imageUrl,
       required String title,
@@ -82,7 +86,10 @@ class _IntroductionPage extends State<IntroductionPage> {
                     fontSize: 14,
                     color: colorExt.primary,
                     fontWeight: FontWeight.w500)),
-            onDone: () {},
+            onDone: () {
+              BlocProvider.of<IntroductionBloc>(context)
+                  .add(SetIntroductionDoneEvent());
+            },
             next: HeroIcon(
               HeroIcons.chevronRight,
               color: colorExt.textPrimary,
