@@ -40,6 +40,9 @@ class AppThemes {
           color: ColorSchemes.primaryLight),
       bottomSheetTheme: BottomSheetThemeData(
           backgroundColor: ColorSchemes.primaryBackgroundLight),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: ColorSchemes.primaryLight,
+      ),
       inputDecorationTheme: InputDecorationTheme(
           prefixIconColor: ColorSchemes.highlightLight,
           suffixIconColor: ColorSchemes.highlightLight,
@@ -149,6 +152,9 @@ class AppThemes {
           color: ColorSchemes.primaryDark),
       bottomSheetTheme: BottomSheetThemeData(
           backgroundColor: ColorSchemes.primaryBackgroundDark),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: ColorSchemes.primaryDark,
+      ),
       inputDecorationTheme: InputDecorationTheme(
           prefixIconColor: ColorSchemes.highlightDark,
           suffixIconColor: ColorSchemes.highlightDark,
