@@ -224,7 +224,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                       fontSize: 12),
                                 ),
                                 Text(
-                                  DateFormat("MMM dd, yyy")
+                                  dateFormatter
                                       .format(state.orderDetail.createdDate),
                                   style: TextStyle(
                                       color: colorExt.textPrimary,
