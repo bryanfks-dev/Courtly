@@ -12,12 +12,23 @@ class RegisterUsecase {
   RegisterUsecase({required this.registerRepository});
 
   /// [register] is a function to handle the register usecase.
-  /// 
+  ///
   /// Parameters:
   ///   - [formDto] is the register form data.
-  /// 
+  ///
   /// Returns a [Failure] object.
-  Future<Failure?> register({required RegisterFormDTO formDto}) async {
+  Future<Failure?> register(
+      {required String username,
+      required String phoneNumber,
+      required String password,
+      required String confirmPassword}) async {
+    // Create a new RegisterFormDTO object.
+    final RegisterFormDTO formDto = RegisterFormDTO(
+        username: username,
+        phoneNumber: phoneNumber,
+        password: password,
+        confirmPassword: confirmPassword);
+
     // Make a POST request to the API.
     final Either<Failure, RegisterResponseDTO> res =
         await registerRepository.postRegister(formDto: formDto);

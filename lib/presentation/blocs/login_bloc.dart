@@ -1,5 +1,4 @@
 import 'package:courtly/core/errors/failure.dart';
-import 'package:courtly/data/dto/login_form_dto.dart';
 import 'package:courtly/domain/usecases/login_usecase.dart';
 import 'package:courtly/presentation/blocs/states/login_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,12 +22,9 @@ class LoginBloc extends Cubit<LoginState> {
   }) async {
     emit(LoginLoadingState());
 
-    // Create a [LoginFormDTO] object
-    final LoginFormDTO formDto =
-        LoginFormDTO(username: username, password: password);
-
     // Call the login usecase
-    final Failure? result = await loginUsecase.login(formDto: formDto);
+    final Failure? result =
+        await loginUsecase.login(username: username, password: password);
 
     // Check for failure
     if (result != null) {

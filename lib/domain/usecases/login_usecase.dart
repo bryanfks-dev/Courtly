@@ -21,7 +21,12 @@ class LoginUsecase {
   ///   - [formDto] is an instance of [LoginFormDTO] class
   ///
   /// Returns a [Future] of [Failure] or [null]
-  Future<Failure?> login({required LoginFormDTO formDto}) async {
+  Future<Failure?> login(
+      {required String username, required String password}) async {
+    // Create a [LoginFormDTO] object
+    final LoginFormDTO formDto =
+        LoginFormDTO(username: username, password: password);
+
     // Post login data to the server
     final result = await loginRepository.postLogin(formDto: formDto);
 
