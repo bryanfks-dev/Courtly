@@ -2,4 +2,5 @@
   <color name="colorprimarylight">#00BFB2</color>
   <color name="colorprimarydark">#00A297</color>
   <color name="colorbackgroundlight">#FFFFFF</color>
+  <color name="splashbackground">#1C1F26</color>
 </resources>
