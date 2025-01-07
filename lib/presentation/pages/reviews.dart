@@ -1,7 +1,6 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/utils/get_digits.dart';
-import 'package:courtly/domain/entities/court.dart';
 import 'package:courtly/presentation/blocs/reviews_bloc.dart';
 import 'package:courtly/presentation/blocs/states/reviews_state.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
@@ -16,10 +15,14 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 
 /// [ReviewsPage] is a page to show user's reviews.
 class ReviewsPage extends StatefulWidget {
-  const ReviewsPage({super.key, required this.court});
+  const ReviewsPage(
+      {super.key, required this.courtType, required this.vendorId});
 
-  /// [court] is the court entity.
-  final Court court;
+  /// [courtType] is the type of the court.
+  final String courtType;
+
+  /// [vendorId] is the id of the vendor.
+  final int vendorId;
 
   @override
   State<ReviewsPage> createState() => _ReviewsPage();
@@ -76,8 +79,8 @@ class _ReviewsPage extends State<ReviewsPage> {
     super.initState();
 
     // Get reviews from the server.
-    BlocProvider.of<ReviewsBloc>(context).getReviews(
-        vendorId: widget.court.vendor.id, courtType: widget.court.type);
+    BlocProvider.of<ReviewsBloc>(context)
+        .getReviews(vendorId: widget.vendorId, courtType: widget.courtType);
   }
 
   @override
@@ -148,7 +151,7 @@ class _ReviewsPage extends State<ReviewsPage> {
                                     fontSize: 28,
                                     fontWeight: FontWeight.bold),
                                 TextSpan(
-                                    text: widget.court.rating.toString(),
+                                    text: state.totalRating.toString(),
                                     children: [
                                       TextSpan(
                                           text: " / 5.0",
@@ -240,8 +243,8 @@ class _ReviewsPage extends State<ReviewsPage> {
                         onSelected: () {
                           // Get reviews from the server.
                           context.read<ReviewsBloc>().getReviews(
-                              vendorId: widget.court.vendor.id,
-                              courtType: widget.court.type,
+                              vendorId: widget.vendorId,
+                              courtType: widget.courtType,
                               rating: _selectedChipNotifier.value);
                         },
                       ),

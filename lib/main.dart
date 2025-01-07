@@ -1,4 +1,5 @@
 import 'package:courtly/core/config/app_themes.dart';
+import 'package:courtly/data/repository/api/advertisement_repository.dart';
 import 'package:courtly/data/repository/api/court_repository.dart';
 import 'package:courtly/data/repository/api/fees_repository.dart';
 import 'package:courtly/data/repository/api/login_repository.dart';
@@ -11,6 +12,7 @@ import 'package:courtly/data/repository/api/verify_password_repository.dart';
 import 'package:courtly/data/repository/storage/introduction_repository.dart';
 import 'package:courtly/data/repository/storage/theme_repository.dart';
 import 'package:courtly/data/repository/storage/token_repository.dart';
+import 'package:courtly/domain/usecases/advertisement_usecase.dart';
 import 'package:courtly/domain/usecases/auth_usecase.dart';
 import 'package:courtly/domain/usecases/court_usecase.dart';
 import 'package:courtly/domain/usecases/fees_usecase.dart';
@@ -105,7 +107,9 @@ class _MyApp extends State<MyApp> {
               create: (BuildContext context) => HomeBloc(
                   userUsecase: UserUsecase(userRepository: UserRepository()),
                   courtUsecase:
-                      CourtUsecase(courtRepository: CourtRepository()))),
+                      CourtUsecase(courtRepository: CourtRepository()),
+                  advertisementUsecase: AdvertisementUsecase(
+                      advertisementRepository: AdvertisementRepository()))),
           BlocProvider(
               create: (BuildContext context) => SelectBookingBloc(
                   courtUsecase:

@@ -1,3 +1,4 @@
+import 'package:courtly/domain/entities/advertisement.dart';
 import 'package:courtly/domain/entities/court.dart';
 import 'package:courtly/domain/entities/user.dart';
 
@@ -18,11 +19,15 @@ class HomeLoadedState extends HomeState {
   /// [user] is the user data.
   final User? user;
 
+  /// [ads] is the list of advertisements.
+  final List<Advertisement> ads;
+
   /// [courts] is the list of courts.
   final List<Court> courts;
 
   HomeLoadedState({
     this.user,
+    required this.ads,
     required this.courts,
   });
 }

@@ -48,6 +48,7 @@ dependencies:
   dartz: ^0.10.1
   image_picker: ^1.1.2
   midtrans_sdk: ^0.4.0
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

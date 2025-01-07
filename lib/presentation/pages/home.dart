@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/core/enums/sports.dart';
@@ -35,19 +36,29 @@ class _HomePage extends State<HomePage> {
   /// [_selectedChipNotifier] is the selected chip via filter chips.
   final ValueNotifier<int> _selectedChipNotifier = ValueNotifier(0);
 
-  @override
-  void initState() {
-    super.initState();
-
+  /// [_getDatas] is the method to get the data.
+  ///
+  /// Returns [void]
+  void _getDatas({String? courtType, String? vendorName}) {
     // Check if the user is authenticated.
-    if (BlocProvider.of<AuthBloc>(context, listen: false).state
-        is AuthenticatedState) {
-      context.read<HomeBloc>().fetch();
+    if (BlocProvider.of<AuthBloc>(context).state is AuthenticatedState) {
+      context
+          .read<HomeBloc>()
+          .getForLoggedUser(courtType: courtType, vendorName: vendorName);
 
       return;
     }
 
-    context.read<HomeBloc>().fetchCourtsOnly();
+    context
+        .read<HomeBloc>()
+        .getForGuest(courtType: courtType, vendorName: vendorName);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getDatas();
   }
 
   @override
@@ -68,12 +79,12 @@ class _HomePage extends State<HomePage> {
       }, builder: (BuildContext context, HomeState state) {
         // Show loading screen if the state is loading.
         if (state is! HomeLoadedState) {
-          return const Center(child: LoadingScreen());
+          return const LoadingScreen();
         }
 
         return RefreshIndicator(
             onRefresh: () async {
-              await context.read<HomeBloc>().fetch();
+              _getDatas();
             },
             color: colorExt.primary,
             backgroundColor: colorExt.background,
@@ -101,6 +112,57 @@ class _HomePage extends State<HomePage> {
                       ],
                     ),
                   ),
+                  state.ads.isNotEmpty
+                      ? Column(
+                          children: [
+                            const SizedBox(height: 12),
+                            Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: PAGE_PADDING_MOBILE),
+                                child: CarouselSlider(
+                                    options: CarouselOptions(
+                                        height: 130,
+                                        viewportFraction: 1,
+                                        autoPlay: true,
+                                        autoPlayInterval:
+                                            const Duration(seconds: 7),
+                                        autoPlayCurve: Curves.easeInOut,
+                                        scrollDirection: Axis.horizontal),
+                                    items: state.ads.map((ad) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      SelectBookingPage(
+                                                          court: state.courts
+                                                              .firstWhere((element) =>
+                                                                  element.type ==
+                                                                      ad
+                                                                          .courtType &&
+                                                                  element.vendor
+                                                                          .id ==
+                                                                      ad.vendor
+                                                                          .id))));
+                                        },
+                                        child: Container(
+                                          width: double.maxFinite,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                              image: DecorationImage(
+                                                  image:
+                                                      NetworkImage(ad.imageUrl),
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                      );
+                                    }).toList())),
+                            const SizedBox(height: 4),
+                          ],
+                        )
+                      : SizedBox.shrink(),
                   StickyHeader(
                       header: Container(
                         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -114,7 +176,7 @@ class _HomePage extends State<HomePage> {
                                   items: _chipLabelItems,
                                   selectedItem: _selectedChipNotifier,
                                   onSelected: () {
-                                    context.read<HomeBloc>().fetchCourtsOnly(
+                                    _getDatas(
                                         courtType: listSafeAccess(
                                                 list: Sports.values,
                                                 index: _selectedChipNotifier
@@ -143,7 +205,7 @@ class _HomePage extends State<HomePage> {
                                   contentPadding: EdgeInsets.zero,
                                 ),
                                 onSubmitted: (value) {
-                                  context.read<HomeBloc>().fetchCourtsOnly(
+                                  _getDatas(
                                       courtType: listSafeAccess(
                                               list: Sports.values,
                                               index:

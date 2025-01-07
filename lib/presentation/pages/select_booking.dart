@@ -560,7 +560,8 @@ class _SelectBookingPage extends State<SelectBookingPage> {
                         // Navigate to the reviews page
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (BuildContext context) => ReviewsPage(
-                                  court: widget.court,
+                                  courtType: widget.court.type,
+                                  vendorId: widget.court.vendor.id,
                                 )));
                       },
                       overlayColor:
