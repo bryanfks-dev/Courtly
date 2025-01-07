@@ -1,6 +1,7 @@
 import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/domain/entities/order.dart';
+import 'package:courtly/presentation/blocs/orders_bloc.dart';
 import 'package:courtly/presentation/blocs/states/write_review_state.dart';
 import 'package:courtly/presentation/blocs/write_review_bloc.dart';
 import 'package:courtly/presentation/validators/write_review_validator.dart';
@@ -51,6 +52,9 @@ class WriteReviewPage extends StatelessWidget {
 
             // Pop until the first screen
             Navigator.popUntil(context, (route) => route.isFirst);
+
+            // Refetch orders
+            context.read<OrdersBloc>().getOrders();
           }
         }, builder: (BuildContext context, WriteReviewState state) {
           // Check for states
