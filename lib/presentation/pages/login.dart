@@ -2,7 +2,9 @@ import 'package:courtly/core/config/app_color_extension.dart';
 import 'package:courtly/core/constants/constants.dart';
 import 'package:courtly/presentation/blocs/auth_bloc.dart';
 import 'package:courtly/presentation/blocs/events/auth_event.dart';
+import 'package:courtly/presentation/blocs/events/profile_event.dart';
 import 'package:courtly/presentation/blocs/login_bloc.dart';
+import 'package:courtly/presentation/blocs/profile_bloc.dart';
 import 'package:courtly/presentation/blocs/states/login_state.dart';
 import 'package:courtly/presentation/validators/login_form_validator.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
@@ -71,6 +73,9 @@ class _LoginPage extends State<LoginPage> {
           if (state is LoginSuccessState) {
             // Dispatch the check auth event
             context.read<AuthBloc>().add(CheckAuthEvent());
+
+            // Dispatch the fetch profile event
+            context.read<ProfileBloc>().add(FetchProfileEvent());
 
             // Navigate to home page
             Navigator.popUntil(context, (route) => route.isFirst);

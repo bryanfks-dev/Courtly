@@ -28,7 +28,6 @@ import 'package:courtly/presentation/blocs/introduction_bloc.dart';
 import 'package:courtly/presentation/blocs/order_detail_bloc.dart';
 import 'package:courtly/presentation/blocs/orders_bloc.dart';
 import 'package:courtly/presentation/blocs/events/auth_event.dart';
-import 'package:courtly/presentation/blocs/events/profile_event.dart';
 import 'package:courtly/presentation/blocs/home_bloc.dart';
 import 'package:courtly/presentation/blocs/login_bloc.dart';
 import 'package:courtly/presentation/blocs/logout_bloc.dart';
@@ -131,8 +130,7 @@ class _MyApp extends State<MyApp> {
                       ReviewUsecase(reviewRepository: ReviewRepository()))),
           BlocProvider(
               create: (BuildContext context) => ProfileBloc(
-                  userUsecase: UserUsecase(userRepository: UserRepository()))
-                ..add(FetchProfileEvent())),
+                  userUsecase: UserUsecase(userRepository: UserRepository()))),
           BlocProvider(
               create: (BuildContext context) => ChangeProfilePictureBloc(
                   userUsecase: UserUsecase(userRepository: UserRepository()))),
