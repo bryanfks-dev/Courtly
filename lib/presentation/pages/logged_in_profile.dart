@@ -373,7 +373,7 @@ class _LoggedInProfile extends State<LoggedInProfile> {
                                 image: state.user.profilePictureUrl.isNotEmpty
                                     ? DecorationImage(
                                         image: NetworkImage(
-                                            state.user.profilePictureUrl),
+                                            "${state.user.profilePictureUrl}?timestamp=${DateTime.now().millisecondsSinceEpoch}"),
                                         fit: BoxFit.cover)
                                     : null),
                             child: state.user.profilePictureUrl.isEmpty
