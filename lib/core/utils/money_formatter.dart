@@ -10,7 +10,9 @@ import 'package:intl/intl.dart';
 /// Returns a string of formatted amount within dots every 3 integer.
 ///
 /// Example:
-/// moneyFormatter(amount: 1000000) => "1.000.000"
+/// ```dart
+/// moneyFormatter(amount: 1000000) /// "1,000,000"
+/// ```
 String moneyFormatter({required double amount}) {
   return NumberFormat.decimalPattern("id_ID")
       .format(amount)
