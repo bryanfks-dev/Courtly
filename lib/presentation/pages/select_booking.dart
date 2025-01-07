@@ -380,7 +380,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   /// [_buildPriceBox] adalah widget untuk menampilkan harga total berdasarkan kotak yang dipilih.
   ///
   /// Returns [Widget]
-  Widget _buildPriceBox() {
+  Widget _buildPriceBox({required double courtPrice, required double appFee}) {
     // Get the date key
     final String dateKey = _formatDateKey(_selectedDate);
 
@@ -410,18 +410,51 @@ class _SelectBookingPage extends State<SelectBookingPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                "Booking Price",
+                "Total Order",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                "Rp ${moneyFormatter(amount: selectedCount * widget.court.price)}", // Harga per kotak, ganti sesuai kebutuhan.
+                "Rp ${moneyFormatter(amount: selectedCount * courtPrice + appFee)}",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 24), // Jarak antara total price dan tombol
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Booking Price",
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+              ),
+              Text(
+                "Rp ${moneyFormatter(amount: selectedCount * courtPrice)}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "App Fee",
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+              ),
+              Text(
+                "Rp ${moneyFormatter(amount: appFee)}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
           PrimaryButton(
             onPressed: () {
               final String date = _formatDateKey(_selectedDate);
@@ -480,8 +513,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
         }
       }, builder: (BuildContext context, SelectBookingState state) {
         // Check if the state is not loaded yet
-        if (state is! SelectBookingFetchedState &&
-            state is! SelectBookingSubmittedState) {
+        if (state is! SelectBookingFetchedState) {
           return const LoadingScreen();
         }
 
@@ -566,6 +598,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       DateTime date = weekDays[index];
+
                       bool isSelected = _selectedDate.day == date.day &&
                           _selectedDate.month == date.month;
 
@@ -640,7 +673,8 @@ class _SelectBookingPage extends State<SelectBookingPage> {
                   ),
                 ),
               ),
-              _buildPriceBox(),
+              _buildPriceBox(
+                  courtPrice: state.courts[0].price, appFee: state.fees.appFee),
             ],
           ),
         );

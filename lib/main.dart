@@ -1,5 +1,6 @@
 import 'package:courtly/core/config/app_themes.dart';
 import 'package:courtly/data/repository/api/court_repository.dart';
+import 'package:courtly/data/repository/api/fees_repository.dart';
 import 'package:courtly/data/repository/api/login_repository.dart';
 import 'package:courtly/data/repository/api/logout_repository.dart';
 import 'package:courtly/data/repository/api/order_repository.dart';
@@ -12,6 +13,7 @@ import 'package:courtly/data/repository/storage/theme_repository.dart';
 import 'package:courtly/data/repository/storage/token_repository.dart';
 import 'package:courtly/domain/usecases/auth_usecase.dart';
 import 'package:courtly/domain/usecases/court_usecase.dart';
+import 'package:courtly/domain/usecases/fees_usecase.dart';
 import 'package:courtly/domain/usecases/login_usecase.dart';
 import 'package:courtly/domain/usecases/logout_usecase.dart';
 import 'package:courtly/domain/usecases/order_usecase.dart';
@@ -59,8 +61,6 @@ import 'package:provider/provider.dart';
 void main() {
   // Initialize the application.
   WidgetsFlutterBinding.ensureInitialized();
-
-  
 
   MidtransProvider.initSDK();
 
@@ -111,7 +111,8 @@ class _MyApp extends State<MyApp> {
                   courtUsecase:
                       CourtUsecase(courtRepository: CourtRepository()),
                   orderUsecase:
-                      OrderUsecase(orderRepository: OrderRepository()))),
+                      OrderUsecase(orderRepository: OrderRepository()),
+                  feesUsecase: FeesUsecase(feesRepository: FeesRepository()))),
           BlocProvider(
               create: (BuildContext context) => ReviewsBloc(
                   reviewUsecase:

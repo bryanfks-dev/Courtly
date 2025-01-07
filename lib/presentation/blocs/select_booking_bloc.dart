@@ -1,6 +1,7 @@
 import 'package:courtly/core/errors/failure.dart';
 import 'package:courtly/domain/props/booking_value_props.dart';
 import 'package:courtly/domain/usecases/court_usecase.dart';
+import 'package:courtly/domain/usecases/fees_usecase.dart';
 import 'package:courtly/domain/usecases/order_usecase.dart';
 import 'package:courtly/presentation/blocs/states/select_booking_state.dart';
 import 'package:dartz/dartz.dart';
@@ -14,7 +15,13 @@ class SelectBookingBloc extends Cubit<SelectBookingState> {
   /// [orderUsecase] is an instance of the [OrderUsecase] class.
   final OrderUsecase orderUsecase;
 
-  SelectBookingBloc({required this.courtUsecase, required this.orderUsecase})
+  /// [feesUsecase] is an instance of the [FeesUsecase] class.
+  final FeesUsecase feesUsecase;
+
+  SelectBookingBloc(
+      {required this.courtUsecase,
+      required this.orderUsecase,
+      required this.feesUsecase})
       : super(SelectBookingInitialState());
 
   /// [getCourts] is a method that fetches the list of courts.
@@ -37,6 +44,7 @@ class SelectBookingBloc extends Cubit<SelectBookingState> {
           vendorId: vendorId, courtType: courtType),
       courtUsecase.getCourtBookings(
           vendorId: vendorId, courtType: courtType, date: date),
+      feesUsecase.getFees(),
     ]);
 
     // Check for failure
@@ -56,9 +64,18 @@ class SelectBookingBloc extends Cubit<SelectBookingState> {
       return;
     }
 
+    if (res[2].isLeft()) {
+      res[2].fold(
+          (l) => emit(SelectBookingErrorState(errorMessage: l.errorMessage)),
+          (r) => emit(SelectBookingErrorState(errorMessage: "Unknown Error")));
+
+      return;
+    }
+
     emit(SelectBookingFetchedState(
         courts: res[0].getOrElse(() => throw 'No Courts Response'),
-        bookings: res[1].getOrElse(() => throw 'No Court Bookings Response')));
+        bookings: res[1].getOrElse(() => throw 'No Court Bookings Response'),
+        fees: res[2].getOrElse(() => throw 'No Fees Response')));
   }
 
   Future<void> submitBooking({
