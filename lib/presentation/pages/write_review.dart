@@ -141,8 +141,10 @@ class WriteReviewPage extends StatelessWidget {
                     controller: _controller,
                     maxLines: 10,
                     style: TextStyle(fontSize: 14),
+                    maxLength: 100,
                     decoration: InputDecoration(
-                      hintText: "Write your thoughts here...",
+                      hintText: "Write your thoughts here (max 100 words)",
+                      counterText: "",
                       contentPadding: EdgeInsets.all(16),
                     ),
                   ),
