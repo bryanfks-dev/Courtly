@@ -434,6 +434,14 @@ class _LoggedInProfile extends State<LoggedInProfile> {
                     height: 10,
                   ),
                   ProfileMenu(
+                      iconData: HeroIcons.informationCircle,
+                      title: "About Us",
+                      onTap: () =>
+                          Navigator.pushNamed(context, Routes.aboutUs)),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ProfileMenu(
                       iconData: HeroIcons.arrowRightStartOnRectangle,
                       title: "Log Out",
                       onTap: () => _openLogoutModal(context, colorExt)),

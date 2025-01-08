@@ -41,6 +41,7 @@ import 'package:courtly/presentation/blocs/reviews_bloc.dart';
 import 'package:courtly/presentation/blocs/select_booking_bloc.dart';
 import 'package:courtly/presentation/blocs/states/introduction_state.dart';
 import 'package:courtly/presentation/blocs/write_review_bloc.dart';
+import 'package:courtly/presentation/pages/about_us.dart';
 import 'package:courtly/presentation/pages/change_password.dart';
 import 'package:courtly/presentation/pages/change_username.dart';
 import 'package:courtly/presentation/pages/introduction.dart';
@@ -179,6 +180,7 @@ class _MyApp extends State<MyApp> {
                     Routes.changeUsername: (context) => ChangeUsernamePage(),
                     Routes.changePassword: (context) =>
                         const ChangePasswordPage(),
+                    Routes.aboutUs: (context) => AboutUsPage(),
                   },
                   home: BlocBuilder<IntroductionBloc, IntroductionState>(
                       builder: (BuildContext context, IntroductionState state) {
