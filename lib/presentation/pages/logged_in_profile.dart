@@ -20,6 +20,7 @@ import 'package:courtly/presentation/widgets/profile/profile_menu.dart';
 import 'package:courtly/presentation/widgets/profile/profile_menu_card.dart';
 import 'package:courtly/presentation/widgets/profile/profile_menu_toggle.dart';
 import 'package:courtly/presentation/widgets/secondary_button.dart';
+import 'package:courtly/presentation/widgets/try_again_screen.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -322,9 +323,21 @@ class _LoggedInProfile extends State<LoggedInProfile> {
       darkMode.value = value;
     }
 
-    return BlocBuilder<ProfileBloc, ProfileState>(
-        builder: (BuildContext context, ProfileState state) {
+    return BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (BuildContext context, ProfileState state) {
+      // Check for states
+      if (state is ProfileErrorState) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(state.errorMessage)));
+      }
+    }, builder: (BuildContext context, ProfileState state) {
       // Check the state of the profile.
+      if (state is ProfileErrorState) {
+        return TryAgainScreen(
+            onTryAgain: () =>
+                context.read<ProfileBloc>().add(FetchProfileEvent()));
+      }
+
       if (state is! ProfileLoadedState) {
         return LoadingScreen();
       }

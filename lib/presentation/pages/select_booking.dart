@@ -11,6 +11,7 @@ import 'package:courtly/presentation/providers/midtrans_provider.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
 import 'package:courtly/presentation/widgets/primary_button.dart';
+import 'package:courtly/presentation/widgets/try_again_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
@@ -512,7 +513,15 @@ class _SelectBookingPage extends State<SelectBookingPage> {
           MidtransProvider.startPayment(paymentToken: state.paymentToken);
         }
       }, builder: (BuildContext context, SelectBookingState state) {
-        // Check if the state is not loaded yet
+        // Check for states.
+        if (state is SelectBookingErrorState) {
+          return TryAgainScreen(
+              onTryAgain: () => context.read<SelectBookingBloc>().getCourts(
+                  vendorId: widget.court.vendor.id,
+                  courtType: widget.court.type,
+                  date: _selectedDate));
+        }
+
         if (state is! SelectBookingFetchedState) {
           return const LoadingScreen();
         }

@@ -9,6 +9,7 @@ import 'package:courtly/presentation/blocs/states/orders_state.dart';
 import 'package:courtly/presentation/widgets/orders/purchase_card.dart';
 import 'package:courtly/presentation/widgets/filter_chips.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
+import 'package:courtly/presentation/widgets/try_again_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -69,7 +70,18 @@ class _OrdersPage extends State<OrdersPage> {
             ));
           }
 
-          // Show loading screen if the state is not loaded
+          // Check for the state of the orders bloc
+          if (state is OrdersErrorState) {
+            return TryAgainScreen(onTryAgain: () {
+              context.read<OrdersBloc>().getOrders(
+                  courtType: listSafeAccess(
+                          list: Sports.values,
+                          index: _selectedChipNotifier.value - 1,
+                          defaultValue: null)
+                      ?.label);
+            });
+          }
+
           if (state is! OrdersLoadedState) {
             return LoadingScreen();
           }

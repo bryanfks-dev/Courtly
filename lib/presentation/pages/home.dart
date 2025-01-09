@@ -11,6 +11,7 @@ import 'package:courtly/presentation/pages/select_booking.dart';
 import 'package:courtly/presentation/widgets/filter_chips.dart';
 import 'package:courtly/presentation/widgets/home/court_card.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
+import 'package:courtly/presentation/widgets/try_again_screen.dart';
 import 'package:courtly/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,7 +78,11 @@ class _HomePage extends State<HomePage> {
           ));
         }
       }, builder: (BuildContext context, HomeState state) {
-        // Show loading screen if the state is loading.
+        // Check for the states.
+        if (state is HomeErrorState) {
+          return TryAgainScreen(onTryAgain: () => _getDatas());
+        }
+
         if (state is! HomeLoadedState) {
           return const LoadingScreen();
         }

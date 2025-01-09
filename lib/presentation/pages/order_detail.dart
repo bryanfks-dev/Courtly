@@ -5,6 +5,7 @@ import 'package:courtly/presentation/blocs/order_detail_bloc.dart';
 import 'package:courtly/presentation/blocs/states/order_detail_state.dart';
 import 'package:courtly/presentation/widgets/backable_centered_app_bar.dart';
 import 'package:courtly/presentation/widgets/loading_screen.dart';
+import 'package:courtly/presentation/widgets/try_again_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
@@ -50,6 +51,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
         }
       }, builder: (BuildContext context, OrderDetailState state) {
         // Check for state
+        if (state is OrderDetailErrorState) {
+          return TryAgainScreen(
+              onTryAgain: () => context
+                  .read<OrderDetailBloc>()
+                  .getOrderDetail(orderId: widget.orderId));
+        }
+
         if (state is! OrderDetailLoadedState) {
           return LoadingScreen();
         }
