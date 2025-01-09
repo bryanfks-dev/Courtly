@@ -382,7 +382,6 @@ class _LoggedInProfile extends State<LoggedInProfile> {
                             height: 64,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(999),
-                                color: colorExt.outline,
                                 image: state.user.profilePictureUrl.isNotEmpty
                                     ? DecorationImage(
                                         image: NetworkImage(
