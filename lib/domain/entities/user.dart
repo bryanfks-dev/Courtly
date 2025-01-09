@@ -33,7 +33,7 @@ class User {
         username: dto.username,
         phoneNumber: dto.phoneNumber,
         profilePictureUrl:
-            (dto.profilePictureUrl != null || dto.profilePictureUrl!.isNotEmpty)
+            (dto.profilePictureUrl != null && dto.profilePictureUrl!.isNotEmpty)
                 ? "${ApiServerConfig.baseUrl}/${dto.profilePictureUrl}"
                 : "");
   }
