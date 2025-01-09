@@ -335,6 +335,9 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   Widget _generateRightHandSideColumnRow(BuildContext context, int timeIndex) {
     return Row(
       children: List.generate(_courtsName.length, (int courtIndex) {
+        // Check if the date is selected
+        final bool isBeforeDateTime = _selectedDate.isBefore(DateTime.now());
+
         // Check if the box is booked
         final bool isBooked = _isBooked(courtIndex, timeIndex);
 
@@ -344,7 +347,7 @@ class _SelectBookingPage extends State<SelectBookingPage> {
         return GestureDetector(
           onTap: () {
             // Check if the box is booked
-            if (isBooked) {
+            if (isBooked || isBeforeDateTime) {
               return;
             }
 
@@ -356,7 +359,9 @@ class _SelectBookingPage extends State<SelectBookingPage> {
             decoration: BoxDecoration(
               color: isBooked
                   ? _colorExt.outline
-                  : (isSelected ? _colorExt.primary : _colorExt.background),
+                  : isBeforeDateTime
+                      ? _colorExt.highlight?.withOpacity(0.45)
+                      : (isSelected ? _colorExt.primary : _colorExt.background),
               border: Border.all(color: _colorExt.outline!),
             ),
             child: (isSelected || isBooked)
