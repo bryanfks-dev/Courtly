@@ -69,9 +69,14 @@ class PurchaseCard extends StatelessWidget {
                           style: const TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),
-                        Text(
-                          order.vendor.name,
-                          style: const TextStyle(fontSize: 12),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          child: Text(
+                            order.vendor.name,
+                            style: const TextStyle(
+                                fontSize: 12, overflow: TextOverflow.ellipsis),
+                            maxLines: 1,
+                          ),
                         )
                       ],
                     ),
