@@ -41,7 +41,7 @@ class ReviewCard extends StatelessWidget {
                       width: 32,
                       height: 32,
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle,
+                          borderRadius: BorderRadius.circular(999),
                           image: review.user.profilePictureUrl.isNotEmpty
                               ? DecorationImage(
                                   image: NetworkImage(
