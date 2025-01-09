@@ -335,8 +335,17 @@ class _SelectBookingPage extends State<SelectBookingPage> {
   Widget _generateRightHandSideColumnRow(BuildContext context, int timeIndex) {
     return Row(
       children: List.generate(_courtsName.length, (int courtIndex) {
+        // Get the hour and minute
+        final List<String> hourMinute = _timeSlots[timeIndex].split(":");
+
         // Check if the date is selected
-        final bool isBeforeDateTime = _selectedDate.isBefore(DateTime.now());
+        final bool isBeforeDateTime = DateTime(
+                _selectedDate.year,
+                _selectedDate.month,
+                _selectedDate.day,
+                int.parse(hourMinute[0]),
+                int.parse(hourMinute[1]))
+            .isBefore(DateTime.now());
 
         // Check if the box is booked
         final bool isBooked = _isBooked(courtIndex, timeIndex);
