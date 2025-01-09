@@ -27,7 +27,7 @@ class LoginRepository {
     final Either<Failure, http.Response> response = await _apiRepository.post(
       endpoint: "auth/user/login",
       body: formDto.toMap(),
-      timeoutInSec: 2,
+      timeoutInSec: 5,
     );
 
     // Check for failure
