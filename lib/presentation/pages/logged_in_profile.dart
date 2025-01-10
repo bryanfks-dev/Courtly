@@ -37,8 +37,8 @@ class LoggedInProfile extends StatefulWidget {
 }
 
 class _LoggedInProfile extends State<LoggedInProfile> {
-  /// [_image] is the image xfile.
-  XFile? _image;
+  /// [_image] is the image file.
+  File? _image;
 
   /// [_pickImage] is a Future function that picks an image from the device.
   ///
@@ -49,6 +49,17 @@ class _LoggedInProfile extends State<LoggedInProfile> {
 
     // Pick an image from gallery
     return await picker.pickImage(source: ImageSource.gallery);
+  }
+
+  /// [_captureImage] is a Future function that captures an image from the device.
+  ///
+  /// Returns [Future] of [XFile]
+  Future<XFile?> _captureImage() async {
+    // Create an image picker
+    final ImagePicker picker = ImagePicker();
+
+    // Pick an image from camera
+    return await picker.pickImage(source: ImageSource.camera);
   }
 
   @override
@@ -159,6 +170,122 @@ class _LoggedInProfile extends State<LoggedInProfile> {
         }));
   }
 
+  /// [_openUploadImageMenus] is a function that opens the upload image menus.
+  ///
+  /// Parameters:
+  ///   - [context]: The [BuildContext] of the widget.
+  ///
+  /// Returns [void]
+  void _openUploadImageMenus(
+      BuildContext context, AppColorsExtension colorExt) {
+    // Create a temp variable to store the image
+    XFile? res;
+
+    /// [closeMenu] is a function that closes the menu.
+    ///
+    /// Returns [void]
+    void closeMenu() {
+      Navigator.pop(context);
+    }
+
+    showBottomModalSheet(
+        context,
+        Column(
+          children: [
+            InkWell(
+              onTap: () async {
+                // Capture an image
+                res = await _captureImage();
+
+                // Check if the image is null
+                if (res == null) {
+                  return;
+                }
+
+                // Set the image
+                setState(() {
+                  _image = File(res!.path);
+                });
+
+                closeMenu();
+
+                // Check if the context is mounted
+                if (!context.mounted) {
+                  return;
+                }
+
+                // Open the change profile picture modal.
+                _openChangeProfilePictureModal(context, colorExt);
+              },
+              overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+              child: Row(
+                children: [
+                  HeroIcon(
+                    HeroIcons.camera,
+                    color: colorExt.primary,
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Text(
+                    "Take a Photo",
+                    style: TextStyle(fontSize: 14, color: colorExt.textPrimary),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 5),
+            Divider(
+              thickness: 1,
+              color: colorExt.outline,
+            ),
+            const SizedBox(height: 5),
+            InkWell(
+              onTap: () async {
+                // Pick an image
+                res = await _pickImage();
+
+                // Check if the image is null
+                if (res == null) {
+                  return;
+                }
+
+                // Set the image
+                setState(() {
+                  _image = File(res!.path);
+                });
+
+                closeMenu();
+
+                // Check if the context is mounted
+                if (!context.mounted) {
+                  return;
+                }
+
+                // Open the change profile picture modal.
+                _openChangeProfilePictureModal(context, colorExt);
+              },
+              overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+              child: Row(
+                children: [
+                  HeroIcon(
+                    HeroIcons.photo,
+                    color: colorExt.primary,
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Text(
+                    "Choose from Gallery",
+                    style: TextStyle(fontSize: 14, color: colorExt.textPrimary),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ));
+  }
+
   /// [_openChangeProfilePictureModal] is the function to open the change
   /// profile picture modal.
   ///
@@ -223,7 +350,7 @@ class _LoggedInProfile extends State<LoggedInProfile> {
                       }
 
                       setModalState(() {
-                        _image = result;
+                        _image = File(result.path);
                       });
                     },
                     child: Container(
@@ -360,22 +487,8 @@ class _LoggedInProfile extends State<LoggedInProfile> {
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: () async {
-                            // Pick an image
-                            _image = await _pickImage();
-
-                            // Check if the image is null
-                            if (_image == null) {
-                              return;
-                            }
-
-                            // Check if the context is not mounted
-                            if (!context.mounted) {
-                              return;
-                            }
-
-                            // Open the change profile picture modal.
-                            _openChangeProfilePictureModal(context, colorExt);
+                          onTap: () {
+                            _openUploadImageMenus(context, colorExt);
                           },
                           child: Container(
                             width: 64,
