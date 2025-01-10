@@ -85,4 +85,4 @@ flutter run
 
 ## 📄 License
 
-This project is licensed under the [MIT License](https://opensource.org/license/mit).
+This project is licensed under the [MIT License](https://github.com/bryanfks-dev/Courtly/blob/main/LICENSE).
