@@ -15,10 +15,9 @@ Courtly app includes several features, such as:
 
 ## 🛠️ Technologies Used
 
-- **Front-end**: Dart(Dart)
-- **Back-end** [(Checkout repo)](https://github.com/bryanfks-dev/Courtly-Service): Go
-- **Database**: MySQL
-- **Others**: GORM, Echo, JWT, ngrok
+- **Flutter SDK**: [Install Flutter](https://docs.flutter.dev/get-started/install).
+- **Dart**: Comes with Flutter but ensure it's installed.
+- **Backend Server**: [Visit backend repo](https://github.com/bryanfks-dev/Courtly-Service).
 
 ## 💻 Local Development
 
@@ -27,7 +26,7 @@ Follow these steps to set up the project locally:
 ### Requirement(s):
 
 - Flutter
-- Android Studio (optional)
+- Android Studio (optional) / VSCode
 - Mobile phone emulator
 
 ### Steps:
