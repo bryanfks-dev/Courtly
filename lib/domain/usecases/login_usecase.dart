@@ -1,7 +1,7 @@
 import 'package:courtly/core/errors/failure.dart';
 import 'package:courtly/data/dto/login_form_dto.dart';
 import 'package:courtly/data/repository/api/login_repository.dart';
-import 'package:courtly/data/repository/storage/token_repository.dart';
+import 'package:courtly/data/repository/local/token_repository.dart';
 
 /// [LoginUsecase] class is a usecase class that handles
 /// the login data from the server

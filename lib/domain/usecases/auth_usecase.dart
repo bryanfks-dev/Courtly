@@ -1,4 +1,4 @@
-import 'package:courtly/data/repository/storage/token_repository.dart';
+import 'package:courtly/data/repository/local/token_repository.dart';
 
 /// [AuthUsecase] is a class that contains the business logic of the authentication process.
 class AuthUsecase {

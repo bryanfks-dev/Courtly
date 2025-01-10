@@ -1,6 +1,6 @@
 import 'package:courtly/core/config/app_themes.dart';
 import 'package:courtly/core/enums/themes.dart';
-import 'package:courtly/data/repository/storage/theme_repository.dart';
+import 'package:courtly/data/repository/local/theme_repository.dart';
 import 'package:flutter/material.dart';
 
 /// [ThemeProvider] is a provider class that contains the theme data for the app.

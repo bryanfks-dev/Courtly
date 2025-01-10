@@ -1,6 +1,6 @@
 import 'package:courtly/core/errors/failure.dart';
 import 'package:courtly/data/repository/api/logout_repository.dart';
-import 'package:courtly/data/repository/storage/token_repository.dart';
+import 'package:courtly/data/repository/local/token_repository.dart';
 
 /// [LogoutUsecase] is a usecase class that contains the logout data for the app.
 class LogoutUsecase {

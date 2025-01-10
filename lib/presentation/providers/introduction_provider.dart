@@ -1,4 +1,4 @@
-import 'package:courtly/data/repository/storage/introduction_repository.dart';
+import 'package:courtly/data/repository/local/introduction_repository.dart';
 
 /// [IntroductionProvider] is a provider class that contains the introduction
 /// data for the app.

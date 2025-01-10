@@ -8,7 +8,7 @@ import 'package:courtly/data/dto/review_dto.dart';
 import 'package:courtly/data/dto/review_response_dto.dart';
 import 'package:courtly/data/dto/reviews_response_dto.dart';
 import 'package:courtly/data/repository/api/api_repository.dart';
-import 'package:courtly/data/repository/storage/token_repository.dart';
+import 'package:courtly/data/repository/local/token_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 

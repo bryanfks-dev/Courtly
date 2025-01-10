@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:courtly/core/config/api_server_config.dart';
 import 'package:courtly/core/errors/failure.dart';
-import 'package:courtly/data/repository/storage/token_repository.dart';
+import 'package:courtly/data/repository/local/token_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 
