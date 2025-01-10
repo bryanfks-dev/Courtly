@@ -155,12 +155,14 @@ class _HomePage extends State<HomePage> {
                                         child: Container(
                                           width: double.maxFinite,
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10)),
-                                              image: DecorationImage(
-                                                  image:
-                                                      NetworkImage(ad.imageUrl),
-                                                  fit: BoxFit.cover)),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                            color: colorExt.outline,
+                                            image: DecorationImage(
+                                                image:
+                                                    NetworkImage(ad.imageUrl),
+                                                fit: BoxFit.cover),
+                                          ),
                                         ),
                                       );
                                     }).toList())),
