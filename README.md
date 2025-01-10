@@ -21,15 +21,15 @@ Courtly app includes several features, such as:
 
 ## 💻 Local Development
 
-Follow these steps to set up the project locally:
-
 ### Requirement(s):
 
 - Flutter
 - Android Studio (optional) / VSCode
 - Mobile phone emulator
 
-### Steps:
+### Steps
+
+Follow these steps to set up the project locally:
 
 1. Clone the repository:
 
