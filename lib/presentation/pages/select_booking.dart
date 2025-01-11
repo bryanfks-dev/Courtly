@@ -525,6 +525,12 @@ class _SelectBookingPage extends State<SelectBookingPage> {
 
         if (state is SelectBookingSubmittedState) {
           MidtransProvider.startPayment(paymentToken: state.paymentToken);
+
+          // Refetch the list of courts
+          context.read<SelectBookingBloc>().getCourts(
+              vendorId: widget.court.vendor.id,
+              courtType: widget.court.type,
+              date: _selectedDate);
         }
       }, builder: (BuildContext context, SelectBookingState state) {
         // Check for states.
